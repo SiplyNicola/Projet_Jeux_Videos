@@ -14,11 +14,13 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="SFML/include" />
 				</Compiler>
 				<Linker>
-					<Add library="sfml-graphics-d" />
-					<Add library="sfml-window-d" />
-					<Add library="sfml-system-d" />
+					<Add library="sfml-graphics" />
+					<Add library="sfml-system" />
+					<Add library="sfml-window" />
+					<Add directory="SFML/lib" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -39,7 +41,7 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add directory="C:/SFML/include" />
+			<Add directory="SFML/include" />
 		</Compiler>
 		<Linker>
 			<Add library="mingw32" />
@@ -47,7 +49,10 @@
 			<Add library="gdi32" />
 			<Add library="winmm" />
 			<Add library="dxguid" />
-			<Add directory="C:/SFML/lib" />
+			<Add library="sfml-graphics" />
+			<Add library="sfml-window" />
+			<Add library="sfml-system" />
+			<Add directory="SFML/lib" />
 		</Linker>
 		<Unit filename="cb.bmp" />
 		<Unit filename="main.cpp" />
