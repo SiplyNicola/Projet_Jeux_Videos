@@ -15,6 +15,9 @@
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="SFML/include" />
+					<Add directory="models" />
+					<Add directory="views" />
+					<Add directory="controllers" />
 				</Compiler>
 				<Linker>
 					<Add library="sfml-graphics" />
@@ -30,6 +33,9 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="models" />
+					<Add directory="views" />
+					<Add directory="controllers" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -55,7 +61,23 @@
 			<Add directory="SFML/lib" />
 		</Linker>
 		<Unit filename="cb.bmp" />
+		<Unit filename="controllers/Game.cpp" />
+		<Unit filename="controllers/Game.h" />
+		<Unit filename="controllers/PlayerController.cpp" />
+		<Unit filename="controllers/PlayerController.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="models/BossModel.cpp" />
+		<Unit filename="models/BossModel.h" />
+		<Unit filename="models/LevelModel.cpp" />
+		<Unit filename="models/LevelModel.h" />
+		<Unit filename="models/PlayerModel.cpp" />
+		<Unit filename="models/PlayerModel.h" />
+		<Unit filename="views/BossView.cpp" />
+		<Unit filename="views/BossView.h" />
+		<Unit filename="views/LevelView.cpp" />
+		<Unit filename="views/LevelView.h" />
+		<Unit filename="views/PlayerView.cpp" />
+		<Unit filename="views/PlayerView.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
