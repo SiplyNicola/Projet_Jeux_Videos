@@ -1,7 +1,9 @@
 #include "Game.h"
 #include <iostream>
 
-Game::Game() {
+Game::Game()
+    : m_background(sf::Vector2u(1280, 720)) // 1. On initialise le background avec la taille de la fenêtre
+{
     m_window.create(sf::VideoMode(1280, 720), "Ninja Platformer");
     m_window.setFramerateLimit(60);
     m_camera.setSize(1280, 720);
@@ -12,6 +14,12 @@ Game::Game() {
     m_levelView.init();
     m_level.loadLevel();
     m_levelView.build(m_level);
+
+    // --- 2. CHARGEMENT DES COUCHES DE FOND (Code de ton collègue adapté) ---
+    // Assure-toi que les images sont bien dans resources/background/
+    m_background.addLayer("resources/oak_woods_v1.0/background/background_layer_1.png"); // Ciel (le plus loin)
+    m_background.addLayer("resources/oak_woods_v1.0/background/background_layer_2.png"); // Montagnes
+    m_background.addLayer("resources/oak_woods_v1.0/background/background_layer_3.png"); // Arbres (le plus proche)
 }
 
 void Game::run() {
@@ -60,6 +68,15 @@ void Game::update(float dt) {
     // 6. Caméra (Centrée sur le joueur)
     m_camera.setCenter(m_playerModel.position); // CORRECTION : .position
     m_window.setView(m_camera);
+
+    // --- AJOUT : MISE À JOUR DU BACKGROUND ---
+    // Le background a besoin de savoir où commence l'écran à gauche (Camera X)
+    // Calcul : Centre de la caméra - (Largeur écran / 2)
+    float cameraX = m_camera.getCenter().x - (m_camera.getSize().x / 2.0f);
+    float cameraY = m_camera.getCenter().y - (m_camera.getSize().y / 2.0f); // <--- AJOUT
+
+    // On met à jour le fond pour qu'il suive
+    m_background.update(cameraX, cameraY);
 }
 
 void Game::handleCollisions() {
@@ -98,6 +115,10 @@ void Game::handleCollisions() {
 void Game::render() {
     m_window.clear(sf::Color(50, 50, 50)); // Fond gris
     m_window.setView(m_camera);
+
+    // --- AJOUT : DESSIN DU BACKGROUND EN PREMIER ---
+    m_window.draw(m_background);
+    // -----------------------------------------------
 
     m_levelView.draw(m_window);
     m_bossView.draw(m_window);

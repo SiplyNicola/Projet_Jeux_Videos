@@ -14,6 +14,8 @@
 #include "../models/LevelModel.h"
 #include "../views/LevelView.h"
 
+#include "../views/Background.h"
+
 class Game {
 public:
     Game();
@@ -27,6 +29,8 @@ private:
 
     sf::RenderWindow m_window;
     sf::View m_camera;
+
+    View::Background m_background; // Note le namespace "View::"
 
     // --- C'EST ICI QU'IL MANQUAIT PROBABLEMENT LA DÉCLARATION ---
     PlayerModel m_playerModel;         // <--- Indispensable pour que ça marche !
