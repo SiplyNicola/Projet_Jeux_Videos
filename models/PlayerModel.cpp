@@ -74,7 +74,9 @@ void PlayerModel::update(float deltaTime) {
     }
     // --- GRAVITÉ ---
     else {
-        velocity.y += GRAVITY;
+        if(velocity.y<=15){
+                velocity.y += GRAVITY;
+        }
     }
 
     position += velocity;
