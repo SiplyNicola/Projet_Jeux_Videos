@@ -110,7 +110,10 @@ void PlayerView::updateAnimation(const PlayerModel& model, float deltaTime) {
     if (model.isDashing) sprite.setColor(sf::Color(100, 255, 255, 200));
     else sprite.setColor(sf::Color::White);
 
-    sprite.setPosition(model.position);
+    //décalage pour que le personnage marche bien sur la plateforme et non dans la plateforme
+    float visualOffset = 20.0f;
+
+    sprite.setPosition(model.position.x, model.position.y - visualOffset);
 
     // --- B. ÉPÉE ---
     if (model.state == PlayerState::ATTACK && !swordTextures.empty()) {
