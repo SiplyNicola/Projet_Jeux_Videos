@@ -92,7 +92,7 @@ void PlayerView::updateAnimation(const PlayerModel& model, float deltaTime) {
         // --- CORRECTION ICI ---
         if (currentFrame >= currentAnimList.size()) {
             // Si on est en train de SAUTER, TOMBER ou MOURIR, on ne boucle pas !
-            if (model.state == PlayerState::JUMP || model.state == PlayerState::FALL) {
+            if (model.state == PlayerState::JUMP /*|| model.state == PlayerState::FALL*/) { //animation de chute qui boucle
                 currentFrame = currentAnimList.size() - 1; // On reste figé sur la dernière image
             } else {
                 currentFrame = 0; // Pour courir ou idle, on boucle
