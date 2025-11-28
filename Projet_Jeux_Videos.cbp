@@ -72,6 +72,8 @@
 		<Unit filename="models/LevelModel.h" />
 		<Unit filename="models/PlayerModel.cpp" />
 		<Unit filename="models/PlayerModel.h" />
+		<Unit filename="views/Background.cpp" />
+		<Unit filename="views/Background.h" />
 		<Unit filename="views/BossView.cpp" />
 		<Unit filename="views/BossView.h" />
 		<Unit filename="views/LevelView.cpp" />
