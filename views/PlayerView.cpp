@@ -126,7 +126,7 @@ void PlayerView::updateAnimation(const PlayerModel& model, float deltaTime) {
         sf::Vector2u swordSize = swordTextures[swordFrame].getSize();
         swordSprite.setOrigin(swordSize.x / 2.0f, swordSize.y / 2.0f);
 
-        swordSprite.setPosition(model.position);
+        swordSprite.setPosition(model.position.x, model.position.y - visualOffset);
         swordSprite.setScale(scaleVal * model.facingDirection, scaleVal);
     } else {
         swordSprite.setColor(sf::Color::Transparent);
