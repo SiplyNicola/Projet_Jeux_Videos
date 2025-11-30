@@ -54,6 +54,7 @@ void Game::update(float dt) {
 
     // 3. Collisions Physique (Player vs Level)
     handleCollisions();
+    handleBossCollisions();
 
     // 4. Collisions Gameplay (Player vs Boss)
     // On utilise la nouvelle fonction getHitbox() qu'on vient d'ajouter
@@ -108,6 +109,29 @@ void Game::handleCollisions() {
                 }
             }
             // Ici, tu pourrais ajouter les collisions latérales (droite/gauche) si besoin
+        }
+    }
+}
+
+// Dans Game.cpp, ajoute cette méthode (déclare-la aussi dans Game.h !)
+void Game::handleBossCollisions() {
+    // 1. Récupérer les murs autour du Boss
+    std::vector<sf::FloatRect> walls = m_level.getNearbyWalls(m_boss.getPosition().x, m_boss.getPosition().y);
+    sf::FloatRect bossBox = m_boss.getHitbox();
+
+    for (const auto& wall : walls) {
+        if (bossBox.intersects(wall)) {
+
+            // Collision SOL (Le Boss tombe sur un mur)
+            // On vérifie qu'il descend (velocity.y > 0) et qu'il est au-dessus
+            if (m_boss.getVelocity().y > 0 && bossBox.top + bossBox.height < wall.top + 25) {
+
+                // 1. On le pose sur le mur
+                m_boss.setPosition(m_boss.getPosition().x, wall.top - (bossBox.height / 3.0f));
+
+                // 2. On arrête sa chute
+                m_boss.setVelocity(sf::Vector2f(m_boss.getVelocity().x, 0));
+            }
         }
     }
 }

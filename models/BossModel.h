@@ -15,7 +15,12 @@ public:
     sf::Vector2f getPosition() const;
     BossState getState() const;
     bool isFacingRight() const;
+    bool isDead() const;
     sf::FloatRect getHitbox() const;
+
+    void setPosition(float x, float y); // Pour le téléporter sur le sol
+    void setVelocity(sf::Vector2f v);   // Pour arrêter sa chute
+    sf::Vector2f getVelocity() const;   // Pour savoir s'il tombe
 
 private:
     sf::Vector2f m_position;
@@ -25,5 +30,6 @@ private:
     bool m_facingRight;
     float m_stateTimer;
     float m_attackCooldown;
+    sf::Vector2f m_velocity;
 };
 #endif

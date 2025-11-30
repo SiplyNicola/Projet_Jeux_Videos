@@ -2,17 +2,36 @@
 #include <cmath>
 
 BossModel::BossModel() {
-    m_position = {800.0f, 500.0f}; // Position de départ
+    m_position = {800.0f, 100.0f}; // Position de départ
     m_state = IDLE;
     m_hp = 200;
     m_speed = 80.0f;
     m_facingRight = false;
     m_stateTimer = 0;
     m_attackCooldown = 0;
+    m_velocity = sf::Vector2f(0.0f, 0.0f);
 }
 
 void BossModel::update(float dt, sf::Vector2f playerPos) {
     if (m_state == DEAD) return;
+
+    // 1. APPLIQUER LA GRAVITÉ
+    // Utilise la même gravité que le joueur ou un peu plus lourd
+    float gravity = 1500.0f;
+    m_velocity.y += gravity * dt;
+
+    // 2. MOUVEMENT HORIZONTAL (IA)
+    // Au lieu de modifier m_position.x directement, modifie m_velocity.x
+    m_velocity.x = 0; // Reset par défaut
+
+    if (m_state == WALKING) {
+        if (m_facingRight) m_velocity.x = m_speed;
+        else m_velocity.x = -m_speed;
+    }
+
+    // 3. APPLIQUER LE MOUVEMENT FINAL
+    m_position += m_velocity * dt;
+
     if (m_attackCooldown > 0) m_attackCooldown -= dt;
 
     float dist = std::abs(playerPos.x - m_position.x);
@@ -59,6 +78,19 @@ void BossModel::takeDamage(int amount) {
         m_state = HURT;
         m_stateTimer = 0;
     }
+}
+
+void BossModel::setPosition(float x, float y) {
+    m_position.x = x;
+    m_position.y = y;
+}
+
+void BossModel::setVelocity(sf::Vector2f v) {
+    m_velocity = v;
+}
+
+sf::Vector2f BossModel::getVelocity() const {
+    return m_velocity;
 }
 
 sf::Vector2f BossModel::getPosition() const { return m_position; }

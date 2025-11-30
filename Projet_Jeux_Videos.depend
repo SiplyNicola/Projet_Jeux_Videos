@@ -1235,11 +1235,11 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1764369839 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\game.cpp
+1764543162 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\game.cpp
 	"Game.h"
 	<iostream>
 
-1764338634 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\game.h
+1764542609 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\game.h
 	<SFML/Graphics.hpp>
 	"../models/PlayerModel.h"
 	"../views/PlayerView.h"
@@ -1250,11 +1250,11 @@
 	"../views/LevelView.h"
 	"../views/Background.h"
 
-1764336017 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\playermodel.h
+1764423099 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\playermodel.h
 	<SFML/System/Vector2.hpp>
 	<SFML/Graphics/Rect.hpp>
 
-1764329008 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\bossmodel.h
+1764542774 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\bossmodel.h
 	<SFML/System/Vector2.hpp>
 	<SFML/Graphics/Rect.hpp>
 
@@ -1279,21 +1279,21 @@
 	<vector>
 	"../models/LevelModel.h"
 
-1764329008 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\bossmodel.cpp
+1764542985 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\bossmodel.cpp
 	"BossModel.h"
 	<cmath>
 
-1764329008 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\levelmodel.cpp
+1764541916 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\levelmodel.cpp
 	"LevelModel.h"
 
-1764369221 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\playermodel.cpp
+1764423099 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\playermodel.cpp
 	"PlayerModel.h"
 
 1764329008 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\levelview.cpp
 	"LevelView.h"
 	<iostream>
 
-1764369956 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\playerview.cpp
+1764423099 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\playerview.cpp
 	"PlayerView.h"
 	<iostream>
 
