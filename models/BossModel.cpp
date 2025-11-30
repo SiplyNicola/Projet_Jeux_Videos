@@ -43,7 +43,19 @@ void BossModel::update(float dt, sf::Vector2f playerPos) {
 
     switch (m_state) {
         case IDLE:
-            if (dist < 400) m_state = WALKING;
+            // Cas 1 : Le joueur est déjà à portée de baffes
+            if (dist < 90) {
+                // Si mon énergie est revenue (Cooldown fini), je tape !
+                if (m_attackCooldown <= 0) {
+                    m_state = ATTACKING;
+                    m_stateTimer = 0;
+                }
+                // Sinon : Je reste en IDLE le temps que le cooldown descende
+            }
+            // Cas 2 : Le joueur est un peu loin, je marche vers lui
+            else if (dist < 400) {
+                m_state = WALKING;
+            }
             break;
         case WALKING:
             if (m_facingRight) m_position.x += m_speed * dt;
@@ -60,7 +72,7 @@ void BossModel::update(float dt, sf::Vector2f playerPos) {
             m_stateTimer += dt;
             if (m_stateTimer > 0.8f) { // Fin attaque
                 m_state = IDLE;
-                m_attackCooldown = 2.0f;
+                m_attackCooldown = 1.0f;
             }
             break;
         case HURT:
