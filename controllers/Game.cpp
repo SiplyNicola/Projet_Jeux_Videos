@@ -4,7 +4,7 @@
 Game::Game()
     : m_background(sf::Vector2u(1280, 720)) // 1. On initialise le background avec la taille de la fenêtre
 {
-    m_window.create(sf::VideoMode(1280, 720), "Ninja Platformer");
+    m_window.create(sf::VideoMode(1920, 1080), "Whisper of Steel");
     m_window.setFramerateLimit(60);
     m_camera.setSize(1280, 720);
 
