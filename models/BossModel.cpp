@@ -58,15 +58,17 @@ void BossModel::update(float dt, sf::Vector2f playerPos) {
             }
             break;
         case WALKING:
-            if (m_facingRight) m_position.x += m_speed * dt;
-            else m_position.x -= m_speed * dt;
+            if (dist < 400){
+                if (m_facingRight) m_position.x += m_speed * dt;
+                else m_position.x -= m_speed * dt;
 
-            if (dist < 90) { // Portée d'attaque
-                if (m_attackCooldown <= 0) {
-                    m_state = ATTACKING;
-                    m_stateTimer = 0;
-                } else m_state = IDLE;
-            }
+                if (dist < 90) { // Portée d'attaque
+                    if (m_attackCooldown <= 0) {
+                        m_state = ATTACKING;
+                        m_stateTimer = 0;
+                    } else m_state = IDLE;
+                }
+            } else m_state = IDLE;
             break;
         case ATTACKING:
             m_stateTimer += dt;
