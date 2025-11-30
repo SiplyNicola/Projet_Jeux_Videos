@@ -37,9 +37,12 @@ void BossModel::update(float dt, sf::Vector2f playerPos) {
     float dist = std::abs(playerPos.x - m_position.x);
 
     // Orientation
-    if (m_state != ATTACKING && m_state != HURT) {
-        m_facingRight = (playerPos.x > m_position.x);
+    if (dist < 400){
+        if (m_state != ATTACKING && m_state != HURT) {
+            m_facingRight = (playerPos.x > m_position.x);
+        }
     }
+
 
     switch (m_state) {
         case IDLE:
