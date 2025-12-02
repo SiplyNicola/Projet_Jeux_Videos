@@ -1279,7 +1279,7 @@
 	<vector>
 	"../models/LevelModel.h"
 
-1764545930 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\bossmodel.cpp
+1764546613 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\bossmodel.cpp
 	"BossModel.h"
 	<cmath>
 
@@ -1293,7 +1293,7 @@
 	"LevelView.h"
 	<iostream>
 
-1764543516 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\playerview.cpp
+1764668082 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\playerview.cpp
 	"PlayerView.h"
 	<iostream>
 
