@@ -414,8 +414,8 @@
 1764329008 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\main.cpp
 	"controllers/Game.h"
 
-1764251061 source:c:\projetjeuxvideo\projet_jeux_videos\main.cpp
-	<SFML/Graphics.hpp>
+1764337505 source:c:\projetjeuxvideo\projet_jeux_videos\main.cpp
+	"controllers/Game.h"
 
 1764251064 c:\projetjeuxvideo\projet_jeux_videos\sfml\include\sfml\graphics.hpp
 	<SFML/Window.hpp>
@@ -1316,4 +1316,86 @@
 1764338889 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\background.cpp
 	"Background.h"
 	<iostream>
+
+1764970523 source:c:\projetjeuxvideo\projet_jeux_videos\controllers\game.cpp
+	"Game.h"
+	<iostream>
+	<cmath>
+
+1764590461 c:\projetjeuxvideo\projet_jeux_videos\controllers\game.h
+	<SFML/Graphics.hpp>
+	"../models/PlayerModel.h"
+	"../views/PlayerView.h"
+	"../controllers/PlayerController.h"
+	"../models/BossModel.h"
+	"../views/BossView.h"
+	"../models/LevelModel.h"
+	"../views/LevelView.h"
+	"../views/Background.h"
+
+1764337505 c:\projetjeuxvideo\projet_jeux_videos\models\playermodel.h
+	<SFML/System/Vector2.hpp>
+	<SFML/Graphics/Rect.hpp>
+
+1764337506 c:\projetjeuxvideo\projet_jeux_videos\views\playerview.h
+	<SFML/Graphics.hpp>
+	<vector>
+	<map>
+	<string>
+	"PlayerModel.h"
+
+1764337505 c:\projetjeuxvideo\projet_jeux_videos\controllers\playercontroller.h
+	"PlayerModel.h"
+
+1764590461 c:\projetjeuxvideo\projet_jeux_videos\models\bossmodel.h
+	<SFML/System/Vector2.hpp>
+	<SFML/Graphics/Rect.hpp>
+
+1764966459 c:\projetjeuxvideo\projet_jeux_videos\views\bossview.h
+	<SFML/Graphics.hpp>
+	"BossModel.h"
+
+1764965808 c:\projetjeuxvideo\projet_jeux_videos\models\levelmodel.h
+	<vector>
+	<string>
+	<SFML/Graphics/Rect.hpp>
+
+1764966893 c:\projetjeuxvideo\projet_jeux_videos\views\levelview.h
+	<SFML/Graphics.hpp>
+	"LevelModel.h"
+
+1764339200 c:\projetjeuxvideo\projet_jeux_videos\views\background.h
+	<SFML/Graphics.hpp>
+	<vector>
+	<string>
+
+1764337505 source:c:\projetjeuxvideo\projet_jeux_videos\controllers\playercontroller.cpp
+	"PlayerController.h"
+	<SFML/Window/Keyboard.hpp>
+
+1764970325 source:c:\projetjeuxvideo\projet_jeux_videos\models\bossmodel.cpp
+	"BossModel.h"
+	<cmath>
+
+1764972235 source:c:\projetjeuxvideo\projet_jeux_videos\models\playermodel.cpp
+	"PlayerModel.h"
+
+1764339200 source:c:\projetjeuxvideo\projet_jeux_videos\views\background.cpp
+	"Background.h"
+	<iostream>
+
+1764337506 source:c:\projetjeuxvideo\projet_jeux_videos\views\bossview.cpp
+	"BossView.h"
+	<iostream>
+
+1764967318 source:c:\projetjeuxvideo\projet_jeux_videos\views\levelview.cpp
+	"LevelView.h"
+	<iostream>
+
+1764444145 source:c:\projetjeuxvideo\projet_jeux_videos\views\playerview.cpp
+	"PlayerView.h"
+	<iostream>
+
+1764971017 source:c:\projetjeuxvideo\projet_jeux_videos\models\levelmodel.cpp
+	"LevelModel.h"
 

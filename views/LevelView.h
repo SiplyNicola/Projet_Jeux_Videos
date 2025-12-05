@@ -1,18 +1,17 @@
-#ifndef LEVEL_VIEW_H
-#define LEVEL_VIEW_H
-
+#pragma once
 #include <SFML/Graphics.hpp>
-#include <vector>
-#include "../models/LevelModel.h"
+#include "LevelModel.h"
 
-class LevelView {
+// On hérite de Drawable (pour être dessiné) et Transformable (pour le zoom/position)
+class LevelView : public sf::Drawable, public sf::Transformable {
 public:
     void init();
-    void build(const LevelModel& model); // Construit les sprites
-    void draw(sf::RenderWindow& window);
+    void build(const LevelModel& model);
 
 private:
-    sf::Texture m_tileset;
-    std::vector<sf::Sprite> m_sprites;
+    // Méthode obligatoire de la classe sf::Drawable
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
+    sf::VertexArray m_vertices; // Le tableau optimisé de triangles
+    sf::Texture m_tileset;      // L'image unique
 };
-#endif

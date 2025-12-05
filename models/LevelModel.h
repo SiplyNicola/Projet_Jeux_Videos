@@ -16,6 +16,7 @@ public:
     // Données brutes pour la Vue
     const std::vector<std::string>& getMapData() const;
     float getTileSize() const;
+    float getScale() const;
 
 private:
     std::vector<std::string> m_mapData;

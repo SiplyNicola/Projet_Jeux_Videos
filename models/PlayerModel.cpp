@@ -2,13 +2,13 @@
 
 // J'ai supprimé GROUND_LEVEL qui causait le bug
 const float GRAVITY = 0.8f;
-const float JUMP_FORCE = -15.0f;
-const float MOVE_SPEED = 6.0f;
-const float DASH_SPEED = 18.0f;
+const float JUMP_FORCE = -17.f;
+const float MOVE_SPEED = 7.0f;
+const float DASH_SPEED = 20.0f;
 
 PlayerModel::PlayerModel() {
     // On commence à une position neutre (pas 500 fixe)
-    position = sf::Vector2f(100.0f, 300.0f);
+    position = sf::Vector2f(100.0f, 2000.0f);
     velocity = sf::Vector2f(0.0f, 0.0f);
     facingDirection = 1;
     state = PlayerState::IDLE;

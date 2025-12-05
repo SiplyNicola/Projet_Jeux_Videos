@@ -2,35 +2,83 @@
 #include <iostream>
 
 void LevelView::init() {
+    // Vérifie bien que l'image est dans le dossier !
     if(!m_tileset.loadFromFile("resources/oak_woods_v1.0/oak_woods_tileset.png")) {
-        std::cerr << "Erreur Tileset" << std::endl;
+        std::cerr << "ERREUR CRITIQUE : oak_woods_tileset.png introuvable !" << std::endl;
     }
 }
 
 void LevelView::build(const LevelModel& model) {
-    m_sprites.clear();
     const auto& map = model.getMapData();
-    float size = model.getTileSize();
-    float scale = size / 24.0f; // Ratio vs 24px original
 
-    for(int y=0; y<map.size(); y++) {
-        for(int x=0; x<map[y].size(); x++) {
+    int height = map.size();
+    int width = map[0].size();
+    float ts = model.getTileSize(); // 24.0f
+
+    // 1. Configuration VertexArray en mode TRIANGLES
+    m_vertices.setPrimitiveType(sf::Triangles);
+    m_vertices.resize(width * height * 6); // 6 points par tuile (2 triangles)
+
+    for (int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x) {
+
             char cell = map[y][x];
-            if (cell == ' ') continue;
+            int index = (x + y * width) * 6;
+            sf::Vertex* tri = &m_vertices[index];
 
-            sf::Sprite s;
-            s.setTexture(m_tileset);
-            s.setScale(scale, scale);
-            s.setPosition(x * size, y * size);
+            // Si vide -> Transparent (on voit le background)
+            if (cell == ' ') {
+                for(int i=0; i<6; ++i) {
+                    tri[i].position = sf::Vector2f(0,0);
+                    tri[i].color = sf::Color::Transparent;
+                }
+                continue;
+            }
 
-            if (cell == '1') s.setTextureRect(sf::IntRect(24, 0, 24, 24)); // Herbe
-            else if (cell == '2') s.setTextureRect(sf::IntRect(24, 24, 24, 24)); // Terre
+            // A. Position Géométrique (Carré de 24x24)
+            float px = x * ts;
+            float py = y * ts;
 
-            m_sprites.push_back(s);
+            // Triangle 1
+            tri[0].position = sf::Vector2f(px, py);
+            tri[1].position = sf::Vector2f(px + ts, py);
+            tri[2].position = sf::Vector2f(px, py + ts);
+            // Triangle 2
+            tri[3].position = sf::Vector2f(px, py + ts);
+            tri[4].position = sf::Vector2f(px + ts, py);
+            tri[5].position = sf::Vector2f(px + ts, py + ts);
+
+            // Couleur blanche (opaque)
+            for(int i=0; i<6; ++i) tri[i].color = sf::Color::White;
+
+            // B. Coordonnées de Texture (UV) dans le PNG
+            int tu = 0, tv = 0;
+            // Mapping (selon oak_woods_tileset.png)
+            if (cell == '1')      { tu = 1; tv = 0; } // Herbe
+            else if (cell == '2') { tu = 1; tv = 1; } // Terre
+            else if (cell == '3') { tu = 0; tv = 1; } // Bord Gauche
+            else if (cell == '4') { tu = 2; tv = 1; } // Bord Droit
+
+            float u = tu * ts;
+            float v = tv * ts;
+
+            // Mapping UV
+            tri[0].texCoords = sf::Vector2f(u, v);
+            tri[1].texCoords = sf::Vector2f(u + ts, v);
+            tri[2].texCoords = sf::Vector2f(u, v + ts);
+
+            tri[3].texCoords = sf::Vector2f(u, v + ts);
+            tri[4].texCoords = sf::Vector2f(u + ts, v);
+            tri[5].texCoords = sf::Vector2f(u + ts, v + ts);
         }
     }
+
+    // APPLICATION DU ZOOM X3
+    this->setScale(model.getScale(), model.getScale());
 }
 
-void LevelView::draw(sf::RenderWindow& window) {
-    for(const auto& s : m_sprites) window.draw(s);
+void LevelView::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+    states.transform *= getTransform(); // Applique le zoom
+    states.texture = &m_tileset;        // Applique l'image
+    target.draw(m_vertices, states);    // Dessine tout
 }
