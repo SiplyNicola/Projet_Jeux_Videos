@@ -1360,9 +1360,12 @@
 	<string>
 	<SFML/Graphics/Rect.hpp>
 
-1764966893 c:\projetjeuxvideo\projet_jeux_videos\views\levelview.h
+1765053772 c:\projetjeuxvideo\projet_jeux_videos\views\levelview.h
 	<SFML/Graphics.hpp>
 	"LevelModel.h"
+	<vector>
+	<map>
+	<string>
 
 1764339200 c:\projetjeuxvideo\projet_jeux_videos\views\background.h
 	<SFML/Graphics.hpp>
@@ -1388,7 +1391,7 @@
 	"BossView.h"
 	<iostream>
 
-1764967318 source:c:\projetjeuxvideo\projet_jeux_videos\views\levelview.cpp
+1765053772 source:c:\projetjeuxvideo\projet_jeux_videos\views\levelview.cpp
 	"LevelView.h"
 	<iostream>
 
@@ -1396,6 +1399,6 @@
 	"PlayerView.h"
 	<iostream>
 
-1764971017 source:c:\projetjeuxvideo\projet_jeux_videos\models\levelmodel.cpp
+1764973044 source:c:\projetjeuxvideo\projet_jeux_videos\models\levelmodel.cpp
 	"LevelModel.h"
 
