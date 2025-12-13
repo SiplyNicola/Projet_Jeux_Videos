@@ -2,7 +2,7 @@
 #include <cmath>
 
 BossModel::BossModel() {
-    m_position = {8000.0f, 600.0f}; // Position de départ
+    m_position = {2000.0f, 2000.0f}; // Position de départ
     m_state = IDLE;
     m_hp = 200;
     m_speed = 100.0f;
