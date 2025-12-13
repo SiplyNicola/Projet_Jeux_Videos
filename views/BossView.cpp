@@ -50,10 +50,16 @@ void BossView::update(float dt, const BossModel& model) {
         case DEAD: row=9; maxFrames=6; break;
     }
 
-    if (state == DEAD) {
-        if(m_currentFrame >= maxFrames) m_currentFrame = maxFrames - 1;
-    } else {
-        if(m_currentFrame >= maxFrames) m_currentFrame = 0;
+    if (state == DEAD || state == ATTACKING) {
+        if(m_currentFrame >= maxFrames) {
+            m_currentFrame = maxFrames - 1; // On reste sur la dernière image
+        }
+    }
+    else {
+        // Pour IDLE, WALKING, HURT : On boucle
+        if(m_currentFrame >= maxFrames) {
+            m_currentFrame = 0; // On recommence au début
+        }
     }
 
     m_sprite.setTextureRect(sf::IntRect(m_currentFrame * FRAME_SIZE, row * FRAME_SIZE, FRAME_SIZE, FRAME_SIZE));

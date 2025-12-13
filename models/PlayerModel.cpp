@@ -52,7 +52,7 @@ void PlayerModel::dash() {
     if (dashCooldownTimer <= 0 && !isDashing && state != PlayerState::ATTACK) {
         isDashing = true;
         dashDurationTimer = 0.0f;
-        dashCooldownTimer = 1.5f;
+        dashCooldownTimer = 0.5f;
         state = PlayerState::DASH;
     }
 }
