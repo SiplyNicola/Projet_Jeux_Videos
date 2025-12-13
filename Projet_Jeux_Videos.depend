@@ -1235,9 +1235,10 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1764546356 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\game.cpp
+1765035650 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\game.cpp
 	"Game.h"
 	<iostream>
+	<cmath>
 
 1764542609 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\game.h
 	<SFML/Graphics.hpp>
@@ -1258,7 +1259,7 @@
 	<SFML/System/Vector2.hpp>
 	<SFML/Graphics/Rect.hpp>
 
-1764329008 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\levelmodel.h
+1765035650 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\levelmodel.h
 	<vector>
 	<string>
 	<SFML/Graphics/Rect.hpp>
@@ -1270,26 +1271,28 @@
 	<string>
 	"PlayerModel.h"
 
-1764329008 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\bossview.h
+1765035651 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\bossview.h
 	<SFML/Graphics.hpp>
-	"../models/BossModel.h"
+	"BossModel.h"
 
-1764329008 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\levelview.h
+1765175614 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\levelview.h
 	<SFML/Graphics.hpp>
+	"LevelModel.h"
 	<vector>
-	"../models/LevelModel.h"
+	<map>
+	<string>
 
-1764546613 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\bossmodel.cpp
+1765035650 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\bossmodel.cpp
 	"BossModel.h"
 	<cmath>
 
-1764543218 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\levelmodel.cpp
+1765175614 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\levelmodel.cpp
 	"LevelModel.h"
 
-1764423099 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\playermodel.cpp
+1765035650 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\playermodel.cpp
 	"PlayerModel.h"
 
-1764329008 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\levelview.cpp
+1765175614 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\levelview.cpp
 	"LevelView.h"
 	<iostream>
 
@@ -1297,7 +1300,7 @@
 	"PlayerView.h"
 	<iostream>
 
-1764329095 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\bossview.cpp
+1765270089 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\bossview.cpp
 	"BossView.h"
 	<iostream>
 

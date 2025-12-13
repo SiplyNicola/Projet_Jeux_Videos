@@ -13,7 +13,15 @@ void BossView::init() {
 }
 
 void BossView::update(float dt, const BossModel& model) {
-    m_sprite.setPosition(model.getPosition());
+    // Récupère la position du modèle (la hitbox physique)
+    sf::Vector2f pos = model.getPosition();
+
+    // AJOUT: Décalage visuel vers le bas (Y).
+    // Modifie "15.0f" par le nombre de pixels nécessaire pour qu'il touche le sol.
+    float yOffset = 15.0f;
+
+    // Applique la position avec le décalage
+    m_sprite.setPosition(pos.x, pos.y + yOffset);
 
     float s = 2.5f;
     if (model.isFacingRight()) m_sprite.setScale(s, s);
