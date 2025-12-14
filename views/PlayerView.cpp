@@ -40,12 +40,12 @@ void PlayerView::loadSwordEffect(int imageCount) {
 
 PlayerView::PlayerView() {
     // 1. CHARGEMENT (Tes nombres d'images)
-    loadAnimation(PlayerState::RUN,    "run",     6);
-    loadAnimation(PlayerState::IDLE,   "idle",    4);
+    loadAnimation(PlayerState::RUN,    "run",     10);
+    loadAnimation(PlayerState::IDLE,   "idle",    10);
     loadAnimation(PlayerState::JUMP,   "jump",    5); // 5 images pour monter
     loadAnimation(PlayerState::FALL,   "fall",    7); // 7 images pour descendre
-    loadAnimation(PlayerState::ATTACK, "attack",  4);
-    loadAnimation(PlayerState::DASH,   "dashing", 4);
+    loadAnimation(PlayerState::ATTACK, "attack",  5);
+    loadAnimation(PlayerState::DASH,   "dashing", 5);
 
     loadSwordEffect(4); // Effet
 
@@ -76,7 +76,7 @@ void PlayerView::updateAnimation(const PlayerModel& model, float deltaTime) {
 
     // Vitesses
     switch(model.state) {
-        case PlayerState::RUN:    frameDuration = 0.08f; break;
+        case PlayerState::RUN:    frameDuration = 0.10f; break;
         case PlayerState::ATTACK: frameDuration = 0.06f; break;
         case PlayerState::DASH:   frameDuration = 0.05f; break;
         case PlayerState::JUMP:   frameDuration = 0.10f; break; // Rapide
