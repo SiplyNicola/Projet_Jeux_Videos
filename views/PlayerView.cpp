@@ -134,7 +134,7 @@ void PlayerView::updateAnimation(const PlayerModel& model, float deltaTime) {
     float scaleVal = 2.0f;
     sprite.setScale(scaleVal * model.facingDirection, scaleVal);
 
-    if (model.isDashing) sprite.setColor(sf::Color(100, 255, 255, 200));
+    if (model.isDashing) sprite.setColor(sf::Color(0, 0, 0, 100));
     else sprite.setColor(sf::Color::White);
 
     //décalage pour que le personnage marche bien sur la plateforme et non dans la plateforme
