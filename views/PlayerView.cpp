@@ -49,6 +49,8 @@ PlayerView::PlayerView() {
 
     loadSwordEffect(4); // Effet
 
+    m_lastState = PlayerState::IDLE;
+
     // 2. RÉGLAGES
     float scaleInit = 1.5f;
     sprite.setScale(scaleInit, scaleInit);
@@ -67,6 +69,15 @@ PlayerView::PlayerView() {
 }
 
 void PlayerView::updateAnimation(const PlayerModel& model, float deltaTime) {
+
+    // --- CORRECTION DU CARRÉ BLANC ----------------------------
+    if (model.state != m_lastState) {
+        currentFrame = 0;   // On repart à la première image
+        timeElapsed = 0;    // On remet le chrono à zéro
+        m_lastState = model.state; // On mémorise le nouvel état
+    }
+    // -----------------------------------------------------------
+
     // --- A. NINJA ---
     PlayerState stateToUse = model.state;
     if (animationTextures[stateToUse].empty()) stateToUse = PlayerState::IDLE;
@@ -130,6 +141,10 @@ void PlayerView::updateAnimation(const PlayerModel& model, float deltaTime) {
         swordSprite.setScale(scaleVal * model.facingDirection, scaleVal);
     } else {
         swordSprite.setColor(sf::Color::Transparent);
+    }
+
+    if (currentFrame >= currentAnimList.size()) {
+        currentFrame = 0;
     }
 }
 

@@ -11,6 +11,7 @@ class PlayerView {
 private:
     sf::Sprite sprite;      // Ninja
     sf::Sprite swordSprite; // Effet
+    PlayerState m_lastState;
 
     std::map<PlayerState, std::vector<sf::Texture>> animationTextures;
     std::vector<sf::Texture> swordTextures;
