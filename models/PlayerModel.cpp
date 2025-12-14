@@ -34,7 +34,7 @@ void PlayerModel::move(float dirX) {
 void PlayerModel::jump() {
     // CORRECTION : On ne vérifie plus la hauteur (Y), mais l'état.
     // Si on n'est pas déjà en train de sauter ou de tomber, on peut sauter.
-    if (state != PlayerState::JUMP && state != PlayerState::FALL && state != PlayerState::ATTACK && !isDashing) {
+    if (std::abs(velocity.y) < 0.1f && state != PlayerState::ATTACK && !isDashing) {
         velocity.y = JUMP_FORCE;
         state = PlayerState::JUMP;
     }
@@ -68,8 +68,11 @@ void PlayerModel::update(float deltaTime) {
         if (dashDurationTimer >= 0.2f) {
             isDashing = false;
             velocity.x = 0;
-            // On le met en IDLE par défaut, la frame suivante corrigera si on tombe
-            state = PlayerState::IDLE;
+            // ASTUCE DU CHEF :
+            // On force l'état CHUTE et on applique un tout petit peu de gravité.
+            // Si on est vraiment au sol, handleCollisions() remettra velocity.y à 0 à la frame suivante.
+            state = PlayerState::FALL;
+            velocity.y = GRAVITY; // Hop, on n'est plus à 0, donc on ne peut plus sauter !
         }
     }
     // --- GRAVITÉ ---
@@ -96,7 +99,10 @@ void PlayerModel::update(float deltaTime) {
     // --- FIN ATTAQUE ---
     if (state == PlayerState::ATTACK) {
         attackTimer += deltaTime;
-        if (attackTimer >= 0.32f) state = PlayerState::IDLE;
+        if (attackTimer >= 0.32f) {
+            if (std::abs(velocity.y) > 0.1f) state = PlayerState::FALL;
+             else state = PlayerState::IDLE;
+        }
     }
 }
 
