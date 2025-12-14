@@ -109,7 +109,7 @@ void LevelView::build(const LevelModel& model) {
             if (cell == '1')      { tu = 1; tv = 0; } // Herbe
             else if (cell == '2') { tu = 1; tv = 1; } // Terre
             else if (cell == '3') { tu = 0; tv = 1; } // Bord G
-            else if (cell == '4') { tu = 2; tv = 1; } // Bord D
+            else if (cell == '4') { tu = 3; tv = 1; } // Bord D
 
             float u = tu * ts;
             float v = tv * ts;

@@ -46,7 +46,7 @@ void LevelModel::loadLevel() {
         "                                                                                               322224                             ",
 
         // --- ETAGE 1 : VERS LA DROITE (INITIATION AU SAUT) ---
-        "                                                                                                                                  ", // Panneau, Barrières, Lampes
+        "                                                                                              3                                   ", // Panneau, Barrières, Lampes
         " S        GG          FG  LG F  L                 F   L  L   F               G  L   F  G   L     GG   F    G       L              ",
         "111111111111          11111111111               1111111111111111           111111111111111111111111111111111111111111111          ",
         "222222222222          22222222222               2222222222222222           222222222222222222222222222222222222222222222          ",
