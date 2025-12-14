@@ -1235,7 +1235,7 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1765659188 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\game.cpp
+1765673313 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\game.cpp
 	"Game.h"
 	<iostream>
 	<cmath>
@@ -1289,14 +1289,14 @@
 1765175614 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\levelmodel.cpp
 	"LevelModel.h"
 
-1765659985 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\playermodel.cpp
+1765673293 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\playermodel.cpp
 	"PlayerModel.h"
 
 1765175614 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\levelview.cpp
 	"LevelView.h"
 	<iostream>
 
-1765671596 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\playerview.cpp
+1765672550 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\playerview.cpp
 	"PlayerView.h"
 	<iostream>
 

@@ -8,7 +8,7 @@ const float DASH_SPEED = 20.0f;
 
 PlayerModel::PlayerModel() {
     // On commence à une position neutre (pas 500 fixe)
-    position = sf::Vector2f(100.0f, 2000.0f);
+    position = sf::Vector2f(100.0f, 2520.0f);
     velocity = sf::Vector2f(0.0f, 0.0f);
     facingDirection = 1;
     state = PlayerState::IDLE;

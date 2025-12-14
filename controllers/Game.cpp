@@ -62,7 +62,7 @@ void Game::update(float dt) {
 
         // On le téléporte à la case départ (Bas-Gauche)
         // (Ces coordonnées doivent correspondre à celles dans PlayerModel.cpp)
-        m_playerModel.position = sf::Vector2f(150.0f, 2000.0f);
+        m_playerModel.position = sf::Vector2f(100.0f, 2520.0f);
 
         // IMPORTANT : On annule sa vitesse pour qu'il ne continue pas de tomber
         m_playerModel.velocity = sf::Vector2f(0.0f, 0.0f);
