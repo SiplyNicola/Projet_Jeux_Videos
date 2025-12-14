@@ -43,9 +43,19 @@ PlayerView::PlayerView() {
     loadAnimation(PlayerState::RUN,    "run",     10);
     loadAnimation(PlayerState::IDLE,   "idle",    10);
     loadAnimation(PlayerState::JUMP,   "jump",    5); // 5 images pour monter
-    loadAnimation(PlayerState::FALL,   "fall",    7); // 7 images pour descendre
     loadAnimation(PlayerState::ATTACK, "attack",  5);
     loadAnimation(PlayerState::DASH,   "dashing", 5);
+
+    loadAnimation(PlayerState::FALL,   "fall",    7); // 7 images pour descendre
+    std::string maxFallPath = "resources/monochrome_ninja/max_fall/";
+    for (int i = 0; i < 7; i++) { // 7 images de max_fall
+        sf::Texture tex;
+        if (tex.loadFromFile(maxFallPath + std::to_string(i) + ".png")) {
+            tex.setSmooth(false);
+            // On ajoute à la liste FALL existante
+            animationTextures[PlayerState::FALL].push_back(tex);
+        }
+    }
 
     loadSwordEffect(4); // Effet
 
@@ -103,7 +113,13 @@ void PlayerView::updateAnimation(const PlayerModel& model, float deltaTime) {
         // --- CORRECTION ICI ---
         if (currentFrame >= currentAnimList.size()) {
             // Si on est en train de SAUTER, TOMBER ou MOURIR, on ne boucle pas !
-            if (model.state == PlayerState::JUMP /*|| model.state == PlayerState::FALL*/) { //animation de chute qui boucle
+            // CAS SPÉCIAL : CHUTE
+            if (model.state == PlayerState::FALL) {
+                // On ne repart pas à 0 (début de chute),
+                // mais à 7 (début de max_fall)
+                currentFrame = 7;
+            }
+            else if (model.state == PlayerState::JUMP /*|| model.state == PlayerState::FALL*/) { //animation de chute qui boucle
                 currentFrame = currentAnimList.size() - 1; // On reste figé sur la dernière image
             } else {
                 currentFrame = 0; // Pour courir ou idle, on boucle
