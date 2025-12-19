@@ -3,11 +3,11 @@
 
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/Rect.hpp>
-#include "Entity.h"
+#include "Character.h"
 
 enum BossState { IDLE, WALKING, ATTACKING, HURT, DEAD };
 
-class BossModel : public Entity {
+class BossModel : public Character {
 public:
     BossModel();
 

@@ -3,12 +3,12 @@
 
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/Rect.hpp>
-#include "Entity.h"
+#include "Character.h"
 
 //
 enum class PlayerState { IDLE, RUN, JUMP, FALL, ATTACK, DASH, DEAD };
 
-class PlayerModel : public Entity{
+class PlayerModel : public Character{
 public:
     bool m_hasDealtDamage; // Pour ne frapper qu'une fois par coup
     PlayerState state;

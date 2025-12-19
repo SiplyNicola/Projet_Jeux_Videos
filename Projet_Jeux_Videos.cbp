@@ -68,6 +68,8 @@
 		<Unit filename="main.cpp" />
 		<Unit filename="models/BossModel.cpp" />
 		<Unit filename="models/BossModel.h" />
+		<Unit filename="models/Entity.cpp" />
+		<Unit filename="models/Entity.h" />
 		<Unit filename="models/LevelModel.cpp" />
 		<Unit filename="models/LevelModel.h" />
 		<Unit filename="models/PlayerModel.cpp" />
@@ -76,6 +78,8 @@
 		<Unit filename="views/Background.h" />
 		<Unit filename="views/BossView.cpp" />
 		<Unit filename="views/BossView.h" />
+		<Unit filename="views/HudView.cpp" />
+		<Unit filename="views/HudView.h" />
 		<Unit filename="views/LevelView.cpp" />
 		<Unit filename="views/LevelView.h" />
 		<Unit filename="views/PlayerView.cpp" />

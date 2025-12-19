@@ -5,7 +5,7 @@ const float GRAVITY = 0.8f;
 const float JUMP_FORCE = -17.f;
 const float DASH_SPEED = 20.0f;
 
-PlayerModel::PlayerModel() : Entity(5, 7.0f, 1) {
+PlayerModel::PlayerModel() : Character(5, 7.0f, 1) {
     // On commence à une position neutre (pas 500 fixe)
     m_position = sf::Vector2f(100.0f, 2520.0f); // On utilise m_position de Entity
     m_velocity = sf::Vector2f(0.0f, 0.0f);

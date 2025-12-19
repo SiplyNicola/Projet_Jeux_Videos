@@ -1,7 +1,7 @@
 #include "BossModel.h"
 #include <cmath>
 
-BossModel::BossModel() : Entity(13, 100.0f, 2) {
+BossModel::BossModel() : Character(13, 100.0f, 2) {
     m_position = {2000.0f, 2000.0f};
     m_state = IDLE;
     m_facingRight = false;
