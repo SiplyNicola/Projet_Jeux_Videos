@@ -3,7 +3,7 @@
 #include <iostream>
 #include <cmath>
 
-Game::Game() : m_background(sf::Vector2u(1280, 720)) {
+Game::Game() : m_background(sf::Vector2u(1280, 720)), m_plantModel({100.0f, 2520.0f}) {
     m_window.create(sf::VideoMode(1920, 1080), "Whisper of Steel - Final");
     m_window.setFramerateLimit(60);
     m_camera.setSize(1280, 720);
@@ -13,6 +13,7 @@ Game::Game() : m_background(sf::Vector2u(1280, 720)) {
     m_levelView.init();
     m_level.loadLevel();
     m_levelView.build(m_level);
+    m_plantView.init();
     m_hud.init();
 
     m_background.addLayer("resources/oak_woods_v1.0/background/background_layer_1.png");
@@ -43,10 +44,24 @@ void Game::processEvents() {
 }
 
 void Game::update(float dt) {
-    // 1. Mise à jour des modèles
+    m_plantModel.update(dt);
+    m_plantView.update(dt, m_plantModel);
+
+    // 2. VÉRIFICATION DE LA MORT DU JOUEUR
+    // On ne met à jour le reste du jeu que si le joueur est vivant
+    if (m_playerModel.isDead()) return;
+
+    // 3. MISE À JOUR DU JOUEUR ET DU BOSS
     m_playerModel.update(dt);
-    // On passe la position du joueur à l'IA du boss
     m_boss.updateBoss(dt, m_playerModel.getPosition());
+
+    // --- LOGIQUE DE MORT PAR LA PLANTE ---
+    if (m_plantModel.getState() == P_ATTACKING) {
+        if (m_playerModel.getHitbox().intersects(m_plantModel.getBiteZone())) {
+            m_playerModel.takeDamage(999); // Le joueur meurt ici
+            m_playerModel.state = PlayerState::DEAD;
+        }
+    }
 
     // 2. Traitement des interactions
     handleCollisions();
@@ -62,6 +77,7 @@ void Game::update(float dt) {
     }
 
     // 4. Mise à jour des vues
+    m_plantView.update(dt, m_plantModel);
     m_playerView.updateAnimation(m_playerModel, dt);
     m_bossView.update(dt, m_boss);
 
@@ -166,8 +182,18 @@ void Game::render() {
 
     m_window.draw(m_background);
     m_window.draw(m_levelView);
+
+    // Dessin de la plante
+    m_plantView.draw(m_window);
+
     m_bossView.draw(m_window);
-    m_playerView.draw(m_window);
+
+    // CONDITION : On ne dessine le joueur que s'il n'est pas mort
+    if (m_playerModel.state != PlayerState::DEAD) {
+        m_playerView.draw(m_window);
+    }
+
+    // Le HUD reste visible même après la mort
     m_hud.draw(m_window, m_playerModel.getHP());
 
     m_window.display();

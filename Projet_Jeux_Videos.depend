@@ -1405,13 +1405,13 @@
 1764973044 source:c:\projetjeuxvideo\projet_jeux_videos\models\levelmodel.cpp
 	"LevelModel.h"
 
-1766141428 source:c:\projet_jeux_videosv2\controllers\game.cpp
+1766158361 source:c:\projet_jeux_videosv2\controllers\game.cpp
 	"Game.h"
 	"HudView.h"
 	<iostream>
 	<cmath>
 
-1766141273 c:\projet_jeux_videosv2\controllers\game.h
+1766154641 c:\projet_jeux_videosv2\controllers\game.h
 	<SFML/Graphics.hpp>
 	"../models/PlayerModel.h"
 	"../views/PlayerView.h"
@@ -1422,6 +1422,8 @@
 	"../views/LevelView.h"
 	"../views/Background.h"
 	"../views/HudView.h"
+	"../models/PlantModel.h"
+	"../views/PlantView.h"
 
 1765892551 c:\projet_jeux_videosv2\sfml\include\sfml\graphics.hpp
 	<SFML/Window.hpp>
@@ -1887,8 +1889,9 @@
 1765892551 source:c:\projet_jeux_videosv2\models\levelmodel.cpp
 	"LevelModel.h"
 
-1766150320 source:c:\projet_jeux_videosv2\models\playermodel.cpp
+1766157116 source:c:\projet_jeux_videosv2\models\playermodel.cpp
 	"PlayerModel.h"
+	<cmath>
 
 1765892551 source:c:\projet_jeux_videosv2\views\background.cpp
 	"Background.h"
@@ -1902,7 +1905,7 @@
 	"LevelView.h"
 	<iostream>
 
-1766138752 source:c:\projet_jeux_videosv2\views\playerview.cpp
+1766154736 source:c:\projet_jeux_videosv2\views\playerview.cpp
 	"PlayerView.h"
 	<iostream>
 
@@ -1926,4 +1929,28 @@
 
 1766150320 source:c:\projet_jeux_videosv2\models\character.cpp
 	"Character.h"
+
+1766150534 source:c:\projet_jeux_videosv2\src\loot.cpp
+	"Loot.h"
+	<cmath>
+
+1766150534 c:\projet_jeux_videosv2\include\loot.h
+	"Entity.h"
+	<SFML/Graphics/Rect.hpp>
+	<string>
+
+1766158668 source:c:\projet_jeux_videosv2\models\plantmodel.cpp
+	"PlantModel.h"
+
+1766154564 c:\projet_jeux_videosv2\models\plantmodel.h
+	"Entity.h"
+	<SFML/Graphics/Rect.hpp>
+
+1766154564 c:\projet_jeux_videosv2\views\plantview.h
+	<SFML/Graphics.hpp>
+	"../models/PlantModel.h"
+
+1766158939 source:c:\projet_jeux_videosv2\views\plantview.cpp
+	"PlantView.h"
+	<algorithm>
 

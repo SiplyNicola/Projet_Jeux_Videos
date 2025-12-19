@@ -18,6 +18,7 @@
 					<Add directory="models" />
 					<Add directory="views" />
 					<Add directory="controllers" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add library="sfml-graphics" />
@@ -36,6 +37,7 @@
 					<Add directory="models" />
 					<Add directory="views" />
 					<Add directory="controllers" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -65,15 +67,21 @@
 		<Unit filename="controllers/Game.h" />
 		<Unit filename="controllers/PlayerController.cpp" />
 		<Unit filename="controllers/PlayerController.h" />
+		<Unit filename="include/Loot.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="models/BossModel.cpp" />
 		<Unit filename="models/BossModel.h" />
+		<Unit filename="models/Character.cpp" />
+		<Unit filename="models/Character.h" />
 		<Unit filename="models/Entity.cpp" />
 		<Unit filename="models/Entity.h" />
 		<Unit filename="models/LevelModel.cpp" />
 		<Unit filename="models/LevelModel.h" />
+		<Unit filename="models/PlantModel.cpp" />
+		<Unit filename="models/PlantModel.h" />
 		<Unit filename="models/PlayerModel.cpp" />
 		<Unit filename="models/PlayerModel.h" />
+		<Unit filename="src/Loot.cpp" />
 		<Unit filename="views/Background.cpp" />
 		<Unit filename="views/Background.h" />
 		<Unit filename="views/BossView.cpp" />
@@ -82,6 +90,8 @@
 		<Unit filename="views/HudView.h" />
 		<Unit filename="views/LevelView.cpp" />
 		<Unit filename="views/LevelView.h" />
+		<Unit filename="views/PlantView.cpp" />
+		<Unit filename="views/PlantView.h" />
 		<Unit filename="views/PlayerView.cpp" />
 		<Unit filename="views/PlayerView.h" />
 		<Extensions>

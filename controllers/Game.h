@@ -13,6 +13,8 @@
 #include "../views/LevelView.h"
 #include "../views/Background.h"
 #include "../views/HudView.h"
+#include "../models/PlantModel.h"
+#include "../views/PlantView.h"
 
 class Game {
 public:
@@ -42,6 +44,9 @@ private:
     BossView m_bossView;
     LevelModel m_level;
     LevelView m_levelView;
+
+    PlantModel m_plantModel;
+    PlantView m_plantView;
 };
 
 #endif
