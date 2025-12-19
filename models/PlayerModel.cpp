@@ -3,14 +3,13 @@
 // J'ai supprimé GROUND_LEVEL qui causait le bug
 const float GRAVITY = 0.8f;
 const float JUMP_FORCE = -17.f;
-const float MOVE_SPEED = 7.0f;
 const float DASH_SPEED = 20.0f;
 
-PlayerModel::PlayerModel() {
+PlayerModel::PlayerModel() : Entity(100, 7.0f, 10) {
     // On commence à une position neutre (pas 500 fixe)
-    position = sf::Vector2f(100.0f, 2520.0f);
-    velocity = sf::Vector2f(0.0f, 0.0f);
-    facingDirection = 1;
+    m_position = sf::Vector2f(100.0f, 2520.0f); // On utilise m_position de Entity
+    m_velocity = sf::Vector2f(0.0f, 0.0f);
+    m_facingRight = true;
     state = PlayerState::IDLE;
     dashCooldownTimer = 0.0f;
     attackTimer = 0.0f;
@@ -21,9 +20,9 @@ PlayerModel::PlayerModel() {
 void PlayerModel::move(float dirX) {
     if (state == PlayerState::ATTACK || isDashing) return;
 
-    velocity.x = dirX * MOVE_SPEED;
-    if (dirX > 0) facingDirection = 1;
-    if (dirX < 0) facingDirection = -1;
+    m_velocity.x = dirX * m_speed;
+    if (dirX > 0) m_facingRight = true;
+    if (dirX < 0) m_facingRight = false;
 
     // Gestion animation course
     if (state != PlayerState::JUMP && state != PlayerState::FALL) {
@@ -34,8 +33,8 @@ void PlayerModel::move(float dirX) {
 void PlayerModel::jump() {
     // CORRECTION : On ne vérifie plus la hauteur (Y), mais l'état.
     // Si on n'est pas déjà en train de sauter ou de tomber, on peut sauter.
-    if (std::abs(velocity.y) < 0.1f && state != PlayerState::ATTACK && !isDashing) {
-        velocity.y = JUMP_FORCE;
+    if (std::abs(m_velocity.y) < 0.1f && state != PlayerState::ATTACK && !isDashing) {
+        m_velocity.y = JUMP_FORCE;
         state = PlayerState::JUMP;
     }
 }
@@ -44,7 +43,7 @@ void PlayerModel::attack() {
     if (state != PlayerState::ATTACK && !isDashing) {
         state = PlayerState::ATTACK;
         attackTimer = 0.0f;
-        velocity.x = 0;
+        m_velocity.x = 0;
     }
 }
 
@@ -60,55 +59,44 @@ void PlayerModel::dash() {
 void PlayerModel::update(float deltaTime) {
     if (dashCooldownTimer > 0) dashCooldownTimer -= deltaTime;
 
-    // --- DASH ---
     if (isDashing) {
-        velocity.x = DASH_SPEED * facingDirection;
-        velocity.y = 0;
+        // Utilise m_facingRight pour la direction du dash
+        m_velocity.x = DASH_SPEED * (m_facingRight ? 1.0f : -1.0f);
+        m_velocity.y = 0;
         dashDurationTimer += deltaTime;
         if (dashDurationTimer >= 0.2f) {
             isDashing = false;
-            velocity.x = 0;
-            // ASTUCE DU CHEF :
-            // On force l'état CHUTE et on applique un tout petit peu de gravité.
-            // Si on est vraiment au sol, handleCollisions() remettra velocity.y à 0 à la frame suivante.
+            m_velocity.x = 0;
             state = PlayerState::FALL;
-            velocity.y = GRAVITY; // Hop, on n'est plus à 0, donc on ne peut plus sauter !
+            m_velocity.y = GRAVITY;
         }
     }
-    // --- GRAVITÉ ---
     else {
-        if(velocity.y<=15){
-                velocity.y += GRAVITY;
-        }
+        if(m_velocity.y <= 15) m_velocity.y += GRAVITY;
     }
 
-    position += velocity;
+    m_position += m_velocity;
 
-    // --- SAUT vs CHUTE ---
-    // On détecte simplement si on monte ou on descend
     if (!isDashing && state != PlayerState::ATTACK) {
-        if (velocity.y < 0) state = PlayerState::JUMP;
-        else if (velocity.y > 0) state = PlayerState::FALL;
+        if (m_velocity.y < 0) state = PlayerState::JUMP;
+        else if (m_velocity.y > 0) state = PlayerState::FALL;
     }
 
-    // --- SUPPRESSION DU BLOC "SOL MAGIQUE" ---
-    // C'est ici que j'ai retiré le code qui bloquait le joueur à Y=500.
-    // Maintenant, c'est Game.cpp (handleCollisions) qui va l'arrêter
-    // quand il touchera une vraie plateforme.
-
-    // --- FIN ATTAQUE ---
     if (state == PlayerState::ATTACK) {
         attackTimer += deltaTime;
         if (attackTimer >= 0.32f) {
-            if (std::abs(velocity.y) > 0.1f) state = PlayerState::FALL;
-             else state = PlayerState::IDLE;
+            if (std::abs(m_velocity.y) > 0.1f) state = PlayerState::FALL;
+            else state = PlayerState::IDLE;
         }
     }
 }
 
+void PlayerModel::takeDamage(int amount) {
+    m_hp -= amount;
+}
+
 sf::FloatRect PlayerModel::getHitbox() const {
-    // Hitbox plus fine pour être précis
-    float width = 30.0f; // J'ai réduit un peu (40->30) pour éviter de flotter sur les bords
+    float width = 30.0f;
     float height = 60.0f;
-    return sf::FloatRect(position.x - width/2, position.y - height, width, height);
+    return sf::FloatRect(m_position.x - width/2, m_position.y - height, width, height);
 }
