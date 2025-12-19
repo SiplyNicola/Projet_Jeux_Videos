@@ -1405,12 +1405,13 @@
 1764973044 source:c:\projetjeuxvideo\projet_jeux_videos\models\levelmodel.cpp
 	"LevelModel.h"
 
-1766139744 source:c:\projet_jeux_videosv2\controllers\game.cpp
+1766141428 source:c:\projet_jeux_videosv2\controllers\game.cpp
 	"Game.h"
+	"HudView.h"
 	<iostream>
 	<cmath>
 
-1766139714 c:\projet_jeux_videosv2\controllers\game.h
+1766141273 c:\projet_jeux_videosv2\controllers\game.h
 	<SFML/Graphics.hpp>
 	"../models/PlayerModel.h"
 	"../views/PlayerView.h"
@@ -1420,6 +1421,7 @@
 	"../models/LevelModel.h"
 	"../views/LevelView.h"
 	"../views/Background.h"
+	"../views/HudView.h"
 
 1765892551 c:\projet_jeux_videosv2\sfml\include\sfml\graphics.hpp
 	<SFML/Window.hpp>
@@ -1845,7 +1847,7 @@
 1765892551 c:\projet_jeux_videosv2\controllers\playercontroller.h
 	"PlayerModel.h"
 
-1766139700 c:\projet_jeux_videosv2\models\bossmodel.h
+1766140369 c:\projet_jeux_videosv2\models\bossmodel.h
 	<SFML/System/Vector2.hpp>
 	<SFML/Graphics/Rect.hpp>
 	"Entity.h"
@@ -1878,14 +1880,14 @@
 1765892551 source:c:\projet_jeux_videosv2\main.cpp
 	"controllers/Game.h"
 
-1766139700 source:c:\projet_jeux_videosv2\models\bossmodel.cpp
+1766141136 source:c:\projet_jeux_videosv2\models\bossmodel.cpp
 	"BossModel.h"
 	<cmath>
 
 1765892551 source:c:\projet_jeux_videosv2\models\levelmodel.cpp
 	"LevelModel.h"
 
-1766139700 source:c:\projet_jeux_videosv2\models\playermodel.cpp
+1766141137 source:c:\projet_jeux_videosv2\models\playermodel.cpp
 	"PlayerModel.h"
 
 1765892551 source:c:\projet_jeux_videosv2\views\background.cpp
@@ -1910,4 +1912,12 @@
 
 1766139047 source:c:\projet_jeux_videosv2\models\entity.cpp
 	"Entity.h"
+
+1766143100 source:c:\projet_jeux_videosv2\views\hudview.cpp
+	"HudView.h"
+	<iostream>
+
+1766141137 c:\projet_jeux_videosv2\views\hudview.h
+	<SFML/Graphics.hpp>
+	<vector>
 

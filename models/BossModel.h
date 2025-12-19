@@ -19,6 +19,7 @@ public:
     void takeDamage(int amount) override;
     sf::FloatRect getHitbox() const override;
     BossState getState() const;
+    float getStateTimer() const { return m_stateTimer; }
 
 
 private:

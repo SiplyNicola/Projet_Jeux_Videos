@@ -12,6 +12,7 @@
 #include "../models/LevelModel.h"
 #include "../views/LevelView.h"
 #include "../views/Background.h"
+#include "../views/HudView.h"
 
 class Game {
 public:
@@ -34,6 +35,8 @@ private:
     PlayerModel m_playerModel;
     PlayerView m_playerView;
     PlayerController m_playerController;
+
+    HudView m_hud;
 
     BossModel m_boss;
     BossView m_bossView;
