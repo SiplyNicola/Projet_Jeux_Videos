@@ -40,6 +40,7 @@ void BossModel::updateBoss(float dt, sf::Vector2f playerPos) {
                 if (m_attackCooldown <= 0) {
                     m_state = ATTACKING;
                     m_stateTimer = 0;
+                    m_hasDealtDamage = false;
                 }
             } else if (dist < 400) {
                 m_state = WALKING;
@@ -50,6 +51,7 @@ void BossModel::updateBoss(float dt, sf::Vector2f playerPos) {
                 if (m_attackCooldown <= 0) {
                     m_state = ATTACKING;
                     m_stateTimer = 0;
+                    m_hasDealtDamage = false;
                 } else m_state = IDLE;
             } else if (dist >= 400) {
                 m_state = IDLE;

@@ -11,6 +11,8 @@ class BossModel : public Entity {
 public:
     BossModel();
 
+    bool m_hasDealtDamage;
+
     void updateBoss(float dt, sf::Vector2f playerPos);
     void update(float dt) override;
 

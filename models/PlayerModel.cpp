@@ -44,6 +44,7 @@ void PlayerModel::attack() {
         state = PlayerState::ATTACK;
         attackTimer = 0.0f;
         m_velocity.x = 0;
+        m_hasDealtDamage = false;
     }
 }
 
@@ -92,7 +93,14 @@ void PlayerModel::update(float deltaTime) {
 }
 
 void PlayerModel::takeDamage(int amount) {
+    if (state == PlayerState::DEAD) return;
+
     m_hp -= amount;
+    if (m_hp <= 0) {
+        m_hp = 0;
+        state = PlayerState::DEAD;
+        m_velocity.x = 0; // On l'arrête
+    }
 }
 
 sf::FloatRect PlayerModel::getHitbox() const {

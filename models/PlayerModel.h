@@ -6,11 +6,11 @@
 #include "Entity.h"
 
 //
-enum class PlayerState { IDLE, RUN, JUMP, FALL, ATTACK, DASH };
+enum class PlayerState { IDLE, RUN, JUMP, FALL, ATTACK, DASH, DEAD };
 
 class PlayerModel : public Entity{
 public:
-
+    bool m_hasDealtDamage; // Pour ne frapper qu'une fois par coup
     PlayerState state;
     float dashCooldownTimer;
     float attackTimer;
