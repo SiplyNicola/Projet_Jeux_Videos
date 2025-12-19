@@ -15,6 +15,8 @@
 #include "../views/HudView.h"
 #include "../models/PlantModel.h"
 #include "../views/PlantView.h"
+#include "../models/SnakeModel.h"
+#include "../views/SnakeView.h"
 
 class Game {
 public:
@@ -28,6 +30,7 @@ private:
     void handleCollisions();
     void handleBossCollisions();
     void handleCombat(); // Nouvelle méthode pour les dégâts
+    void handleSnakeCollisions();
 
     sf::RenderWindow m_window;
     sf::View m_camera;
@@ -47,6 +50,9 @@ private:
 
     PlantModel m_plantModel;
     PlantView m_plantView;
+
+    SnakeModel m_snakeModel;
+    SnakeView m_snakeView;
 };
 
 #endif

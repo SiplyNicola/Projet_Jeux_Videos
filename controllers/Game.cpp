@@ -1,5 +1,4 @@
 #include "Game.h"
-#include "HudView.h"
 #include <iostream>
 #include <cmath>
 
@@ -14,6 +13,7 @@ Game::Game() : m_background(sf::Vector2u(1280, 720)), m_plantModel({100.0f, 2520
     m_level.loadLevel();
     m_levelView.build(m_level);
     m_plantView.init();
+    m_snakeView.init();
     m_hud.init();
 
     m_background.addLayer("resources/oak_woods_v1.0/background/background_layer_1.png");
@@ -45,33 +45,34 @@ void Game::processEvents() {
 
 void Game::update(float dt) {
     m_plantModel.update(dt);
-    m_plantView.update(dt, m_plantModel);
+    m_plantView.update(dt, m_plantModel); // Note: déjà mis à jour plus bas dans 'Mise à jour des vues'
 
     // 2. VÉRIFICATION DE LA MORT DU JOUEUR
-    // On ne met à jour le reste du jeu que si le joueur est vivant
     if (m_playerModel.isDead()) return;
 
-    // 3. MISE À JOUR DU JOUEUR ET DU BOSS
+    // 3. MISE À JOUR DU JOUEUR, DU BOSS ET DU SERPENT
     m_playerModel.update(dt);
     m_boss.updateBoss(dt, m_playerModel.getPosition());
+    m_snakeModel.update(dt, m_playerModel.getPosition());
 
     // --- LOGIQUE DE MORT PAR LA PLANTE ---
     if (m_plantModel.getState() == P_ATTACKING) {
         if (m_playerModel.getHitbox().intersects(m_plantModel.getBiteZone())) {
-            m_playerModel.takeDamage(999); // Le joueur meurt ici
+            m_playerModel.takeDamage(999);
             m_playerModel.state = PlayerState::DEAD;
         }
     }
 
-    // 2. Traitement des interactions
+    // 2. Traitement des interactions (Collisions & Combat)
     handleCollisions();
     handleBossCollisions();
     handleCombat();
+    handleSnakeCollisions();
 
     // 3. Système de Respawn (Si chute dans le vide)
     float mapHeightPixel = m_level.getMapData().size() * 72.0f;
     if (m_playerModel.getPosition().y > mapHeightPixel + 200.0f) {
-        m_playerModel.setPosition(100.0f, 2520.0f); //
+        m_playerModel.setPosition(100.0f, 2520.0f);
         m_playerModel.setVelocity(sf::Vector2f(0.0f, 0.0f));
         m_playerModel.state = PlayerState::IDLE;
     }
@@ -80,6 +81,9 @@ void Game::update(float dt) {
     m_plantView.update(dt, m_plantModel);
     m_playerView.updateAnimation(m_playerModel, dt);
     m_bossView.update(dt, m_boss);
+
+    // CORRECTION ICI : On utilise bien m_snakeModel
+    m_snakeView.update(dt, m_snakeModel);
 
     // 5. Caméra avec clamping
     float mapWidth = m_level.getMapData()[0].size() * 72.0f;
@@ -101,7 +105,6 @@ void Game::update(float dt) {
 void Game::handleCombat() {
     // A. LE JOUEUR ATTAQUE LE BOSS
     if (m_playerModel.state == PlayerState::ATTACK && !m_playerModel.m_hasDealtDamage) {
-        // Le joueur frappe rapidement (déclenchement à 0.1s d'animation)
         if (m_playerModel.attackTimer > 0.1f) {
             sf::FloatRect pBox = m_playerModel.getHitbox();
             float range = 50.0f;
@@ -111,17 +114,47 @@ void Game::handleCombat() {
             );
 
             if (hitzone.intersects(m_boss.getHitbox())) {
-                m_boss.takeDamage(m_playerModel.getAttackDamage()); //
+                m_boss.takeDamage(m_playerModel.getAttackDamage());
                 m_playerModel.m_hasDealtDamage = true;
             }
         }
     }
 
-    // B. LE BOSS ATTAQUE LE JOUEUR (AVEC DÉLAI D'ANTICIPATION)
-    if (m_boss.getState() == ATTACKING && !m_boss.m_hasDealtDamage) {
+    // B. GESTION DU SERPENT
+    if (m_snakeModel.getState() != SnakeState::DEATH) {
 
-        // DÉLAI DE RÉACTION : On n'inflige les dégâts qu'après 0.5s d'animation
-        // Cela permet au joueur de frapper puis de dasher loin.
+        // 1. JOUEUR TAPPE SERPENT (Attaque Épée)
+        if (m_playerModel.state == PlayerState::ATTACK && !m_playerModel.m_hasDealtDamage) {
+            sf::FloatRect pBox = m_playerModel.getHitbox();
+            float range = 50.0f;
+            sf::FloatRect swordZone(
+                m_playerModel.isFacingRight() ? pBox.left + pBox.width : pBox.left - range,
+                pBox.top, range, pBox.height
+            );
+
+            if (swordZone.intersects(m_snakeModel.getHitbox())) {
+                m_snakeModel.takeDamage(10);
+                m_snakeModel.setState(SnakeState::HURT);
+                if (m_snakeModel.getHP() <= 0) m_snakeModel.setState(SnakeState::DEATH);
+                m_playerModel.m_hasDealtDamage = true;
+            }
+        }
+
+        // 2. SERPENT MORD JOUEUR (Avec Délai et Ejection)
+        if (m_snakeModel.getState() != SnakeState::HURT &&
+            m_playerModel.getHitbox().intersects(m_snakeModel.getHitbox())) {
+
+            // On vérifie si le serpent peut attaquer (Cooldown fini ?)
+            if (m_snakeModel.canAttack()) {
+
+                m_playerModel.takeDamage(1);
+                m_snakeModel.resetAttackCooldown(); // Reset du timer d'attaque
+            }
+        }
+    }
+
+    // C. LE BOSS ATTAQUE LE JOUEUR
+    if (m_boss.getState() == ATTACKING && !m_boss.m_hasDealtDamage) {
         if (m_boss.getStateTimer() >= 0.5f) {
             sf::FloatRect bBox = m_boss.getHitbox();
             float bRange = 60.0f;
@@ -131,7 +164,7 @@ void Game::handleCombat() {
             );
 
             if (bHitzone.intersects(m_playerModel.getHitbox())) {
-                m_playerModel.takeDamage(m_boss.getAttackDamage()); //
+                m_playerModel.takeDamage(m_boss.getAttackDamage());
                 m_boss.m_hasDealtDamage = true;
             }
         }
@@ -146,14 +179,29 @@ void Game::handleCollisions() {
 
     for (const auto& wall : walls) {
         if (pBox.intersects(wall)) {
-            // Collision Sol
             if (pVel.y > 0 && pBox.top + pBox.height < wall.top + 30) {
-                m_playerModel.setPosition(pPos.x, wall.top); //
+                m_playerModel.setPosition(pPos.x, wall.top);
                 m_playerModel.setVelocity(sf::Vector2f(pVel.x, 0));
 
                 if (m_playerModel.state == PlayerState::JUMP || m_playerModel.state == PlayerState::FALL) {
                     m_playerModel.state = (std::abs(pVel.x) > 0.5f) ? PlayerState::RUN : PlayerState::IDLE;
                 }
+            }
+        }
+    }
+}
+
+void Game::handleSnakeCollisions() {
+    sf::Vector2f sPos = m_snakeModel.getPosition();
+    sf::Vector2f sVel = m_snakeModel.getVelocity();
+    std::vector<sf::FloatRect> walls = m_level.getNearbyWalls(sPos.x, sPos.y);
+    sf::FloatRect snakeBox = m_snakeModel.getHitbox();
+
+    for (const auto& wall : walls) {
+        if (snakeBox.intersects(wall)) {
+            if (sVel.y > 0 && (snakeBox.top + snakeBox.height) < (wall.top + 30.0f)) {
+                m_snakeModel.setVelocity(sf::Vector2f(sVel.x, 0));
+                m_snakeModel.setPosition(sPos.x, wall.top);
             }
         }
     }
@@ -169,7 +217,7 @@ void Game::handleBossCollisions() {
         if (bossBox.intersects(wall)) {
             float overlapY = (bossBox.top + bossBox.height) - wall.top;
             if (bVel.y > 0 && overlapY < 70.0f) {
-                m_boss.setVelocity(sf::Vector2f(bVel.x, 0)); //
+                m_boss.setVelocity(sf::Vector2f(bVel.x, 0));
                 m_boss.setPosition(bPos.x, wall.top - 50.0f);
             }
         }
@@ -182,19 +230,18 @@ void Game::render() {
 
     m_window.draw(m_background);
     m_window.draw(m_levelView);
-
-    // Dessin de la plante
     m_plantView.draw(m_window);
-
     m_bossView.draw(m_window);
 
-    // CONDITION : On ne dessine le joueur que s'il n'est pas mort
+    // DESSINE LE SERPENT SEULEMENT S'IL EST VIVANT
+    if (m_snakeModel.getState() != SnakeState::DEATH) {
+        m_snakeView.draw(m_window);
+    }
+
     if (m_playerModel.state != PlayerState::DEAD) {
         m_playerView.draw(m_window);
     }
 
-    // Le HUD reste visible même après la mort
     m_hud.draw(m_window, m_playerModel.getHP());
-
     m_window.display();
 }
