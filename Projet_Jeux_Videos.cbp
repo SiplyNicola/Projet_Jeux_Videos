@@ -65,6 +65,8 @@
 		<Unit filename="cb.bmp" />
 		<Unit filename="controllers/Game.cpp" />
 		<Unit filename="controllers/Game.h" />
+		<Unit filename="controllers/MenuController.cpp" />
+		<Unit filename="controllers/MenuController.h" />
 		<Unit filename="controllers/PlayerController.cpp" />
 		<Unit filename="controllers/PlayerController.h" />
 		<Unit filename="include/Loot.h" />
@@ -77,10 +79,14 @@
 		<Unit filename="models/Entity.h" />
 		<Unit filename="models/LevelModel.cpp" />
 		<Unit filename="models/LevelModel.h" />
+		<Unit filename="models/MenuModel.cpp" />
+		<Unit filename="models/MenuModel.h" />
 		<Unit filename="models/PlantModel.cpp" />
 		<Unit filename="models/PlantModel.h" />
 		<Unit filename="models/PlayerModel.cpp" />
 		<Unit filename="models/PlayerModel.h" />
+		<Unit filename="models/SnakeModel.cpp" />
+		<Unit filename="models/SnakeModel.h" />
 		<Unit filename="src/Loot.cpp" />
 		<Unit filename="views/Background.cpp" />
 		<Unit filename="views/Background.h" />
@@ -90,10 +96,13 @@
 		<Unit filename="views/HudView.h" />
 		<Unit filename="views/LevelView.cpp" />
 		<Unit filename="views/LevelView.h" />
+		<Unit filename="views/MenuView.cpp" />
+		<Unit filename="views/MenuView.h" />
 		<Unit filename="views/PlantView.cpp" />
 		<Unit filename="views/PlantView.h" />
 		<Unit filename="views/PlayerView.cpp" />
 		<Unit filename="views/PlayerView.h" />
+		<Unit filename="views/SnakeView.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

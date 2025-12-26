@@ -1405,7 +1405,7 @@
 1764973044 source:c:\projetjeuxvideo\projet_jeux_videos\models\levelmodel.cpp
 	"LevelModel.h"
 
-1766763175 source:c:\projet_jeux_videosv2\controllers\game.cpp
+1766765390 source:c:\projet_jeux_videosv2\controllers\game.cpp
 	"Game.h"
 	<iostream>
 	<cmath>
@@ -1880,8 +1880,12 @@
 	"PlayerController.h"
 	<SFML/Window/Keyboard.hpp>
 
-1766174995 source:c:\projet_jeux_videosv2\main.cpp
-	"controllers/Game.h"
+1766768262 source:c:\projet_jeux_videosv2\main.cpp
+	<SFML/Graphics.hpp>
+	"MenuModel.h"
+	"MenuView.h"
+	"MenuController.h"
+	"Game.h"
 
 1766150320 source:c:\projet_jeux_videosv2\models\bossmodel.cpp
 	"BossModel.h"
@@ -2536,4 +2540,26 @@
 1766174997 source:c:\projet_jeux_videosv2\views\snakeview.cpp
 	"SnakeView.h"
 	<iostream>
+
+1766767831 source:c:\projet_jeux_videosv2\models\menumodel.cpp
+	"MenuModel.h"
+
+1766768943 c:\projet_jeux_videosv2\models\menumodel.h
+
+1766768505 source:c:\projet_jeux_videosv2\controllers\menucontroller.cpp
+	"MenuController.h"
+	"MenuView.h"
+
+1766768943 c:\projet_jeux_videosv2\controllers\menucontroller.h
+	<SFML/Graphics.hpp>
+	"MenuModel.h"
+
+1766768943 c:\projet_jeux_videosv2\views\menuview.h
+	<SFML/Graphics.hpp>
+	<vector>
+	<string>
+	"MenuModel.h"
+
+1766768506 source:c:\projet_jeux_videosv2\views\menuview.cpp
+	"MenuView.h"
 
