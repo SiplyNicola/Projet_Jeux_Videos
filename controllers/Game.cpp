@@ -172,21 +172,65 @@ void Game::handleCombat() {
 }
 
 void Game::handleCollisions() {
-    sf::Vector2f pPos = m_playerModel.getPosition();
-    sf::Vector2f pVel = m_playerModel.getVelocity();
-    std::vector<sf::FloatRect> walls = m_level.getNearbyWalls(pPos.x, pPos.y);
-    sf::FloatRect pBox = m_playerModel.getHitbox();
+    // 1. Get current player state and AABB bounds [cite: 55-57]
+    sf::Vector2f m_pPos = m_playerModel.getPosition();
+    sf::Vector2f m_pVel = m_playerModel.getVelocity();
+    sf::FloatRect m_pBounds = m_playerModel.getHitbox();
 
-    for (const auto& wall : walls) {
-        if (pBox.intersects(wall)) {
-            if (pVel.y > 0 && pBox.top + pBox.height < wall.top + 30) {
-                m_playerModel.setPosition(pPos.x, wall.top);
-                m_playerModel.setVelocity(sf::Vector2f(pVel.x, 0));
+    // 2. Fetch potential collision tiles from the level
+    std::vector<sf::FloatRect> m_nearbyWalls = m_level.getNearbyWalls(m_pPos.x, m_pPos.y);
 
-                if (m_playerModel.state == PlayerState::JUMP || m_playerModel.state == PlayerState::FALL) {
-                    m_playerModel.state = (std::abs(pVel.x) > 0.5f) ? PlayerState::RUN : PlayerState::IDLE;
+    for (const auto& m_wall : m_nearbyWalls) {
+        sf::FloatRect m_overlap;
+
+        // 3. Check for Axis-Aligned Bounding Box intersection [cite: 147-152]
+        if (m_pBounds.intersects(m_wall, m_overlap)) {
+
+            // 4. Determine collision priority
+            // High-speed dashes or narrow overlaps prioritize side collisions
+            bool m_isSideCollision = (m_overlap.width < m_overlap.height) || m_playerModel.isDashing;
+
+            if (m_isSideCollision && std::abs(m_pVel.x) > 0.01f) {
+                // --- HORIZONTAL RESOLUTION (Walls) ---
+                if (m_pVel.x > 0) {
+                    // Player moving RIGHT: snap to the left side of the wall [cite: 807]
+                    m_playerModel.setPosition(m_wall.left - m_pBounds.width / 2.0f, m_pPos.y);
+                }
+                else if (m_pVel.x < 0) {
+                    // Player moving LEFT: snap to the right side of the wall [cite: 808]
+                    m_playerModel.setPosition(m_wall.left + m_wall.width + m_pBounds.width / 2.0f, m_pPos.y);
+                }
+
+                // Reset horizontal velocity and cancel dash on impact
+                m_playerModel.setVelocity(sf::Vector2f(0.0f, m_pVel.y));
+
+                if (m_playerModel.isDashing) {
+                    m_playerModel.isDashing = false;
+                    m_playerModel.state = PlayerState::IDLE;
                 }
             }
+            else {
+                // --- VERTICAL RESOLUTION (Floor / Ceiling) ---
+                if (m_pVel.y > 0) {
+                    // Player falling: snap to the top of the wall [cite: 809]
+                    m_playerModel.setPosition(m_pPos.x, m_wall.top);
+                    m_playerModel.setVelocity(sf::Vector2f(m_pVel.x, 0.0f));
+
+                    // Transition from airborne states to ground states
+                    if (m_playerModel.state == PlayerState::JUMP || m_playerModel.state == PlayerState::FALL) {
+                        m_playerModel.state = (std::abs(m_pVel.x) > 0.5f) ? PlayerState::RUN : PlayerState::IDLE;
+                    }
+                }
+                else if (m_pVel.y < 0) {
+                    // Player jumping: snap to the bottom of the wall [cite: 810]
+                    m_playerModel.setPosition(m_pPos.x, m_wall.top + m_wall.height + m_pBounds.height);
+                    m_playerModel.setVelocity(sf::Vector2f(m_pVel.x, 0.0f));
+                }
+            }
+
+            // 5. Update local bounds for the next potential wall in the loop
+            m_pBounds = m_playerModel.getHitbox();
+            m_pPos = m_playerModel.getPosition();
         }
     }
 }
