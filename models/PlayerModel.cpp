@@ -17,6 +17,7 @@ PlayerModel::PlayerModel() : Character(5, 7.0f, 1) { // 5 PV, 7.0 vitesse, 1 dég
     isDashing = false;
     dashDurationTimer = 0.0f;
     m_hasDealtDamage = false;
+    m_isGrounded = false;
 }
 
 void PlayerModel::move(float dirX) {
@@ -34,10 +35,11 @@ void PlayerModel::move(float dirX) {
 }
 
 void PlayerModel::jump() {
-    // On ne peut sauter que si on touche le sol (vitesse verticale proche de 0)
-    if (std::abs(m_velocity.y) < 0.1f && state != PlayerState::DEAD && !isDashing) {
+    // Only allow jump if the player is grounded and not dead/dashing
+    if (m_isGrounded && state != PlayerState::DEAD && !isDashing) {
         m_velocity.y = JUMP_FORCE;
         state = PlayerState::JUMP;
+        m_isGrounded = false; // Immediately set to false after jumping
     }
 }
 
@@ -72,6 +74,8 @@ void PlayerModel::takeDamage(int amount) {
 
 void PlayerModel::update(float deltaTime) {
     if (state == PlayerState::DEAD) return;
+
+    m_isGrounded = false;
 
     if (dashCooldownTimer > 0) dashCooldownTimer -= deltaTime;
 

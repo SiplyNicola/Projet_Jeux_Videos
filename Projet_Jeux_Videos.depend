@@ -1405,7 +1405,7 @@
 1764973044 source:c:\projetjeuxvideo\projet_jeux_videos\models\levelmodel.cpp
 	"LevelModel.h"
 
-1766762284 source:c:\projet_jeux_videosv2\controllers\game.cpp
+1766762480 source:c:\projet_jeux_videosv2\controllers\game.cpp
 	"Game.h"
 	<iostream>
 	<cmath>
@@ -1835,7 +1835,7 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1766150320 c:\projet_jeux_videosv2\models\playermodel.h
+1766762792 c:\projet_jeux_videosv2\models\playermodel.h
 	<SFML/System/Vector2.hpp>
 	<SFML/Graphics/Rect.hpp>
 	"Character.h"
@@ -1890,7 +1890,7 @@
 1765892551 source:c:\projet_jeux_videosv2\models\levelmodel.cpp
 	"LevelModel.h"
 
-1766157116 source:c:\projet_jeux_videosv2\models\playermodel.cpp
+1766762926 source:c:\projet_jeux_videosv2\models\playermodel.cpp
 	"PlayerModel.h"
 	<cmath>
 
