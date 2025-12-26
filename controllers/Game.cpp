@@ -176,20 +176,23 @@ void Game::handleCollisions() {
     sf::Vector2f m_pVel = m_playerModel.getVelocity();
     sf::FloatRect m_pBounds = m_playerModel.getHitbox();
 
-    // Fetch potential collision tiles
+    // Fetch nearby wall AABBs
     std::vector<sf::FloatRect> m_nearbyWalls = m_level.getNearbyWalls(m_pPos.x, m_pPos.y);
 
     for (const auto& m_wall : m_nearbyWalls) {
         sf::FloatRect m_overlap;
         if (m_pBounds.intersects(m_wall, m_overlap)) {
 
-            // 1. Determine collision type based on intersection shape
+            // 1. Determine collision priority based on intersection shape
             bool m_isSideCollision = (m_overlap.width < m_overlap.height) || m_playerModel.isDashing;
 
             if (m_isSideCollision && std::abs(m_pVel.x) > 0.01f) {
-                // --- SIDE COLLISIONS (Walls) ---
-                if (m_pVel.x > 0) m_playerModel.setPosition(m_wall.left - m_pBounds.width / 2.0f, m_pPos.y);
-                else if (m_pVel.x < 0) m_playerModel.setPosition(m_wall.left + m_wall.width + m_pBounds.width / 2.0f, m_pPos.y);
+                // --- SIDE RESOLUTION ---
+                if (m_pVel.x > 0) {
+                    m_playerModel.setPosition(m_wall.left - m_pBounds.width / 2.0f, m_pPos.y);
+                } else if (m_pVel.x < 0) {
+                    m_playerModel.setPosition(m_wall.left + m_wall.width + m_pBounds.width / 2.0f, m_pPos.y);
+                }
 
                 m_playerModel.setVelocity(sf::Vector2f(0.0f, m_pVel.y));
 
@@ -197,32 +200,32 @@ void Game::handleCollisions() {
                     m_playerModel.isDashing = false;
                     m_playerModel.state = PlayerState::IDLE;
                 }
-                // CRITICAL: We do NOT set m_isGrounded here
             }
             else {
-                // --- VERTICAL COLLISIONS ---
-                if (m_pVel.y >= 0) { // Moving down or falling
-                    // STRICT CHECK: Only ground the player if their feet are near the top of the block
+                // --- VERTICAL RESOLUTION ---
+                if (m_pVel.y >= 0) { // Landing or falling
+                    // Check if feet are near the top of the block
                     if (m_pBounds.top + m_pBounds.height <= m_wall.top + 15.0f) {
-                        m_playerModel.setPosition(m_pPos.x, m_wall.top);
+                        // SNAP: Use a tiny offset to keep the player just above the surface
+                        // This prevents the "jitter" on the next frame
+                        m_playerModel.setPosition(m_pPos.x, m_wall.top - 0.01f);
                         m_playerModel.setVelocity(sf::Vector2f(m_pVel.x, 0.0f));
 
-                        m_playerModel.m_isGrounded = true; // Now jump is enabled
+                        m_playerModel.m_isGrounded = true;
 
                         if (m_playerModel.state == PlayerState::JUMP || m_playerModel.state == PlayerState::FALL) {
                             m_playerModel.state = (std::abs(m_pVel.x) > 0.5f) ? PlayerState::RUN : PlayerState::IDLE;
                         }
                     }
                 }
-                else if (m_pVel.y < 0) { // Hitting a Ceiling
-                    // Ensure we only snap to ceiling if we are actually below the block [cite: 810]
+                else if (m_pVel.y < 0) { // Hitting a ceiling
                     if (m_pBounds.top >= m_wall.top + m_wall.height - 15.0f) {
-                        m_playerModel.setPosition(m_pPos.x, m_wall.top + m_wall.height + m_pBounds.height);
+                        m_playerModel.setPosition(m_pPos.x, m_wall.top + m_wall.height + m_pBounds.height + 0.01f);
                         m_playerModel.setVelocity(sf::Vector2f(m_pVel.x, 0.0f));
                     }
                 }
             }
-            // Update local variables for the next wall check in this frame
+            // Update local variables for the next wall check in the loop
             m_pBounds = m_playerModel.getHitbox();
             m_pPos = m_playerModel.getPosition();
         }
