@@ -1,5 +1,5 @@
 #include "MenuView.h"
-#include <algorithm> // For std::min
+#include <cmath> // For sin() function (pulsation animation)
 
 MenuView::MenuView() {}
 
@@ -8,16 +8,14 @@ bool MenuView::init(sf::RenderWindow& window) {
     if (!m_backgroundTexture.loadFromFile("resources/MainMenu.png")) return false;
     m_backgroundSprite.setTexture(m_backgroundTexture);
 
-    // LESS DARK BACKGROUND: Dim the sprite color (180 is brighter than 100)
-    m_backgroundSprite.setColor(sf::Color(180, 180, 180));
+    // Darken the background slightly to make the yellow text pop
+    m_backgroundSprite.setColor(sf::Color(150, 150, 150));
 
-    // CENTER AND SCALE: Make sure the whole image fits the window
     sf::Vector2u m_texSize = m_backgroundTexture.getSize();
     sf::Vector2u m_winSize = window.getSize();
     float m_scaleX = (float)m_winSize.x / m_texSize.x;
     float m_scaleY = (float)m_winSize.y / m_texSize.y;
 
-    // Use full window scaling to ensure visibility
     m_backgroundSprite.setScale(m_scaleX, m_scaleY);
     m_backgroundSprite.setPosition(0, 0);
 
@@ -29,15 +27,20 @@ bool MenuView::init(sf::RenderWindow& window) {
         sf::Text m_text;
         m_text.setFont(m_font);
         m_text.setString(m_labels[i]);
-        m_text.setCharacterSize(30);
+        m_text.setCharacterSize(35);
 
-        // Center text origin for perfect alignment
+        // --- REQUESTED STYLE: YELLOW WITH RED OUTLINE ---
+        m_text.setFillColor(sf::Color::Yellow);
+        m_text.setOutlineColor(sf::Color::Red);
+        m_text.setOutlineThickness(3.0f); // Clearly visible outline
+
+        // Center text origin
         sf::FloatRect m_textBounds = m_text.getLocalBounds();
         m_text.setOrigin(m_textBounds.left + m_textBounds.width / 2.0f,
                          m_textBounds.top + m_textBounds.height / 2.0f);
 
-        // Position texts vertically in the center
-        m_text.setPosition(m_winSize.x / 2.0f, m_winSize.y * 0.65f + (i * 80.0f));
+        // Vertical positioning
+        m_text.setPosition(m_winSize.x / 2.0f, m_winSize.y * 0.60f + (i * 90.0f));
         m_optionsTexts.push_back(m_text);
     }
     return true;
@@ -46,17 +49,36 @@ bool MenuView::init(sf::RenderWindow& window) {
 void MenuView::draw(sf::RenderWindow& window, const MenuModel& m_model) {
     window.draw(m_backgroundSprite);
 
+    // Calculate pulse factor based on time (oscillates between 1.0 and 1.15)
+    float time = m_animationClock.getElapsedTime().asSeconds();
+    float pulse = 1.0f + std::sin(time * 6.0f) * 0.08f;
+
     for (int i = 0; i < (int)m_optionsTexts.size(); ++i) {
-        // Visual Feedback based on selection
         if (i == m_model.getSelectedIndex()) {
-            // HOVER STATE: White color and bigger scale
-            m_optionsTexts[i].setFillColor(sf::Color::White);
-            m_optionsTexts[i].setScale(1.25f, 1.25f);
+            // --- ANIMATION IF SELECTED ---
+            m_optionsTexts[i].setScale(pulse * 1.2f, pulse * 1.2f); // Scaling up + Pulse effect
+            m_optionsTexts[i].setOutlineColor(sf::Color(255, 50, 50)); // Brighter red
+            m_optionsTexts[i].setFillColor(sf::Color(255, 255, 200));   // Lighter yellow (glow)
+
+            // Add dynamic arrows to the selected text
+            std::string originalStr = (i == 0 ? "START GAME" : (i == 1 ? "OPTIONS" : "EXIT"));
+            m_optionsTexts[i].setString("> " + originalStr + " <");
         } else {
-            // DEFAULT STATE: Yellow color and normal scale
-            m_optionsTexts[i].setFillColor(sf::Color::Yellow);
+            // --- NORMAL STATE ---
             m_optionsTexts[i].setScale(1.0f, 1.0f);
+            m_optionsTexts[i].setFillColor(sf::Color::Yellow);
+            m_optionsTexts[i].setOutlineColor(sf::Color::Red);
+
+            // Reset to original text without arrows
+            std::string originalStr = (i == 0 ? "START GAME" : (i == 1 ? "OPTIONS" : "EXIT"));
+            m_optionsTexts[i].setString(originalStr);
         }
+
+        // Re-center origin in case the string length changed (due to arrows)
+        sf::FloatRect m_textBounds = m_optionsTexts[i].getLocalBounds();
+        m_optionsTexts[i].setOrigin(m_textBounds.left + m_textBounds.width / 2.0f,
+                                    m_textBounds.top + m_textBounds.height / 2.0f);
+
         window.draw(m_optionsTexts[i]);
     }
 }

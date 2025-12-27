@@ -1,38 +1,27 @@
 #include <SFML/Graphics.hpp>
-#include "MenuModel.h"
-#include "MenuView.h"
 #include "MenuController.h"
 #include "Game.h"
 
 int main() {
-    sf::RenderWindow m_window(sf::VideoMode(1920, 1080), "Whisper of Steel");
+    sf::RenderWindow m_window(sf::VideoMode::getDesktopMode(), "Whisper of Steel", sf::Style::Fullscreen);
     m_window.setFramerateLimit(60);
 
-    MenuModel m_menuModel;
-    MenuView m_menuView;
     MenuController m_menuController;
 
-    // Call init with the window reference
-    if (!m_menuView.init(m_window)) return -1;
+    // --- BOUCLE GLOBALE DE L'APPLICATION ---
+    while (m_window.isOpen()) {
 
-    // --- MENU LOOP ---
-    while (m_window.isOpen() && !m_menuModel.isGameStarted()) {
-        sf::Event m_event;
-        while (m_window.pollEvent(m_event)) {
-            if (m_event.type == sf::Event::Closed) m_window.close();
-            m_menuController.handleInput(m_window, m_event, m_menuModel, m_menuView);
+        // 1. On lance le menu. Le code s'arrête ici tant qu'on n'a pas cliqué sur "Start"
+        m_menuController.run(m_window);
+
+        // 2. Si on arrive ici, c'est que le menu est fini.
+        // On vérifie si la fenêtre est toujours ouverte (si on n'a pas cliqué sur EXIT)
+        if (m_window.isOpen()) {
+            Game m_game(m_window); // On crée une NOUVELLE instance de jeu
+            m_game.run();          // On lance le jeu. Quand le joueur meurt, cette fonction s'arrête.
         }
 
-        m_window.clear();
-        m_menuView.draw(m_window, m_menuModel);
-        m_window.display();
-    }
-
-    // --- TRANSITION TO GAME ---
-    if (m_menuModel.isGameStarted()) {
-        // Create the game instance and run the main loop
-        Game m_game;
-        m_game.run();
+        // 3. Une fois m_game.run() terminé, la boucle 'while' repart au début et relance m_menuController.run()!
     }
 
     return 0;

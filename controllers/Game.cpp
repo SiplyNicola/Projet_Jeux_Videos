@@ -2,9 +2,8 @@
 #include <iostream>
 #include <cmath>
 
-Game::Game() : m_background(sf::Vector2u(1280, 720)), m_plantModel({100.0f, 2520.0f}) {
-    m_window.create(sf::VideoMode(1920, 1080), "Whisper of Steel - Final");
-    m_window.setFramerateLimit(60);
+Game::Game(sf::RenderWindow& window) :m_window(window), m_background(sf::Vector2u(1280, 720)), m_plantModel({100.0f, 2520.0f}) {
+
     m_camera.setSize(1280, 720);
 
     // Initialisation
@@ -28,6 +27,12 @@ void Game::run() {
         processEvents();
         update(dt);
         render();
+
+        // CONDITION DE SORTIE : Si le joueur est mort, on quitte la fonction run()
+        if (m_playerModel.isDead()) {
+            sf::sleep(sf::seconds(1.0f)); // Petit délai pour voir la mort
+            return; // On sort de Game::run() pour retourner dans le main()
+        }
     }
 }
 
@@ -75,6 +80,7 @@ void Game::update(float dt) {
         m_playerModel.setPosition(100.0f, 2520.0f);
         m_playerModel.setVelocity(sf::Vector2f(0.0f, 0.0f));
         m_playerModel.state = PlayerState::IDLE;
+        m_playerModel.takeDamage(1);
     }
 
     // 4. Mise à jour des vues

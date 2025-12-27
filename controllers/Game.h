@@ -20,10 +20,11 @@
 
 class Game {
 public:
-    Game();
+    Game(sf::RenderWindow& window);
     void run();
 
 private:
+
     void processEvents();
     void update(float dt);
     void render();
@@ -32,7 +33,7 @@ private:
     void handleCombat(); // Nouvelle méthode pour les dégâts
     void handleSnakeCollisions();
 
-    sf::RenderWindow m_window;
+    sf::RenderWindow& m_window;
     sf::View m_camera;
 
     View::Background m_background;

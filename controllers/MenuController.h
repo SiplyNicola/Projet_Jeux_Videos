@@ -3,12 +3,13 @@
 
 #include <SFML/Graphics.hpp>
 #include "MenuModel.h"
-
-// Forward declaration to avoid circular inclusion
-class MenuView;
+#include "MenuView.h"
 
 class MenuController {
 public:
+    // Main method to launch and manage the entire menu loop
+    void run(sf::RenderWindow& window);
+
     // Handles mouse and keyboard inputs for the menu
     void handleInput(sf::RenderWindow& window, sf::Event& event, MenuModel& model, const MenuView& view);
 };
