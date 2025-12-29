@@ -23,7 +23,7 @@ Game::Game(sf::RenderWindow& window) :m_window(window), m_background(sf::Vector2
 
     // DEFINE LA PORTE : � la fin de ta map for�t (ajuste le X selon ta map)
     // Ici je mets X=3000 (fin suppos�e) et une boite haute
-    m_nextLevelTrigger = sf::FloatRect(3000.0f, 0.0f, 100.0f, 1000.0f);
+    //m_nextLevelTrigger = sf::FloatRect(3000.0f, 0.0f, 100.0f, 1000.0f);
 }
 
 void Game::run() {
@@ -70,13 +70,12 @@ void Game::update(float dt) {
     // On passe la position du joueur � l'IA du boss
     m_boss.updateBoss(dt, m_playerModel.getPosition());
     m_plantModel.update(dt);
-    m_plantView.update(dt, m_plantModel); // Note: d�j� mis � jour plus bas dans 'Mise � jour des vues'
+    //m_plantView.update(dt, m_plantModel); // Note: d�j� mis � jour plus bas dans 'Mise � jour des vues'
 
     // 2. V�RIFICATION DE LA MORT DU JOUEUR
     if (m_playerModel.isDead()) return;
 
     // 3. MISE � JOUR DU JOUEUR, DU BOSS ET DU SERPENT
-    m_playerModel.update(dt);
     m_boss.updateBoss(dt, m_playerModel.getPosition());
     m_snakeModel.update(dt, m_playerModel.getPosition());
 
@@ -311,7 +310,6 @@ void Game::render() {
         m_playerView.draw(m_window);
     }
 
-    m_hud.draw(m_window, m_playerModel.getHP());
     m_window.display();
 }
 

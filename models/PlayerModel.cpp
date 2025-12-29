@@ -36,11 +36,11 @@ void PlayerModel::move(float dirX) {
 
 void PlayerModel::jump() {
     // Only allow jump if the player is grounded and not dead/dashing
-    if (m_isGrounded && state != PlayerState::DEAD && !isDashing) {
+    //if (m_isGrounded && state != PlayerState::DEAD && !isDashing) {
         m_velocity.y = JUMP_FORCE;
         state = PlayerState::JUMP;
         m_isGrounded = false; // Immediately set to false after jumping
-    }
+    //}
 }
 
 void PlayerModel::attack() {

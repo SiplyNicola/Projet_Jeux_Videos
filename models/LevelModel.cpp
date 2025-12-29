@@ -68,17 +68,16 @@ void LevelModel::loadLevel(int levelId) {
         m_scale = 4.5f;     // <--- 16 * 4.5 = 72px (M�me taille physique que la for�t)
         // Une map plus ferm�e, style tunnel
         m_mapData = {
-            "54444444444444444444444444444444444444444444444446",
-            "2                                                3",
-            "2                                                3",
-            "2      L       R               L                 3",
-            "2    11111   11111           11111               3", // Plateformes
-            "2                                                3",
-            "2                                      R         3",
-            "2                                    11111       3",
-            "2      P                                         3",
-            "2    11111                                       3", // Le joueur arrive ici
-            "71111111111111111111111111111111111111111111111118"
+            "5444444444444444444444444446",
+            "2                          3",
+            "2      L       R     L     3",
+            "2    11111   11111  11111  3", // Plateformes
+            "2                          3",
+            "2              R           3",
+            "2             11111        3",
+            "2      P                   3",
+            "2    11111                 3", // Le joueur arrive ici
+            "7111111111111111111111111118"
 
         };
     }

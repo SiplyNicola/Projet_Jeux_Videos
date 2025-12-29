@@ -1,0 +1,11 @@
+# Ignorer les dossiers de compilation
+obj/
+bin/
+
+# Ignorer les fichiers objets et exécutables
+*.o
+*.exe
+
+# Ignorer les fichiers de config utilisateur CodeBlocks
+*.layout
+*.depend
