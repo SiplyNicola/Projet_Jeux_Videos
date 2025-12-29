@@ -16,6 +16,7 @@ public:
     float attackTimer;
     bool isDashing;
     float dashDurationTimer;
+    bool m_isGrounded;
 
     PlayerModel();
 
