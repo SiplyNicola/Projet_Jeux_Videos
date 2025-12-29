@@ -27,9 +27,12 @@ void LevelView::init() {
 
 void LevelView::build(const LevelModel& model) {
     const auto& map = model.getMapData();
+    if (map.empty()) return;
+
     int height = map.size();
     int width = map[0].size();
-    float ts = model.getTileSize();
+    float ts = model.getTileSize(); // Sera 24 ou 16 selon le niveau
+    int levelId = model.getLevelId(); // On récupère l'ID
 
     // Reset complet
     m_vertices.clear();
@@ -106,10 +109,26 @@ void LevelView::build(const LevelModel& model) {
 
             // Coordonnées UV (Texture Terrain)
             int tu = 0, tv = 0;
-            if (cell == '1')      { tu = 1; tv = 0; } // Herbe
-            else if (cell == '2') { tu = 1; tv = 1; } // Terre
-            else if (cell == '3') { tu = 0; tv = 1; } // Bord G
-            else if (cell == '4') { tu = 3; tv = 1; } // Bord D
+            if (levelId == 1){
+                if (cell == '1')      { tu = 1; tv = 0; } // Herbe
+                else if (cell == '2') { tu = 1; tv = 1; } // Terre
+                else if (cell == '3') { tu = 0; tv = 1; } // Bord G
+                else if (cell == '4') { tu = 3; tv = 1; } // Bord D
+            }
+
+            else if (levelId == 2) {
+                // --- LOGIQUE GROTTE (16x16) ---
+                // OUVRE TON FICHIER PNG GROTTE ET COMPTE LES CASES (commence à 0)
+                // Exemple hypothétique :
+                if (cell == '1')      { tu = 1; tv = 0; } // Sol centre
+                else if (cell == '2') { tu = 2; tv = 1; } // Mur gauche
+                else if (cell == '3') { tu = 0; tv = 1; } // mur droit
+                else if (cell == '4') { tu = 1; tv = 2; } // plafond
+                else if (cell == '5') { tu = 3; tv = 0; } // coin haut gauche
+                else if (cell == '6') { tu = 4; tv = 0; } // coin haut droit
+                else if (cell == '7') { tu = 3; tv = 1; } // coin bas gauche
+                else if (cell == '8') { tu = 4; tv = 1; } // coin bas droit
+            }
 
             float u = tu * ts;
             float v = tv * ts;
@@ -137,5 +156,11 @@ void LevelView::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     // 2. Ensuite les décorations (par dessus)
     for (const auto& deco : m_decorations) {
         target.draw(deco, states);
+    }
+}
+
+void LevelView::loadTileset(const std::string& path) {
+    if (!m_tileset.loadFromFile(path)) {
+        std::cerr << "ERREUR : Impossible de charger le tileset " << path << std::endl;
     }
 }

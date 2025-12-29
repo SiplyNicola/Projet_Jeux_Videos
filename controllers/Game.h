@@ -26,6 +26,7 @@ private:
     void handleCollisions();
     void handleBossCollisions();
     void handleCombat(); // Nouvelle méthode pour les dégâts
+    void loadCaveLevel(); // <--- AJOUT : Fonction pour changer de niveau
 
     sf::RenderWindow m_window;
     sf::View m_camera;
@@ -42,6 +43,10 @@ private:
     BossView m_bossView;
     LevelModel m_level;
     LevelView m_levelView;
+
+    // <--- AJOUT : Variables pour gérer le niveau
+    int m_currentLevelId;
+    sf::FloatRect m_nextLevelTrigger;
 };
 
 #endif

@@ -25,9 +25,24 @@ void HudView::init() {
     float heartScale = 0.12f;
     m_fullHeart.setScale(heartScale, heartScale);
     m_emptyHeart.setScale(heartScale, heartScale);
+
+    // --- AJOUT : CONFIGURATION DU TEXTE DE DEBUG ---
+
+    // 1. Charger la police (Mets un fichier .ttf valide ici !)
+    // Si tu n'as pas de dossier fonts, crée-le ou change le chemin.
+    if (!m_font.loadFromFile("resources/fonts/PTBLDDSK.ttf")) {
+        std::cerr << "ERREUR : Police introuvable (resources/fonts/PTBLDDSK.ttf)" << std::endl;
+        // Pas de return ici, sinon le jeu plante si la police manque.
+        // Le texte ne s'affichera juste pas.
+    }
+
+    m_coordText.setFont(m_font);
+    m_coordText.setCharacterSize(24); // Taille du texte
+    m_coordText.setFillColor(sf::Color::Yellow); // Jaune pour bien le voir sur fond gris
+    m_coordText.setPosition(20.0f, 130.0f); // Positionné en dessous des cœurs
 }
 
-void HudView::draw(sf::RenderWindow& window, int currentHearts) {
+void HudView::draw(sf::RenderWindow& window, int currentHearts, sf::Vector2f playerPos) {
     // Sauvegarde de la vue caméra
     sf::View oldView = window.getView();
 
@@ -49,6 +64,14 @@ void HudView::draw(sf::RenderWindow& window, int currentHearts) {
             window.draw(m_emptyHeart);
         }
     }
+
+    // 2. Dessin des coordonnées (AJOUT)
+    // On convertit en int pour éviter les virgules (150.43 -> 150)
+    std::string coordString = "X: " + std::to_string((int)playerPos.x) +
+                              "  Y: " + std::to_string((int)playerPos.y);
+
+    m_coordText.setString(coordString);
+    window.draw(m_coordText);
 
     // Retour à la vue du jeu
     window.setView(oldView);

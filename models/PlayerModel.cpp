@@ -33,10 +33,10 @@ void PlayerModel::move(float dirX) {
 void PlayerModel::jump() {
     // CORRECTION : On ne vérifie plus la hauteur (Y), mais l'état.
     // Si on n'est pas déjà en train de sauter ou de tomber, on peut sauter.
-    if (std::abs(m_velocity.y) < 0.1f && state != PlayerState::ATTACK && !isDashing) {
+    //if (std::abs(m_velocity.y) < 0.1f && state != PlayerState::ATTACK && !isDashing) {
         m_velocity.y = JUMP_FORCE;
         state = PlayerState::JUMP;
-    }
+    //}
 }
 
 void PlayerModel::attack() {

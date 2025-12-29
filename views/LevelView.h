@@ -21,6 +21,9 @@ public:
     void init();
     void build(const LevelModel& model);
 
+    // AJOUT : Pour charger une nouvelle image de tileset
+    void loadTileset(const std::string& path);
+
 protected:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 };

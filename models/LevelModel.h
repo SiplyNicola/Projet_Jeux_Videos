@@ -8,7 +8,9 @@
 class LevelModel {
 public:
     LevelModel();
-    void loadLevel(); // Charge la map ASCII
+    // Ajout du paramètre levelId (1 par défaut)
+    void loadLevel(int levelId); // Charge la map ASCII
+    int getLevelId() const { return m_levelId; }
 
     // Renvoie la liste des murs autour d'une position (pour collision optimisée)
     std::vector<sf::FloatRect> getNearbyWalls(float x, float y) const;
@@ -22,5 +24,6 @@ private:
     std::vector<std::string> m_mapData;
     float m_tileSize;
     float m_scale;
+    int m_levelId;
 };
 #endif

@@ -8,16 +8,22 @@ Game::Game() : m_background(sf::Vector2u(1280, 720)) {
     m_window.setFramerateLimit(60);
     m_camera.setSize(1280, 720);
 
+    m_currentLevelId = 1; // On commence niveau 1
+
     // Initialisation
     m_bossView.init();
     m_levelView.init();
-    m_level.loadLevel();
+    m_level.loadLevel(1); // <--- On charge explicitement le niveau 1
     m_levelView.build(m_level);
     m_hud.init();
 
     m_background.addLayer("resources/oak_woods_v1.0/background/background_layer_1.png");
     m_background.addLayer("resources/oak_woods_v1.0/background/background_layer_2.png");
     m_background.addLayer("resources/oak_woods_v1.0/background/background_layer_3.png");
+
+    // DEFINE LA PORTE : À la fin de ta map forêt (ajuste le X selon ta map)
+    // Ici je mets X=3000 (fin supposée) et une boite haute
+    m_nextLevelTrigger = sf::FloatRect(3000.0f, 0.0f, 100.0f, 1000.0f);
 }
 
 void Game::run() {
@@ -43,6 +49,16 @@ void Game::processEvents() {
 }
 
 void Game::update(float dt) {
+
+    // --- DETECTION CHANGEMENT DE NIVEAU ---
+    if (m_currentLevelId == 1) {
+        // Si le joueur touche la porte invisible
+        if (m_playerModel.getHitbox().intersects(m_nextLevelTrigger)) {
+            loadCaveLevel();
+            return; // On arrête l'update pour cette frame pour éviter les bugs
+        }
+    }
+
     // 1. Mise à jour des modèles
     m_playerModel.update(dt);
     // On passe la position du joueur à l'IA du boss
@@ -168,7 +184,31 @@ void Game::render() {
     m_window.draw(m_levelView);
     m_bossView.draw(m_window);
     m_playerView.draw(m_window);
-    m_hud.draw(m_window, m_playerModel.getHP());
+    m_hud.draw(m_window, m_playerModel.getHP(), m_playerModel.getPosition());
 
     m_window.display();
+}
+
+void Game::loadCaveLevel() {
+    std::cout << "--- TRANSITION VERS LA GROTTE ---" << std::endl;
+
+    m_currentLevelId = 2;
+
+    // 1. Changer les données du niveau
+    m_level.loadLevel(2);     // Charge le tableau de la grotte (dans LevelModel)
+
+    m_levelView.loadTileset("resources/Tileset_Cave.png");
+
+    m_levelView.build(m_level); // Reconstruit l'image (LevelView)
+
+    // 2. Changer le Background (On suppose que tu as ajouté clearLayers dans Background.h)
+    // m_background.clearLayers();
+    // m_background.addLayer("resources/cave_bg.png"); // Si tu as une image
+
+    // 3. Replacer le joueur au début de la grotte
+    m_playerModel.setPosition(100.0f, 300.0f);
+    m_playerModel.setVelocity(sf::Vector2f(0, 0));
+
+    // 4. Placer le Boss (Il t'attend plus loin dans la grotte)
+    m_boss.setPosition(600.0f, 400.0f);
 }
