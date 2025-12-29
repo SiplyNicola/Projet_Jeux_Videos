@@ -13,7 +13,7 @@ void SnakeView::init() {
     m_sprite.setOrigin(FRAME_SIZE / 2.0f, (float)FRAME_SIZE);
 
     // On agrandit x4 car l'image est toute petite (16px)
-    m_sprite.setScale(4.0f, 4.0f);
+    m_sprite.setScale(2.0f, 2.0f);
 }
 
 void SnakeView::update(float dt, const SnakeModel& model) {
@@ -23,9 +23,9 @@ void SnakeView::update(float dt, const SnakeModel& model) {
     // Si regarde à droite : Echelle positive
     // Si regarde à gauche : Echelle négative en X (Miroir)
     if (model.isFacingRight()) {
-        m_sprite.setScale(4.0f, 4.0f);
+        m_sprite.setScale(2.0f, 2.0f);
     } else {
-        m_sprite.setScale(-4.0f, 4.0f);
+        m_sprite.setScale(-2.0f, 2.0f);
     }
 
     // 2. Animation

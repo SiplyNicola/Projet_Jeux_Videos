@@ -3,3 +3,4 @@ bin/Debug/Projet_Jeux_Videos.exe
 obj/Debug/models/LevelModel.o
 obj/Debug/views/LevelView.o
 Projet_Jeux_Videos.depend
+obj/Debug/views/SnakeView.o
