@@ -1237,12 +1237,12 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1767295926 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\game.cpp
+1767299846 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\game.cpp
 	"Game.h"
 	<iostream>
 	<cmath>
 
-1767295436 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\game.h
+1767299846 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\game.h
 	<SFML/Graphics.hpp>
 	<vector>
 	"../models/PlayerModel.h"
@@ -1258,6 +1258,8 @@
 	"../views/PlantView.h"
 	"../models/SnakeModel.h"
 	"../views/SnakeView.h"
+	"../models/SpiderModel.h"
+	"../views/SpiderView.h"
 	"PauseModel.h"
 	"PauseView.h"
 	"PauseController.h"
@@ -1314,7 +1316,7 @@
 	"PlayerView.h"
 	<iostream>
 
-1765660137 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\bossview.cpp
+1767296499 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\bossview.cpp
 	"BossView.h"
 	<iostream>
 
@@ -2011,7 +2013,7 @@
 1767045465 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\plantmodel.cpp
 	"PlantModel.h"
 
-1767278210 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\snakemodel.cpp
+1767299846 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\snakemodel.cpp
 	"SnakeModel.h"
 	<cmath>
 
@@ -2778,4 +2780,11 @@
 1767298329 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\spiderview.cpp
 	"SpiderView.h"
 	<iostream>
+
+1767299846 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\spidermodel.h
+	"Character.h"
+
+1767299846 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\spiderview.h
+	<SFML/Graphics.hpp>
+	"../models/SpiderModel.h"
 
