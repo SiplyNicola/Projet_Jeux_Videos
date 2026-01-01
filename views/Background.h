@@ -33,5 +33,9 @@ namespace View {
 
         // Updates the position of the background based on the camera position.
         void update(float cameraX, float cameraY);
+
+        void clearLayers() {
+            m_layers.clear();
+        }
     };
 }

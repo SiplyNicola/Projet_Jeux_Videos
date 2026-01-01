@@ -20,6 +20,7 @@ public:
     sf::FloatRect getHitbox() const override;
     BossState getState() const;
     float getStateTimer() const { return m_stateTimer; }
+    void reset(float x, float y);
 
 
 private:

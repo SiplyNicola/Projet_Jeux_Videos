@@ -44,7 +44,7 @@ Game::Game(sf::RenderWindow& window) :m_window(window), m_background(sf::Vector2
 
     // DEFINE LA PORTE : � la fin de ta map for�t (ajuste le X selon ta map)
     // Ici je mets X=3000 (fin suppos�e) et une boite haute
-    //m_nextLevelTrigger = sf::FloatRect(3000.0f, 0.0f, 100.0f, 1000.0f);
+    m_nextLevelTrigger = sf::FloatRect(3000.0f, 0.0f, 100.0f, 1000.0f);
 }
 
 void Game::run() {
@@ -89,7 +89,12 @@ void Game::update(float dt) {
     // 1. Mise � jour des mod�les
     m_playerModel.update(dt);
     // On passe la position du joueur � l'IA du boss
-    m_boss.updateBoss(dt, m_playerModel.getPosition());
+
+    // On update le Boss SEULEMENT si on est niveau 2
+    if (m_currentLevelId == 2) {
+        m_boss.updateBoss(dt, m_playerModel.getPosition());
+    }
+
     m_plantModel.update(dt);
     //m_plantView.update(dt, m_plantModel); // Note: d�j� mis � jour plus bas dans 'Mise � jour des vues'
 
@@ -97,7 +102,7 @@ void Game::update(float dt) {
     if (m_playerModel.isDead()) return;
 
     // 3. MISE � JOUR DU JOUEUR, DU BOSS ET DU SERPENT
-    m_boss.updateBoss(dt, m_playerModel.getPosition());
+    //m_boss.updateBoss(dt, m_playerModel.getPosition());
     for (auto& snake : m_snakes) {
         snake.update(dt, m_playerModel.getPosition());
     }
@@ -112,7 +117,10 @@ void Game::update(float dt) {
 
     // 2. Traitement des interactions (Collisions & Combat)
     handleCollisions();
-    handleBossCollisions();
+    // Collisions Boss seulement au niveau 2
+    if (m_currentLevelId == 2) {
+        handleBossCollisions();
+    }
     handleCombat();
     handleSnakeCollisions();
 
@@ -128,7 +136,9 @@ void Game::update(float dt) {
     // 4. Mise � jour des vues
     m_plantView.update(dt, m_plantModel);
     m_playerView.updateAnimation(m_playerModel, dt);
-    m_bossView.update(dt, m_boss);
+    if (m_currentLevelId == 2) {
+        m_bossView.update(dt, m_boss);
+    }
 
     // CORRECTION ICI : On utilise bien m_snakeModel
     for (size_t i = 0; i < m_snakes.size(); i++) {
@@ -153,24 +163,43 @@ void Game::update(float dt) {
 }
 
 void Game::handleCombat() {
-    // A. LE JOUEUR ATTAQUE LE BOSS
-    if (m_playerModel.state == PlayerState::ATTACK && !m_playerModel.m_hasDealtDamage) {
-        if (m_playerModel.attackTimer > 0.1f) {
-            sf::FloatRect pBox = m_playerModel.getHitbox();
-            float range = 50.0f;
-            sf::FloatRect hitzone(
-                m_playerModel.isFacingRight() ? pBox.left + pBox.width : pBox.left - range,
-                pBox.top, range, pBox.height
-            );
+    if (m_currentLevelId == 2) {
+        // A. LE JOUEUR ATTAQUE LE BOSS
+        if (m_playerModel.state == PlayerState::ATTACK && !m_playerModel.m_hasDealtDamage) {
+            if (m_playerModel.attackTimer > 0.1f) {
+                sf::FloatRect pBox = m_playerModel.getHitbox();
+                float range = 50.0f;
+                sf::FloatRect hitzone(
+                    m_playerModel.isFacingRight() ? pBox.left + pBox.width : pBox.left - range,
+                    pBox.top, range, pBox.height
+                );
 
-            if (hitzone.intersects(m_boss.getHitbox())) {
-                m_boss.takeDamage(m_playerModel.getAttackDamage());
-                m_playerModel.m_hasDealtDamage = true;
+                if (hitzone.intersects(m_boss.getHitbox())) {
+                    m_boss.takeDamage(m_playerModel.getAttackDamage());
+                    m_playerModel.m_hasDealtDamage = true;
+                }
+            }
+        }
+
+        // B. LE BOSS ATTAQUE LE JOUEUR (Maintenant c'est bien séparé)
+        if (m_boss.getState() == ATTACKING && !m_boss.m_hasDealtDamage) {
+            if (m_boss.getStateTimer() >= 0.5f) {
+                sf::FloatRect bBox = m_boss.getHitbox();
+                float bRange = 60.0f;
+                sf::FloatRect bHitzone(
+                    m_boss.isFacingRight() ? bBox.left + bBox.width : bBox.left - bRange,
+                    bBox.top, bRange, bBox.height
+                );
+
+                if (bHitzone.intersects(m_playerModel.getHitbox())) {
+                    m_playerModel.takeDamage(m_boss.getAttackDamage());
+                    m_boss.m_hasDealtDamage = true;
+                }
             }
         }
     }
 
-    // B. GESTION DES SERPENTS (BOUCLE)
+    // C. GESTION DES SERPENTS (BOUCLE)
     for (auto& snake : m_snakes) {
 
         // On ignore les morts
@@ -206,22 +235,6 @@ void Game::handleCombat() {
         }
     } // <--- C'est ici qu'on ferme la boucle des serpents !
 
-    // C. LE BOSS ATTAQUE LE JOUEUR (Maintenant c'est bien séparé)
-    if (m_boss.getState() == ATTACKING && !m_boss.m_hasDealtDamage) {
-        if (m_boss.getStateTimer() >= 0.5f) {
-            sf::FloatRect bBox = m_boss.getHitbox();
-            float bRange = 60.0f;
-            sf::FloatRect bHitzone(
-                m_boss.isFacingRight() ? bBox.left + bBox.width : bBox.left - bRange,
-                bBox.top, bRange, bBox.height
-            );
-
-            if (bHitzone.intersects(m_playerModel.getHitbox())) {
-                m_playerModel.takeDamage(m_boss.getAttackDamage());
-                m_boss.m_hasDealtDamage = true;
-            }
-        }
-    }
 }
 
 void Game::handleCollisions() {
@@ -334,7 +347,9 @@ void Game::render() {
     m_window.draw(m_background);
     m_window.draw(m_levelView);
     m_plantView.draw(m_window);
-    m_bossView.draw(m_window);
+    if (m_currentLevelId == 2) {
+        m_bossView.draw(m_window);
+    }
     m_playerView.draw(m_window);
     m_hud.draw(m_window, m_playerModel.getHP(), m_playerModel.getPosition());
 
@@ -365,13 +380,13 @@ void Game::loadCaveLevel() {
     m_levelView.build(m_level); // Reconstruit l'image (LevelView)
 
     // 2. Changer le Background (On suppose que tu as ajout� clearLayers dans Background.h)
-    // m_background.clearLayers();
-    // m_background.addLayer("resources/cave_bg.png"); // Si tu as une image
+    m_background.clearLayers();
+    m_background.addLayer("resources/cave_background.png");
 
     // 3. Replacer le joueur au d�but de la grotte
     m_playerModel.setPosition(100.0f, 300.0f);
     m_playerModel.setVelocity(sf::Vector2f(0, 0));
 
-    // 4. Placer le Boss (Il t'attend plus loin dans la grotte)
-    m_boss.setPosition(600.0f, 400.0f);
+    // Apparation du boss
+    m_boss.reset(600.0f, 400.0f);
 }

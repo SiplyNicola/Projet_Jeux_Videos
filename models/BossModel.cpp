@@ -86,3 +86,12 @@ BossState BossModel::getState() const { return m_state; }
 sf::FloatRect BossModel::getHitbox() const {
     return sf::FloatRect(m_position.x - 30, m_position.y - 50, 60, 100);
 }
+
+void BossModel::reset(float x, float y) {
+    setPosition(x, y);
+    m_hp = 13;       // On remet la vie à fond
+    m_state = IDLE;       // Il attend
+    m_hasDealtDamage = false;
+    m_velocity = sf::Vector2f(0, 0);
+    // Si tu as un timer d'attaque, remets-le à 0 ici aussi
+}
