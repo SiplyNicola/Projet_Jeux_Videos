@@ -2,7 +2,7 @@
 #include <cmath>
 
 SnakeModel::SnakeModel(float x, float y)
-    : Character(30, 50.0f, 10),
+    : Character(3, 50.0f, 1),
       m_state(SnakeState::WALK),
       m_stateTimer(0.0f),
       m_patrolTimer(0.0f),

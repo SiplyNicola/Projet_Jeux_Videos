@@ -2,7 +2,7 @@
 #include <cmath>
 
 SpiderModel::SpiderModel(float x, float y)
-    : Character(40, 120.0f, 20), // Un peu plus forte que le serpent
+    : Character(3, 50.0f, 1),
       m_state(SpiderState::HANGING),
       m_stateTimer(0.0f),
       m_anchorY(y),

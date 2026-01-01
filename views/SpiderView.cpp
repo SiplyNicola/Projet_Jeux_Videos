@@ -42,26 +42,35 @@ void SpiderView::update(float dt, const SpiderModel& model) {
         }
     }
 
-    // 3. CHOIX LIGNE SPRITESHEET
+
+   // 3. CHOIX LIGNE SPRITESHEET
     int row = 0;
     switch (model.getState()) {
         case SpiderState::HANGING:
-            row = 5; // Idle (Immobile au plafond)
+            row = 0; // <--- CHANGE ICI (Mets 0 au lieu de 5)
+            // On utilise l'image normale, elle sera juste inversée par le code scaleY
             break;
+
         case SpiderState::DROPPING:
-            row = 0; // Animation de marche (elle gigote en tombant)
+            row = 0;
             break;
+
         case SpiderState::WALK:
-            row = 0; // Marche au sol
+            row = 0; // Ou 1 si tu veux varier la marche
             break;
+
         case SpiderState::ATTACK:
-            row = 2; // Attaque
+            row = 2;
             break;
+
         case SpiderState::DEATH:
             row = 4;
             if (m_currentFrame >= 4) m_currentFrame = 4;
             break;
-        default: row = 0; break;
+
+        default:
+            row = 0;
+            break;
     }
 
     m_sprite.setTextureRect(sf::IntRect(

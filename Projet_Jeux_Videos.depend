@@ -2597,7 +2597,7 @@
 	"Background.h"
 	<iostream>
 
-1767296325 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\bossview.cpp
+1767297707 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\bossview.cpp
 	"BossView.h"
 	<iostream>
 
@@ -2625,7 +2625,7 @@
 	"SnakeView.h"
 	<iostream>
 
-1767296361 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\game.cpp
+1767298537 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\game.cpp
 	"Game.h"
 	<iostream>
 	<cmath>
@@ -2771,11 +2771,11 @@
 	<SFML/Graphics.hpp>
 	"../models/SpiderModel.h"
 
-1767296960 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\spidermodel.cpp
+1767298563 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\spidermodel.cpp
 	"SpiderModel.h"
 	<cmath>
 
-1767296995 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\spiderview.cpp
+1767298329 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\spiderview.cpp
 	"SpiderView.h"
 	<iostream>
 

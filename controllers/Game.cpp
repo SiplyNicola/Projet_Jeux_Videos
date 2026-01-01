@@ -38,9 +38,9 @@ Game::Game(sf::RenderWindow& window)
     m_spiderViews.clear();
     // Positions en HAUTEUR (Plafond).
     std::vector<sf::Vector2f> spiderPositions = {
-        {1600.0f, 2200.0f},
-        {1900.0f, 2150.0f},
-        {4500.0f, 2200.0f}
+        {1908.0f, 2400.0f}
+
+
     };
 
     for (const auto& pos : spiderPositions) {
@@ -225,7 +225,7 @@ void Game::handleCombat() {
 
             // On vérifie si l'épée touche CE serpent spécifique
             if (swordZone.intersects(snake.getHitbox())) {
-                snake.takeDamage(10);
+                snake.takeDamage(1);
                 snake.setState(SnakeState::HURT);
                 if (snake.getHP() <= 0) snake.setState(SnakeState::DEATH);
                 m_playerModel.m_hasDealtDamage = true;
@@ -256,7 +256,7 @@ void Game::handleCombat() {
             );
 
             if (swordZone.intersects(spider.getHitbox())) {
-                spider.takeDamage(10); // L'araignée a 40 HP
+                spider.takeDamage(1); // L'araignée a 40 HP
 
                 // Effet visuel : petit recul ou clignotement
                 if (spider.getState() != SpiderState::DROPPING && spider.getState() != SpiderState::HANGING) {
@@ -272,7 +272,7 @@ void Game::handleCombat() {
         // Elle ne mord que si elle est au sol (WALK/ATTACK) ou si elle te tombe dessus
         if (spider.getHitbox().intersects(m_playerModel.getHitbox())) {
             if (spider.canAttack()) {
-                m_playerModel.takeDamage(15);
+                m_playerModel.takeDamage(1);
                 spider.resetAttackCooldown();
             }
         }
