@@ -2,17 +2,22 @@
 #include <iostream>
 
 SnakeView::SnakeView() : m_animTimer(0), m_currentFrame(0) {}
-
+sf::Texture SnakeView::m_texture;
 void SnakeView::init() {
-    if (!m_texture.loadFromFile("resources/animals/spritesheet.png")) {
-        std::cerr << "ERREUR : Image introuvable !" << std::endl;
+    // --- MODIF 2 : On charge SEULEMENT si c'est vide ---
+    // (Sinon on rechargerait l'image 4 fois pour rien)
+    if (m_texture.getSize().x == 0) {
+        if (!m_texture.loadFromFile("resources/animals/spritesheet.png")) {
+             // Secours si le dossier resources est mal placé
+             if (!m_texture.loadFromFile("spritesheet.png")) {
+                 std::cerr << "ERREUR TEXTURE SERPENT" << std::endl;
+             }
+        }
     }
-    m_sprite.setTexture(m_texture);
+    // ---------------------------------------------------
 
-    // Origine au centre bas (pour que le miroir fonctionne bien)
+    m_sprite.setTexture(m_texture); // Là, ça marche car m_texture ne bougera plus !
     m_sprite.setOrigin(FRAME_SIZE / 2.0f, (float)FRAME_SIZE);
-
-    // On agrandit x4 car l'image est toute petite (16px)
     m_sprite.setScale(2.0f, 2.0f);
 }
 

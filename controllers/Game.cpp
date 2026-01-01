@@ -14,8 +14,29 @@ Game::Game(sf::RenderWindow& window) :m_window(window), m_background(sf::Vector2
     m_level.loadLevel(1); // <--- On charge explicitement le niveau 1
     m_levelView.build(m_level);
     m_plantView.init();
-    m_snakeView.init();
     m_hud.init();
+
+
+    // --- CREATION DES SERPENTS ---
+    m_snakes.clear();
+    m_snakeViews.clear();
+
+    // Liste des positions où tu veux faire apparaître des serpents
+    std::vector<sf::Vector2f> positions = {
+        {400.0f, 2520.0f},  // Serpent 1 (ta position d'origine)
+        {600.0f, 2520.0f},  // Serpent 2
+        {800.0f, 2520.0f},  // Serpent 3
+        {1200.0f, 2450.0f}  // Serpent 4
+    };
+
+    // On crée un serpent et une vue pour chaque position
+    for (const auto& pos : positions) {
+        m_snakes.emplace_back(pos.x, pos.y); // Crée le modèle
+
+        SnakeView view;
+        view.init(); // Charge l'image pour ce serpent
+        m_snakeViews.push_back(view); // Ajoute la vue à la liste
+    }
 
     m_background.addLayer("resources/oak_woods_v1.0/background/background_layer_1.png");
     m_background.addLayer("resources/oak_woods_v1.0/background/background_layer_2.png");
@@ -77,7 +98,9 @@ void Game::update(float dt) {
 
     // 3. MISE � JOUR DU JOUEUR, DU BOSS ET DU SERPENT
     m_boss.updateBoss(dt, m_playerModel.getPosition());
-    m_snakeModel.update(dt, m_playerModel.getPosition());
+    for (auto& snake : m_snakes) {
+        snake.update(dt, m_playerModel.getPosition());
+    }
 
     // --- LOGIQUE DE MORT PAR LA PLANTE ---
     if (m_plantModel.getState() == P_ATTACKING) {
@@ -108,7 +131,9 @@ void Game::update(float dt) {
     m_bossView.update(dt, m_boss);
 
     // CORRECTION ICI : On utilise bien m_snakeModel
-    m_snakeView.update(dt, m_snakeModel);
+    for (size_t i = 0; i < m_snakes.size(); i++) {
+        m_snakeViews[i].update(dt, m_snakes[i]);
+    }
 
     // 5. Cam�ra avec clamping
     float mapWidth = m_level.getMapData()[0].size() * 72.0f;
@@ -145,10 +170,13 @@ void Game::handleCombat() {
         }
     }
 
-    // B. GESTION DU SERPENT
-    if (m_snakeModel.getState() != SnakeState::DEATH) {
+    // B. GESTION DES SERPENTS (BOUCLE)
+    for (auto& snake : m_snakes) {
 
-        // 1. JOUEUR TAPPE SERPENT (Attaque �p�e)
+        // On ignore les morts
+        if (snake.getState() == SnakeState::DEATH) continue;
+
+        // 1. JOUEUR FRAPPE SERPENT
         if (m_playerModel.state == PlayerState::ATTACK && !m_playerModel.m_hasDealtDamage) {
             sf::FloatRect pBox = m_playerModel.getHitbox();
             float range = 50.0f;
@@ -157,28 +185,28 @@ void Game::handleCombat() {
                 pBox.top, range, pBox.height
             );
 
-            if (swordZone.intersects(m_snakeModel.getHitbox())) {
-                m_snakeModel.takeDamage(10);
-                m_snakeModel.setState(SnakeState::HURT);
-                if (m_snakeModel.getHP() <= 0) m_snakeModel.setState(SnakeState::DEATH);
+            // On vérifie si l'épée touche CE serpent spécifique
+            if (swordZone.intersects(snake.getHitbox())) {
+                snake.takeDamage(10);
+                snake.setState(SnakeState::HURT);
+                if (snake.getHP() <= 0) snake.setState(SnakeState::DEATH);
                 m_playerModel.m_hasDealtDamage = true;
             }
         }
 
-        // 2. SERPENT MORD JOUEUR (Avec D�lai et Ejection)
-        if (m_snakeModel.getState() != SnakeState::HURT &&
-            m_playerModel.getHitbox().intersects(m_snakeModel.getHitbox())) {
+        // 2. SERPENT MORD JOUEUR
+        if (snake.getState() != SnakeState::HURT &&
+            m_playerModel.getHitbox().intersects(snake.getHitbox())) {
 
-            // On v�rifie si le serpent peut attaquer (Cooldown fini ?)
-            if (m_snakeModel.canAttack()) {
-
+            if (snake.canAttack()) {
                 m_playerModel.takeDamage(1);
-                m_snakeModel.resetAttackCooldown(); // Reset du timer d'attaque
+                snake.resetAttackCooldown();
+
             }
         }
-    }
+    } // <--- C'est ici qu'on ferme la boucle des serpents !
 
-    // C. LE BOSS ATTAQUE LE JOUEUR
+    // C. LE BOSS ATTAQUE LE JOUEUR (Maintenant c'est bien séparé)
     if (m_boss.getState() == ATTACKING && !m_boss.m_hasDealtDamage) {
         if (m_boss.getStateTimer() >= 0.5f) {
             sf::FloatRect bBox = m_boss.getHitbox();
@@ -258,18 +286,27 @@ void Game::handleCollisions() {
 }
 
 void Game::handleSnakeCollisions() {
-    sf::Vector2f sPos = m_snakeModel.getPosition();
-    sf::Vector2f sVel = m_snakeModel.getVelocity();
-    std::vector<sf::FloatRect> walls = m_level.getNearbyWalls(sPos.x, sPos.y);
-    sf::FloatRect snakeBox = m_snakeModel.getHitbox();
+    // On applique TA logique à CHAQUE serpent de la liste
+    for (auto& snake : m_snakes) {
 
-    for (const auto& wall : walls) {
-        if (snakeBox.intersects(wall)) {
-            if (sVel.y > 0 && (snakeBox.top + snakeBox.height) < (wall.top + 30.0f)) {
-                m_snakeModel.setVelocity(sf::Vector2f(sVel.x, 0));
-                m_snakeModel.setPosition(sPos.x, wall.top);
+        // On ignore les morts pour la physique (optionnel mais conseillé)
+        if (snake.getState() == SnakeState::DEATH) continue;
+
+        // --- TON CODE EXACT (juste m_snakeModel remplacé par 'snake') ---
+        sf::Vector2f sPos = snake.getPosition();
+        sf::Vector2f sVel = snake.getVelocity();
+        std::vector<sf::FloatRect> walls = m_level.getNearbyWalls(sPos.x, sPos.y);
+        sf::FloatRect snakeBox = snake.getHitbox();
+
+        for (const auto& wall : walls) {
+            if (snakeBox.intersects(wall)) {
+                if (sVel.y > 0 && (snakeBox.top + snakeBox.height) < (wall.top + 30.0f)) {
+                    snake.setVelocity(sf::Vector2f(sVel.x, 0));
+                    snake.setPosition(sPos.x, wall.top);
+                }
             }
         }
+
     }
 }
 
@@ -302,8 +339,10 @@ void Game::render() {
     m_hud.draw(m_window, m_playerModel.getHP(), m_playerModel.getPosition());
 
     // DESSINE LE SERPENT SEULEMENT S'IL EST VIVANT
-    if (m_snakeModel.getState() != SnakeState::DEATH) {
-        m_snakeView.draw(m_window);
+    for (size_t i = 0; i < m_snakes.size(); i++) {
+        if (m_snakes[i].getState() != SnakeState::DEATH) {
+            m_snakeViews[i].draw(m_window);
+        }
     }
 
     if (m_playerModel.state != PlayerState::DEAD) {

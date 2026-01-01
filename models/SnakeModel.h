@@ -12,7 +12,7 @@ enum class SnakeState {
 
 class SnakeModel : public Character {
 public:
-    SnakeModel();
+    SnakeModel(float x, float y);
 
     void update(float dt) override {} // Vide pour satisfaire le parent
 

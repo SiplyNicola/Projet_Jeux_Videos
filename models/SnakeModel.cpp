@@ -1,19 +1,18 @@
 #include "SnakeModel.h"
 #include <cmath>
 
-SnakeModel::SnakeModel()
-    : Character(30, 50.0f, 10), // 30 PV, Vitesse 50, 10 Dégâts
+SnakeModel::SnakeModel(float x, float y)
+    : Character(30, 50.0f, 10),
       m_state(SnakeState::WALK),
       m_stateTimer(0.0f),
       m_patrolTimer(0.0f),
       m_movingRight(true),
-      m_attackCooldown(0.0f) // Prêt à attaquer dès le début
+      m_attackCooldown(0.0f)
 {
-    // Position initiale
-    m_position = sf::Vector2f(400.0f, 2520.0f);
+    // MODIFICATION : On utilise les coordonnées données au lieu de 400, 2520
+    m_position = sf::Vector2f(x, y);
     m_facingRight = true;
 }
-
 void SnakeModel::update(float dt, sf::Vector2f playerPos) {
     if (m_state == SnakeState::DEATH) return;
 

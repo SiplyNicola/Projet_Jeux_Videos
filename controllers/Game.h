@@ -56,8 +56,9 @@ private:
     PlantModel m_plantModel;
     PlantView m_plantView;
 
-    SnakeModel m_snakeModel;
-    SnakeView m_snakeView;
+    sf::Texture m_snakeTexture;
+    std::vector<SnakeModel> m_snakes;     // La liste des données
+    std::vector<SnakeView> m_snakeViews;  // La liste des images
 };
 
 #endif
