@@ -2036,7 +2036,7 @@
 	"SnakeView.h"
 	<iostream>
 
-1766865791 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\menucontroller.cpp
+1767292489 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\menucontroller.cpp
 	"MenuController.h"
 	<cmath>
 
@@ -2454,9 +2454,9 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1766865792 c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\menumodel.h
+1767291024 c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\menumodel.h
 
-1766865792 c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\menuview.h
+1767291024 c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\menuview.h
 	<SFML/Graphics.hpp>
 	<vector>
 	<string>
@@ -2486,8 +2486,9 @@
 	"MenuController.h"
 	"Game.h"
 
-1767267759 c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\game.h
+1767291023 c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\game.h
 	<SFML/Graphics.hpp>
+	<vector>
 	"../models/PlayerModel.h"
 	"../views/PlayerView.h"
 	"../controllers/PlayerController.h"
@@ -2501,6 +2502,9 @@
 	"../views/PlantView.h"
 	"../models/SnakeModel.h"
 	"../views/SnakeView.h"
+	"PauseModel.h"
+	"PauseView.h"
+	"PauseController.h"
 
 1766149553 c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\playerview.h
 	<SFML/Graphics.hpp>
@@ -2509,7 +2513,7 @@
 	<string>
 	"PlayerModel.h"
 
-1766150614 c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\bossmodel.h
+1767296324 c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\bossmodel.h
 	<SFML/System/Vector2.hpp>
 	<SFML/Graphics/Rect.hpp>
 	"Character.h"
@@ -2530,7 +2534,7 @@
 	<map>
 	<string>
 
-1764406349 c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\background.h
+1767296325 c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\background.h
 	<SFML/Graphics.hpp>
 	<vector>
 	<string>
@@ -2555,7 +2559,7 @@
 	<SFML/Graphics.hpp>
 	"../models/SnakeModel.h"
 
-1766150614 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\bossmodel.cpp
+1767296324 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\bossmodel.cpp
 	"BossModel.h"
 	<cmath>
 
@@ -2568,7 +2572,7 @@
 1767265779 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\levelmodel.cpp
 	"LevelModel.h"
 
-1766865791 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\menumodel.cpp
+1767291023 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\menumodel.cpp
 	"MenuModel.h"
 
 1766163422 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\plantmodel.cpp
@@ -2591,7 +2595,7 @@
 	"Background.h"
 	<iostream>
 
-1766149553 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\bossview.cpp
+1767296325 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\bossview.cpp
 	"BossView.h"
 	<iostream>
 
@@ -2603,7 +2607,7 @@
 	"LevelView.h"
 	<iostream>
 
-1766865792 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\menuview.cpp
+1767291024 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\menuview.cpp
 	"MenuView.h"
 	<cmath>
 
@@ -2733,6 +2737,28 @@
 	"PauseModel.h"
 
 1767295436 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\pauseview.cpp
+	"PauseView.h"
+	<cmath>
+
+1767292489 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\pausecontroller.cpp
+	"PauseController.h"
+
+1767292489 c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\pausecontroller.h
+	<SFML/Graphics.hpp>
+	"PauseModel.h"
+	"PauseView.h"
+
+1767291024 c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\pausemodel.h
+
+1767291024 c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\pauseview.h
+	<SFML/Graphics.hpp>
+	<vector>
+	"PauseModel.h"
+
+1767291024 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\pausemodel.cpp
+	"PauseModel.h"
+
+1767291024 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\pauseview.cpp
 	"PauseView.h"
 	<cmath>
 
