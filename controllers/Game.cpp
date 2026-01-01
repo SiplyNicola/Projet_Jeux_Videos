@@ -2,156 +2,132 @@
 #include <iostream>
 #include <cmath>
 
-Game::Game(sf::RenderWindow& window) :m_window(window), m_background(sf::Vector2u(1280, 720)), m_plantModel({100.0f, 2520.0f}) {
-
+Game::Game(sf::RenderWindow& window)
+    : m_window(window),
+      m_background(sf::Vector2u(1280, 720)),
+      m_plantModel({100.0f, 2520.0f}),
+      m_isPaused(false),
+      m_exitToMainFlag(false)
+{
     m_camera.setSize(1280, 720);
+    m_currentLevelId = 1;
 
-    m_currentLevelId = 1; // On commence niveau 1
-
-    // Initialisation
+    // Initialization of views and levels
     m_bossView.init();
     m_levelView.init();
-    m_level.loadLevel(1); // <--- On charge explicitement le niveau 1
+    m_level.loadLevel(1);
     m_levelView.build(m_level);
     m_plantView.init();
     m_hud.init();
 
+    // Initialize Pause View
+    m_pauseView.init(m_window);
 
-    // --- CREATION DES SERPENTS ---
-    m_snakes.clear();
-    m_snakeViews.clear();
-
-    // Liste des positions où tu veux faire apparaître des serpents
-    std::vector<sf::Vector2f> m_positionSnake = {
-        {400.0f, 2520.0f},  // Serpent 1 (ta position d'origine)
-        {600.0f, 2520.0f},  // Serpent 2
-        {800.0f, 2520.0f},  // Serpent 3
-        {1200.0f, 2450.0f}  // Serpent 4
-    };
-
-    // On crée un serpent et une vue pour chaque position
-    for (const auto& pos : m_positionSnake) {
-        m_snakes.emplace_back(pos.x, pos.y); // Crée le modèle
-
-        SnakeView view;
-        view.init(); // Charge l'image pour ce serpent
-        m_snakeViews.push_back(view); // Ajoute la vue à la liste
+    // Snake setup
+    std::vector<sf::Vector2f> m_pos = {{400.0f, 2520.0f}, {600.0f, 2520.0f}, {800.0f, 2520.0f}, {1200.0f, 2450.0f}};
+    for (const auto& p : m_pos) {
+        m_snakes.emplace_back(p.x, p.y);
+        SnakeView m_sView;
+        m_sView.init();
+        m_snakeViews.push_back(m_sView);
     }
 
     m_background.addLayer("resources/oak_woods_v1.0/background/background_layer_1.png");
     m_background.addLayer("resources/oak_woods_v1.0/background/background_layer_2.png");
     m_background.addLayer("resources/oak_woods_v1.0/background/background_layer_3.png");
+}
 
-    // DEFINE LA PORTE : � la fin de ta map for�t (ajuste le X selon ta map)
-    // Ici je mets X=3000 (fin suppos�e) et une boite haute
-    //m_nextLevelTrigger = sf::FloatRect(3000.0f, 0.0f, 100.0f, 1000.0f);
+Game::~Game() {
+    // Destructor implementation
 }
 
 void Game::run() {
-    sf::Clock clock;
-    while (m_window.isOpen()) {
-        float dt = clock.restart().asSeconds();
+    sf::Clock m_clock;
+    while (m_window.isOpen() && !m_exitToMainFlag) {
+        float m_dt = m_clock.restart().asSeconds();
         processEvents();
-        update(dt);
+
+        // Only update game world if NOT paused
+        if (!m_isPaused) {
+            update(m_dt);
+        }
+
         render();
 
-        // CONDITION DE SORTIE : Si le joueur est mort, on quitte la fonction run()
         if (m_playerModel.isDead()) {
-            sf::sleep(sf::seconds(1.0f)); // Petit d�lai pour voir la mort
-            return; // On sort de Game::run() pour retourner dans le main()
+            sf::sleep(sf::seconds(1.0f));
+            return;
         }
     }
 }
 
 void Game::processEvents() {
-    sf::Event event;
-    while (m_window.pollEvent(event)) {
-        if (event.type == sf::Event::Closed) m_window.close();
+    sf::Event m_event;
+    while (m_window.pollEvent(m_event)) {
+        if (m_event.type == sf::Event::Closed) m_window.close();
+
+        // Check for Pause Toggle
+        if (m_event.type == sf::Event::KeyPressed && m_event.key.code == sf::Keyboard::M) {
+            m_isPaused = !m_isPaused;
+            m_pauseModel.reset();
+        }
+
+        // Delegate input to Pause Controller if active
+        if (m_isPaused) {
+            m_pauseController.handleInput(m_window, m_event, m_pauseModel, m_pauseView);
+
+            // Check for specific menu actions
+            if (m_pauseModel.shouldResume()) {
+                m_isPaused = false;
+                m_pauseModel.reset();
+            }
+            if (m_pauseModel.shouldExitToMain()) {
+                m_exitToMainFlag = true;
+            }
+        }
     }
 
-    // On ne peut plus bouger si on est mort
-    if (!m_playerModel.isDead()) {
+    // Player controls only active when unpaused
+    if (!m_playerModel.isDead() && !m_isPaused) {
         m_playerController.handleInput(m_playerModel);
     }
 }
 
-void Game::update(float dt) {
-
-    // --- DETECTION CHANGEMENT DE NIVEAU ---
-    if (m_currentLevelId == 1) {
-        // Si le joueur touche la porte invisible
-        if (m_playerModel.getHitbox().intersects(m_nextLevelTrigger)) {
-            loadCaveLevel();
-            return; // On arr�te l'update pour cette frame pour �viter les bugs
-        }
+void Game::update(float m_dt) {
+    if (m_currentLevelId == 1 && m_playerModel.getHitbox().intersects(m_nextLevelTrigger)) {
+        loadCaveLevel();
+        return;
     }
 
-    // 1. Mise � jour des mod�les
-    m_playerModel.update(dt);
-    // On passe la position du joueur � l'IA du boss
-    m_boss.updateBoss(dt, m_playerModel.getPosition());
-    m_plantModel.update(dt);
-    //m_plantView.update(dt, m_plantModel); // Note: d�j� mis � jour plus bas dans 'Mise � jour des vues'
+    m_playerModel.update(m_dt);
+    m_boss.updateBoss(m_dt, m_playerModel.getPosition());
+    m_plantModel.update(m_dt);
 
-    // 2. V�RIFICATION DE LA MORT DU JOUEUR
     if (m_playerModel.isDead()) return;
 
-    // 3. MISE � JOUR DU JOUEUR, DU BOSS ET DU SERPENT
-    m_boss.updateBoss(dt, m_playerModel.getPosition());
-    for (auto& snake : m_snakes) {
-        snake.update(dt, m_playerModel.getPosition());
-    }
+    for (auto& m_s : m_snakes) m_s.update(m_dt, m_playerModel.getPosition());
 
-    // --- LOGIQUE DE MORT PAR LA PLANTE ---
-    if (m_plantModel.getState() == P_ATTACKING) {
-        if (m_playerModel.getHitbox().intersects(m_plantModel.getBiteZone())) {
-            m_playerModel.takeDamage(999);
-            m_playerModel.state = PlayerState::DEAD;
-        }
-    }
-
-    // 2. Traitement des interactions (Collisions & Combat)
+    // Combat & Collisions
     handleCollisions();
     handleBossCollisions();
     handleCombat();
     handleSnakeCollisions();
 
-    // 3. Syst�me de Respawn (Si chute dans le vide)
-    float mapHeightPixel = m_level.getMapData().size() * 72.0f;
-    if (m_playerModel.getPosition().y > mapHeightPixel + 200.0f) {
-        m_playerModel.setPosition(100.0f, 2520.0f);
-        m_playerModel.setVelocity(sf::Vector2f(0.0f, 0.0f));
-        m_playerModel.state = PlayerState::IDLE;
-        m_playerModel.takeDamage(1);
-    }
+    // Camera Clamping logic
+    float m_mapW = m_level.getMapData()[0].size() * 72.0f;
+    float m_mapH = m_level.getMapData().size() * 72.0f;
+    sf::Vector2f m_pPos = m_playerModel.getPosition();
+    float m_cX = std::max(640.0f, std::min(m_pPos.x, m_mapW - 640.0f));
+    float m_cY = std::max(360.0f, std::min(m_pPos.y, m_mapH - 360.0f));
+    m_camera.setCenter(m_cX, m_cY);
 
-    // 4. Mise � jour des vues
-    m_plantView.update(dt, m_plantModel);
-    m_playerView.updateAnimation(m_playerModel, dt);
-    m_bossView.update(dt, m_boss);
+    m_plantView.update(m_dt, m_plantModel);
+    m_playerView.updateAnimation(m_playerModel, m_dt);
+    m_bossView.update(m_dt, m_boss);
+    for (size_t i = 0; i < m_snakes.size(); i++) m_snakeViews[i].update(m_dt, m_snakes[i]);
 
-    // CORRECTION ICI : On utilise bien m_snakeModel
-    for (size_t i = 0; i < m_snakes.size(); i++) {
-        m_snakeViews[i].update(dt, m_snakes[i]);
-    }
-
-    // 5. Cam�ra avec clamping
-    float mapWidth = m_level.getMapData()[0].size() * 72.0f;
-    sf::Vector2f viewSize = m_camera.getSize();
-    float halfW = viewSize.x / 2.0f;
-    float halfH = viewSize.y / 2.0f;
-
-    sf::Vector2f pPos = m_playerModel.getPosition();
-    float camX = std::max(halfW, std::min(pPos.x, mapWidth - halfW));
-    float camY = std::max(halfH, std::min(pPos.y, mapHeightPixel - halfH));
-
-    m_camera.setCenter(camX, camY);
-    m_window.setView(m_camera);
-
-    // 6. Background
-    m_background.update(m_camera.getCenter().x - halfW, m_camera.getCenter().y - halfH);
+    m_background.update(m_camera.getCenter().x - 640.0f, m_camera.getCenter().y - 360.0f);
 }
-
 void Game::handleCombat() {
     // A. LE JOUEUR ATTAQUE LE BOSS
     if (m_playerModel.state == PlayerState::ATTACK && !m_playerModel.m_hasDealtDamage) {
@@ -338,15 +314,15 @@ void Game::render() {
     m_playerView.draw(m_window);
     m_hud.draw(m_window, m_playerModel.getHP(), m_playerModel.getPosition());
 
-    // DESSINE LE SERPENT SEULEMENT S'IL EST VIVANT
     for (size_t i = 0; i < m_snakes.size(); i++) {
-        if (m_snakes[i].getState() != SnakeState::DEATH) {
-            m_snakeViews[i].draw(m_window);
-        }
+        if (m_snakes[i].getState() != SnakeState::DEATH) m_snakeViews[i].draw(m_window);
     }
 
-    if (m_playerModel.state != PlayerState::DEAD) {
-        m_playerView.draw(m_window);
+    // --- PAUSE OVERLAY ---
+    if (m_isPaused) {
+        // Switch to default UI view so menu doesn't move with camera
+        m_window.setView(m_window.getDefaultView());
+        m_pauseView.draw(m_window, m_pauseModel);
     }
 
     m_window.display();
