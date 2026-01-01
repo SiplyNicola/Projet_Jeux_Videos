@@ -35,12 +35,14 @@ Game::Game(sf::RenderWindow& window)
     m_background.addLayer("resources/oak_woods_v1.0/background/background_layer_1.png");
     m_background.addLayer("resources/oak_woods_v1.0/background/background_layer_2.png");
     m_background.addLayer("resources/oak_woods_v1.0/background/background_layer_3.png");
-}
 
     // DEFINE LA PORTE : � la fin de ta map for�t (ajuste le X selon ta map)
     // Ici je mets X=3000 (fin suppos�e) et une boite haute
     m_nextLevelTrigger = sf::FloatRect(3000.0f, 0.0f, 100.0f, 1000.0f);
-    
+}
+
+
+
 Game::~Game() {
     // Destructor implementation
 }
@@ -109,10 +111,10 @@ void Game::update(float m_dt) {
 
     // On update le Boss SEULEMENT si on est niveau 2
     if (m_currentLevelId == 2) {
-        m_boss.updateBoss(dt, m_playerModel.getPosition());
+        m_boss.updateBoss(m_dt, m_playerModel.getPosition());
     }
 
-    m_plantModel.update(dt);
+    m_plantModel.update(m_dt);
 
     if (m_playerModel.isDead()) return;
 
@@ -138,7 +140,7 @@ void Game::update(float m_dt) {
     m_plantView.update(m_dt, m_plantModel);
     m_playerView.updateAnimation(m_playerModel, m_dt);
     if (m_currentLevelId == 2) {
-        m_bossView.update(dt, m_boss);
+        m_bossView.update(m_dt, m_boss);
     }
     for (size_t i = 0; i < m_snakes.size(); i++) m_snakeViews[i].update(m_dt, m_snakes[i]);
 

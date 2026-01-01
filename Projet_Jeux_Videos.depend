@@ -1237,13 +1237,14 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1767295311 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\game.cpp
+1767295926 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\game.cpp
 	"Game.h"
 	<iostream>
 	<cmath>
 
-1767278209 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\game.h
+1767295436 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\game.h
 	<SFML/Graphics.hpp>
+	<vector>
 	"../models/PlayerModel.h"
 	"../views/PlayerView.h"
 	"../controllers/PlayerController.h"
@@ -1257,6 +1258,9 @@
 	"../views/PlantView.h"
 	"../models/SnakeModel.h"
 	"../views/SnakeView.h"
+	"PauseModel.h"
+	"PauseView.h"
+	"PauseController.h"
 
 1767045465 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\playermodel.h
 	<SFML/System/Vector2.hpp>
@@ -1968,7 +1972,7 @@
 1766153001 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\character.cpp
 	"Character.h"
 
-1767045465 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\menucontroller.cpp
+1767295436 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\menucontroller.cpp
 	"MenuController.h"
 	<cmath>
 
@@ -1977,9 +1981,9 @@
 	"MenuModel.h"
 	"MenuView.h"
 
-1767045465 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\menumodel.h
+1767295436 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\menumodel.h
 
-1767045465 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\menuview.h
+1767295436 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\menuview.h
 	<SFML/Graphics.hpp>
 	<vector>
 	<string>
@@ -2001,7 +2005,7 @@
 	<SFML/Graphics.hpp>
 	"../models/SnakeModel.h"
 
-1767045465 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\menumodel.cpp
+1767295436 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\menumodel.cpp
 	"MenuModel.h"
 
 1767045465 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\plantmodel.cpp
@@ -2020,7 +2024,7 @@
 	<SFML/Graphics/Rect.hpp>
 	<string>
 
-1767045465 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\menuview.cpp
+1767295436 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\menuview.cpp
 	"MenuView.h"
 	<cmath>
 
@@ -2707,6 +2711,28 @@
 	"PauseModel.h"
 
 1767286980 source:c:\projet_jeux_videosv2\views\pauseview.cpp
+	"PauseView.h"
+	<cmath>
+
+1767295436 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\pausecontroller.cpp
+	"PauseController.h"
+
+1767295436 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\pausecontroller.h
+	<SFML/Graphics.hpp>
+	"PauseModel.h"
+	"PauseView.h"
+
+1767295436 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\pausemodel.h
+
+1767295436 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\pauseview.h
+	<SFML/Graphics.hpp>
+	<vector>
+	"PauseModel.h"
+
+1767295436 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\pausemodel.cpp
+	"PauseModel.h"
+
+1767295436 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\pauseview.cpp
 	"PauseView.h"
 	<cmath>
 
