@@ -24,7 +24,9 @@ Game::Game(sf::RenderWindow& window)
     m_pauseView.init(m_window);
 
     // Snake setup
-    std::vector<sf::Vector2f> m_pos = {{400.0f, 2520.0f}, {600.0f, 2520.0f}, {800.0f, 2520.0f}, {1200.0f, 2450.0f}};
+       std::vector<sf::Vector2f> m_pos =
+        {{400.0f, 2520.0f}, {1258.0f, 2663.0f}, {1908.0f, 2520.0f}, {2961.0f, 2264.0f}, {3780.0f, 2520.0f}, {3780.0f, 2520.0f},{7060.0f, 2230.0f},
+        {7720.0f, 1780.0f},{8500.0f, 1944.0f},{6212.0f, 1871.0f},{5453.0f, 1655.0f},{5002.0f, 1439.0f},{2066.0f, 719.0f},{6680.0f, 2520.0f},{5722.0f, 2520.0f},{5054.0f, 2664.0f},{1153.0f, 1124.0f},{1202.0f, 1511.0f},{1357.0f, 719.0f},{4116.0f, 1008.0f}};
     for (const auto& p : m_pos) {
         m_snakes.emplace_back(p.x, p.y);
         SnakeView m_sView;
