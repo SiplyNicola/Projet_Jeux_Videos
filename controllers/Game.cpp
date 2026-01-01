@@ -38,8 +38,7 @@ Game::Game(sf::RenderWindow& window)
     m_spiderViews.clear();
     // Positions en HAUTEUR (Plafond).
     std::vector<sf::Vector2f> spiderPositions = {
-        {1908.0f, 2400.0f}
-
+        {1908.0f, 2400.0f},{3924.0f, 2400.0f},{4141.0f, 2400.0f},{5808.0f, 2400.0f},{6584.0f, 2400.0f}, {4215.0f, 1500.0f},{1040.0f, 1120.0f},{1117.0f, 1400.0f},{2129.0f, 1415.0f}
 
     };
 
@@ -256,7 +255,7 @@ void Game::handleCombat() {
             );
 
             if (swordZone.intersects(spider.getHitbox())) {
-                spider.takeDamage(1); // L'araignée a 40 HP
+                spider.takeDamage(m_playerModel.getAttackDamage());
 
                 // Effet visuel : petit recul ou clignotement
                 if (spider.getState() != SpiderState::DROPPING && spider.getState() != SpiderState::HANGING) {
@@ -272,7 +271,7 @@ void Game::handleCombat() {
         // Elle ne mord que si elle est au sol (WALK/ATTACK) ou si elle te tombe dessus
         if (spider.getHitbox().intersects(m_playerModel.getHitbox())) {
             if (spider.canAttack()) {
-                m_playerModel.takeDamage(1);
+                m_playerModel.takeDamage(spider.getAttackDamage());
                 spider.resetAttackCooldown();
             }
         }
