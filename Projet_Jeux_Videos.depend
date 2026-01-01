@@ -2486,7 +2486,7 @@
 	"MenuController.h"
 	"Game.h"
 
-1767291023 c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\game.h
+1767297510 c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\game.h
 	<SFML/Graphics.hpp>
 	<vector>
 	"../models/PlayerModel.h"
@@ -2502,6 +2502,8 @@
 	"../views/PlantView.h"
 	"../models/SnakeModel.h"
 	"../views/SnakeView.h"
+	"../models/SpiderModel.h"
+	"../views/SpiderView.h"
 	"PauseModel.h"
 	"PauseView.h"
 	"PauseController.h"
@@ -2623,7 +2625,7 @@
 	"SnakeView.h"
 	<iostream>
 
-1767268828 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\game.cpp
+1767296361 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\game.cpp
 	"Game.h"
 	<iostream>
 	<cmath>
@@ -2761,4 +2763,19 @@
 1767291024 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\pauseview.cpp
 	"PauseView.h"
 	<cmath>
+
+1767296937 c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\spidermodel.h
+	"Character.h"
+
+1767297022 c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\spiderview.h
+	<SFML/Graphics.hpp>
+	"../models/SpiderModel.h"
+
+1767296960 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\spidermodel.cpp
+	"SpiderModel.h"
+	<cmath>
+
+1767296995 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\spiderview.cpp
+	"SpiderView.h"
+	<iostream>
 

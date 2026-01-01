@@ -18,7 +18,8 @@
 #include "../views/PlantView.h"
 #include "../models/SnakeModel.h"
 #include "../views/SnakeView.h"
-
+#include "../models/SpiderModel.h"
+#include "../views/SpiderView.h"
 // New Pause system inclusions
 #include "PauseModel.h"
 #include "PauseView.h"
@@ -43,6 +44,7 @@ private:
     void handleCombat();
     void loadCaveLevel();
     void handleSnakeCollisions();
+    void handleSpiderCollisions();
 
     // Core SFML members
     sf::RenderWindow& m_window;
@@ -67,6 +69,9 @@ private:
     sf::Texture m_snakeTexture;
     std::vector<SnakeModel> m_snakes;
     std::vector<SnakeView> m_snakeViews;
+
+    std::vector<SpiderModel> m_spiders;
+    std::vector<SpiderView> m_spiderViews;
 
     // --- PAUSE SYSTEM MEMBERS ---
     bool m_isPaused;

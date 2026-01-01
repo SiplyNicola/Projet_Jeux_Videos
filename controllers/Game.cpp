@@ -34,6 +34,22 @@ Game::Game(sf::RenderWindow& window)
         m_snakeViews.push_back(m_sView);
     }
 
+    m_spiders.clear();
+    m_spiderViews.clear();
+    // Positions en HAUTEUR (Plafond).
+    std::vector<sf::Vector2f> spiderPositions = {
+        {1600.0f, 2200.0f},
+        {1900.0f, 2150.0f},
+        {4500.0f, 2200.0f}
+    };
+
+    for (const auto& pos : spiderPositions) {
+        m_spiders.emplace_back(pos.x, pos.y);
+        SpiderView sView;
+        sView.init();
+        m_spiderViews.push_back(sView);
+    }
+
     m_background.addLayer("resources/oak_woods_v1.0/background/background_layer_1.png");
     m_background.addLayer("resources/oak_woods_v1.0/background/background_layer_2.png");
     m_background.addLayer("resources/oak_woods_v1.0/background/background_layer_3.png");
@@ -121,6 +137,9 @@ void Game::update(float m_dt) {
     if (m_playerModel.isDead()) return;
 
     for (auto& m_s : m_snakes) m_s.update(m_dt, m_playerModel.getPosition());
+    for (auto& spider : m_spiders) {
+        spider.update(m_dt, m_playerModel.getPosition());
+    }
 
     // Combat & Collisions
     handleCollisions();
@@ -130,6 +149,7 @@ void Game::update(float m_dt) {
     }
     handleCombat();
     handleSnakeCollisions();
+    handleSpiderCollisions();
 
     // Camera Clamping logic
     float m_mapW = m_level.getMapData()[0].size() * 72.0f;
@@ -145,6 +165,9 @@ void Game::update(float m_dt) {
         m_bossView.update(m_dt, m_boss);
     }
     for (size_t i = 0; i < m_snakes.size(); i++) m_snakeViews[i].update(m_dt, m_snakes[i]);
+    for (size_t i = 0; i < m_spiders.size(); i++) {
+        m_spiderViews[i].update(m_dt, m_spiders[i]);
+    }
 
     m_background.update(m_camera.getCenter().x - 640.0f, m_camera.getCenter().y - 360.0f);
 }
@@ -219,7 +242,41 @@ void Game::handleCombat() {
 
             }
         }
-    } // <--- C'est ici qu'on ferme la boucle des serpents !
+    }
+    for (auto& spider : m_spiders) {
+        if (spider.getState() == SpiderState::DEATH) continue;
+
+        // 1. Joueur tape Araignée
+        if (m_playerModel.state == PlayerState::ATTACK && !m_playerModel.m_hasDealtDamage) {
+            sf::FloatRect pBox = m_playerModel.getHitbox();
+            float range = 50.0f;
+            sf::FloatRect swordZone(
+                m_playerModel.isFacingRight() ? pBox.left + pBox.width : pBox.left - range,
+                pBox.top, range, pBox.height
+            );
+
+            if (swordZone.intersects(spider.getHitbox())) {
+                spider.takeDamage(10); // L'araignée a 40 HP
+
+                // Effet visuel : petit recul ou clignotement
+                if (spider.getState() != SpiderState::DROPPING && spider.getState() != SpiderState::HANGING) {
+                     spider.setState(SpiderState::HURT);
+                }
+
+                if (spider.getHP() <= 0) spider.setState(SpiderState::DEATH);
+                m_playerModel.m_hasDealtDamage = true;
+            }
+        }
+
+        // 2. Araignée mord Joueur
+        // Elle ne mord que si elle est au sol (WALK/ATTACK) ou si elle te tombe dessus
+        if (spider.getHitbox().intersects(m_playerModel.getHitbox())) {
+            if (spider.canAttack()) {
+                m_playerModel.takeDamage(15);
+                spider.resetAttackCooldown();
+            }
+        }
+    }
 
 }
 
@@ -309,6 +366,42 @@ void Game::handleSnakeCollisions() {
     }
 }
 
+void Game::handleSpiderCollisions() {
+    for (auto& spider : m_spiders) {
+        if (spider.getState() == SpiderState::DEATH) continue;
+        if (spider.getState() == SpiderState::HANGING) continue; // Pas de collision quand accrochée
+
+        sf::Vector2f sPos = spider.getPosition();
+        sf::Vector2f sVel = spider.getVelocity();
+        std::vector<sf::FloatRect> walls = m_level.getNearbyWalls(sPos.x, sPos.y);
+        sf::FloatRect spiderBox = spider.getHitbox();
+
+        bool onGround = false;
+
+        for (const auto& wall : walls) {
+            if (spiderBox.intersects(wall)) {
+                // Collision SOL
+                if (sVel.y > 0 && (spiderBox.top + spiderBox.height) < (wall.top + 30.0f)) {
+                    // On la pose sur le sol
+                    spider.setVelocity(sf::Vector2f(sVel.x, 0));
+                    spider.setPosition(sPos.x, wall.top);
+                    onGround = true;
+                }
+                // Collision MUR (Seulement si elle marche déjà)
+                else if (spider.getState() == SpiderState::WALK || spider.getState() == SpiderState::ATTACK) {
+                    // Demi-tour basique (géré par le timer dans update, mais on peut bloquer ici)
+                }
+            }
+        }
+
+        // TRANSITION CRITIQUE : CHUTE -> MARCHE
+        // Si elle était en train de tomber et qu'elle touche le sol, elle devient un ennemi terrestre
+        if (spider.getState() == SpiderState::DROPPING && onGround) {
+            spider.setState(SpiderState::WALK);
+        }
+    }
+}
+
 void Game::handleBossCollisions() {
     sf::Vector2f bPos = m_boss.getPosition();
     sf::Vector2f bVel = m_boss.getVelocity();
@@ -341,6 +434,13 @@ void Game::render() {
 
     for (size_t i = 0; i < m_snakes.size(); i++) {
         if (m_snakes[i].getState() != SnakeState::DEATH) m_snakeViews[i].draw(m_window);
+    }
+
+    for (size_t i = 0; i < m_spiders.size(); i++) {
+        if (m_spiders[i].getState() != SpiderState::DEATH) {
+            // ON PASSE LE MODELE ICI pour dessiner le fil !
+            m_spiderViews[i].draw(m_window, m_spiders[i]);
+        }
     }
 
     // --- PAUSE OVERLAY ---
