@@ -1,6 +1,6 @@
 #include "MenuModel.h"
 
-MenuModel::MenuModel() : m_selectedIndex(0), m_maxOptions(3), m_isGameStarted(false) {}
+MenuModel::MenuModel() : m_selectedIndex(0), m_maxOptions(3), m_isGameStarted(false), m_currentState(MenuState::MAIN) {}
 
 // Fix: Utilisation correcte du scope MenuModel::
 void MenuModel::setSelectedIndex(int index) {

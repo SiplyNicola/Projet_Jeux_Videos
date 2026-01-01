@@ -67,6 +67,8 @@
 		<Unit filename="controllers/Game.h" />
 		<Unit filename="controllers/MenuController.cpp" />
 		<Unit filename="controllers/MenuController.h" />
+		<Unit filename="controllers/PauseController.cpp" />
+		<Unit filename="controllers/PauseController.h" />
 		<Unit filename="controllers/PlayerController.cpp" />
 		<Unit filename="controllers/PlayerController.h" />
 		<Unit filename="include/Loot.h" />
@@ -81,6 +83,8 @@
 		<Unit filename="models/LevelModel.h" />
 		<Unit filename="models/MenuModel.cpp" />
 		<Unit filename="models/MenuModel.h" />
+		<Unit filename="models/PauseModel.cpp" />
+		<Unit filename="models/PauseModel.h" />
 		<Unit filename="models/PlantModel.cpp" />
 		<Unit filename="models/PlantModel.h" />
 		<Unit filename="models/PlayerModel.cpp" />
@@ -98,6 +102,8 @@
 		<Unit filename="views/LevelView.h" />
 		<Unit filename="views/MenuView.cpp" />
 		<Unit filename="views/MenuView.h" />
+		<Unit filename="views/PauseView.cpp" />
+		<Unit filename="views/PauseView.h" />
 		<Unit filename="views/PlantView.cpp" />
 		<Unit filename="views/PlantView.h" />
 		<Unit filename="views/PlayerView.cpp" />

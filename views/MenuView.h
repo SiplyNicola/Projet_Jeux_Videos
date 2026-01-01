@@ -20,6 +20,7 @@ private:
     sf::Sprite m_backgroundSprite;
     sf::Font m_font;
     std::vector<sf::Text> m_optionsTexts;
+    std::vector<sf::Text> m_settingsTexts;
 
     // Clock for smooth animations (pulsation effect)
     sf::Clock m_animationClock;
