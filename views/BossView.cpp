@@ -9,7 +9,7 @@ void BossView::init() {
     }
     m_sprite.setTexture(m_texture);
     m_sprite.setOrigin(48, 48);
-    m_sprite.setScale(4.0f, 4.0f);
+    m_sprite.setScale(2.5f, 2.5f);
 }
 
 void BossView::update(float dt, const BossModel& model) {
