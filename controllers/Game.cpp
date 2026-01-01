@@ -22,7 +22,7 @@ Game::Game(sf::RenderWindow& window) :m_window(window), m_background(sf::Vector2
     m_snakeViews.clear();
 
     // Liste des positions où tu veux faire apparaître des serpents
-    std::vector<sf::Vector2f> positions = {
+    std::vector<sf::Vector2f> m_positionSnake = {
         {400.0f, 2520.0f},  // Serpent 1 (ta position d'origine)
         {600.0f, 2520.0f},  // Serpent 2
         {800.0f, 2520.0f},  // Serpent 3
@@ -30,7 +30,7 @@ Game::Game(sf::RenderWindow& window) :m_window(window), m_background(sf::Vector2
     };
 
     // On crée un serpent et une vue pour chaque position
-    for (const auto& pos : positions) {
+    for (const auto& pos : m_positionSnake) {
         m_snakes.emplace_back(pos.x, pos.y); // Crée le modèle
 
         SnakeView view;
