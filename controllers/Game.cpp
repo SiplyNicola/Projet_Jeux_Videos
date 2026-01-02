@@ -37,6 +37,7 @@ Game::Game(sf::RenderWindow& window)
 
     m_inputHandler = std::make_unique<InputHandler>(
         m_playerModel,
+        m_soundManager,
         m_guardianZone,
         [this]() { this->loadCaveLevel(); },
         [this]() {

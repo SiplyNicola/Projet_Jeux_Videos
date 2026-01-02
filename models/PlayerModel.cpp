@@ -91,13 +91,16 @@ void PlayerModel::attack() {
 /**
  * Triggers the dash ability if not on cooldown.
  */
-void PlayerModel::dash() {
+bool PlayerModel::dash() {
     if (dashCooldownTimer <= 0 && !isDashing && state != PlayerState::DEAD) {
         isDashing = true;
         dashDurationTimer = 0.0f;
         dashCooldownTimer = 0.5f; // Set a 0.5s delay before the next possible dash
         state = PlayerState::DASH;
+
+        return true;
     }
+    return false;
 }
 
 /**

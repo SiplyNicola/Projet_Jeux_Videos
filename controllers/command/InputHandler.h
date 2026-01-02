@@ -9,11 +9,12 @@
 #include <functional>
 #include "ICommand.h"
 #include "PlayerModel.h"
+#include "../../views/SoundManager.h"
 
 class InputHandler
 {
     public:
-        explicit InputHandler(PlayerModel& player, sf::FloatRect guardianZone, std::function<void()> onSucces, std::function<void()> onPause);
+        explicit InputHandler(PlayerModel& player, SoundManager& soundManager, sf::FloatRect guardianZone, std::function<void()> onSucces, std::function<void()> onPause);
         ~InputHandler() = default;
 
         // Retourne la liste de toutes les commandes dont la touche est pressée

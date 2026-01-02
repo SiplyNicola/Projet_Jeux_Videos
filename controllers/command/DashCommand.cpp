@@ -1,8 +1,10 @@
 #include "DashCommand.h"
 #include "PlayerModel.h"
 
-DashCommand::DashCommand(PlayerModel& p) : m_player(p) {}
+DashCommand::DashCommand(PlayerModel& p, SoundManager& soundManager) : m_player(p), m_soundManager(soundManager) {}
 
 void DashCommand::execute() {
-    m_player.dash();
+    if(m_player.dash()){
+        m_soundManager.playDash();
+    }
 }

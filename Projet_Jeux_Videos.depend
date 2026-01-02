@@ -1239,7 +1239,7 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1767383454 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\game.cpp
+1767389663 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\game.cpp
 	"Game.h"
 	<iostream>
 	<cmath>
@@ -1272,7 +1272,7 @@
 	"../views/SoundManager.h"
 	"command/InputHandler.h"
 
-1767387416 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\playermodel.h
+1767390037 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\playermodel.h
 	<SFML/System/Vector2.hpp>
 	<SFML/Graphics/Rect.hpp>
 	"Character.h"
@@ -2870,7 +2870,7 @@
 1767380331 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\worldtransitionmodel.h
 	<string>
 
-1767385786 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\soundmanager.h
+1767389822 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\soundmanager.h
 	<SFML/Audio.hpp>
 	<map>
 	<string>
@@ -3128,7 +3128,7 @@
 1767387415 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\command\icommand.cpp
 	"ICommand.h"
 
-1767387415 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\command\inputhandler.cpp
+1767389663 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\command\inputhandler.cpp
 	"InputHandler.h"
 	"AttackCommand.h"
 	"DashCommand.h"
@@ -3138,7 +3138,7 @@
 	"InteractCommand.h"
 	"PauseCommand.h"
 
-1767387415 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\command\inputhandler.h
+1767389663 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\command\inputhandler.h
 	<SFML/Window/Keyboard.hpp>
 	<SFML/Graphics/Rect.hpp>
 	<map>
@@ -3147,6 +3147,7 @@
 	<functional>
 	"ICommand.h"
 	"PlayerModel.h"
+	"../../views/SoundManager.h"
 
 1767389019 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\command\dashcommand.h
 	<ICommand.h>
@@ -3203,4 +3204,7 @@
 1767389111 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\command\jumpcommand.cpp
 	"JumpCommand.h"
 	"PlayerModel.h"
+
+1767387416 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\enemymodel.cpp
+	"EnemyModel.h"
 

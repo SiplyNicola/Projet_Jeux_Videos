@@ -24,7 +24,7 @@ public:
     void move(float dirX);
     bool jump();
     void attack();
-    void dash();
+    bool dash();
     void revive();
 
 
