@@ -2,26 +2,45 @@
 #include "MenuController.h"
 #include "Game.h"
 
+/**
+ * Whisper of Steel - Main Entry Point
+ * This file manages the high-level lifecycle of the application,
+ * handling the transitions between the Main Menu and the Game world.
+ */
 int main() {
+    // Initialize the main render window using the desktop's native resolution in Fullscreen mode.
     sf::RenderWindow m_window(sf::VideoMode::getDesktopMode(), "Whisper of Steel", sf::Style::Fullscreen);
+
+    // Limit the framerate to 60 FPS to ensure consistent physics and animation timing across different monitors.
     m_window.setFramerateLimit(60);
 
+    // Instantiate the controller responsible for the Main Menu logic and rendering.
     MenuController m_menuController;
 
-    // --- BOUCLE GLOBALE DE L'APPLICATION ---
+    // --- GLOBAL APPLICATION LOOP ---
+    // This loop keeps the application alive, allowing the user to cycle between the menu and the game.
     while (m_window.isOpen()) {
 
-        // 1. On lance le menu. Le code s'arrête ici tant qu'on n'a pas cliqué sur "Start"
+        // 1. Launch the Menu.
+        // The execution blocks inside this function until the user selects "Start" or closes the window.
         m_menuController.run(m_window);
 
-        // 2. Si on arrive ici, c'est que le menu est fini.
-        // On vérifie si la fenêtre est toujours ouverte (si on n'a pas cliqué sur EXIT)
+        // 2. Post-Menu Logic.
+        // If we reach this point, the menu loop has finished.
+        // We check if the window is still open (ensuring the user didn't click "Exit").
         if (m_window.isOpen()) {
-            Game m_game(m_window); // On crée une NOUVELLE instance de jeu
-            m_game.run();          // On lance le jeu. Quand le joueur meurt, cette fonction s'arrête.
+
+            // Instantiate a FRESH instance of the Game engine for each new play session.
+            Game m_game(m_window);
+
+            // Start the main game loop.
+            // This function runs until a session-ending event occurs (e.g., player death or quitting).
+            m_game.run();
         }
 
-        // 3. Une fois m_game.run() terminé, la boucle 'while' repart au début et relance m_menuController.run()!
+        // 3. Cycle Restart.
+        // Once m_game.run() finishes, the 'while' loop restarts from the beginning,
+        // effectively returning the player to the Main Menu.
     }
 
     return 0;

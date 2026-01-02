@@ -1,44 +1,61 @@
 #include "LevelView.h"
 #include <iostream>
 
-// Helper pour charger et vérifier les erreurs
+/**
+ * Helper function to load a texture and handle errors.
+ * Stores the loaded texture in the m_textures map for easy access during the build process.
+ * @param name The unique identifier for the decoration.
+ * @param path The file system path to the image asset.
+ */
 void LevelView::loadTextureProp(const std::string& name, const std::string& path) {
     if (!m_textures[name].loadFromFile(path)) {
-        std::cerr << "ERREUR : Impossible de charger la decoration : " << path << std::endl;
+        std::cerr << "ERROR: Unable to load decoration: " << path << std::endl;
     }
 }
 
+/**
+ * Initializes the visual assets of the level.
+ * Loads the main terrain tileset and all individual decoration textures.
+ */
 void LevelView::init() {
-    // 1. Tileset Terrain (comme avant)
+    // 1. Terrain Tileset Initialization
+    // This sheet contains the basic building blocks like grass, dirt, and wall tiles.
     if(!m_tileset.loadFromFile("resources/oak_woods_v1.0/oak_woods_tileset.png")) {
-        std::cerr << "ERREUR CRITIQUE : oak_woods_tileset.png introuvable !" << std::endl;
+        std::cerr << "CRITICAL ERROR: oak_woods_tileset.png not found!" << std::endl;
     }
 
-    // 2. Chargement des Décorations (selon ton screenshot)
+    // 2. Loading Decorations (Sprites)
+    // These are standalone images that are layered on top of the terrain grid.
     std::string path = "resources/oak_woods_v1.0/decorations/";
 
     loadTextureProp("shop",   path + "shop.png");
-    loadTextureProp("fence",  path + "fence_1.png"); // J'ai pris fence_1
-    loadTextureProp("grass",  path + "grass_1.png"); // J'ai pris grass_1
+    loadTextureProp("fence",  path + "fence_1.png");
+    loadTextureProp("grass",  path + "grass_1.png");
     loadTextureProp("lamp",   path + "lamp.png");
-    loadTextureProp("rock",   path + "rock_1.png");  // J'ai pris rock_1
+    loadTextureProp("rock",   path + "rock_1.png");
     loadTextureProp("sign",   path + "sign.png");
     loadTextureProp("bridge", "resources/bridge/bridge.png");
 }
 
+/**
+ * Builds the graphical representation of the level.
+ * Generates a VertexArray for the terrain and populates a list of sprites for decorations.
+ * @param model Reference to the LevelModel containing the ASCII map and tile data.
+ */
 void LevelView::build(const LevelModel& model) {
     const auto& map = model.getMapData();
     if (map.empty()) return;
 
     int height = map.size();
     int width = map[0].size();
-    float ts = model.getTileSize(); // Sera 24 ou 16 selon le niveau
-    int levelId = model.getLevelId(); // On récupère l'ID
+    float ts = model.getTileSize();   // Tile size varies (24 or 16) based on level ID
+    int levelId = model.getLevelId(); // Identify the current level logic
 
-    // Reset complet
+    // Complete reset of graphical data before rebuilding
     m_vertices.clear();
     m_decorations.clear();
 
+    // Initialize the terrain vertex array using triangles (6 vertices per square tile)
     m_vertices.setPrimitiveType(sf::Triangles);
     m_vertices.resize(width * height * 6);
 
@@ -47,11 +64,11 @@ void LevelView::build(const LevelModel& model) {
 
             char cell = map[y][x];
 
-            // --- GESTION DES DECORATIONS (SPRITES) ---
+            // --- DECORATION MANAGEMENT (SPRITES) ---
+            // Map the ASCII character to a pre-loaded texture pointer
             sf::Texture* currentTex = nullptr;
 
-            // Mapping Lettre -> Texture
-            if (cell == 'S') currentTex = &m_textures["shop"];
+            if (cell == 'S')      currentTex = &m_textures["shop"];
             else if (cell == 'P') currentTex = &m_textures["sign"];
             else if (cell == 'L') currentTex = &m_textures["lamp"];
             else if (cell == 'F') currentTex = &m_textures["fence"];
@@ -60,56 +77,49 @@ void LevelView::build(const LevelModel& model) {
             else if (cell == 'B') currentTex = &m_textures["bridge"];
 
             if (currentTex != nullptr) {
-                // Création du sprite
                 sf::Sprite s;
                 s.setTexture(*currentTex);
 
-                // CALCUL DE POSITION INTELLIGENT
-                // On aligne le BAS de l'image avec le BAS de la case (pour que ce soit posé au sol)
-                // Formule : y * taille_case + taille_case - hauteur_image
+                // INTELLIGENT POSITIONING
+                // Align the BOTTOM of the image with the BOTTOM of the tile grid square.
+                // Formula: (y * tile_size) + tile_size - image_height
                 float posX = x * ts;
                 float posY = (y * ts) + ts - currentTex->getSize().y;
 
-                // Petit ajustement pour centrer les objets fins (Lampes, Panneaux)
+                // Minor adjustment to center thin objects (Lamps, Signs, Rocks, Grass)
                 if (cell == 'L' || cell == 'P' || cell == 'R' || cell == 'G') {
                      posX += (ts - currentTex->getSize().x) / 2.0f;
                 }
 
-                // CENTRAGE DU PONT ('B')
-                // Si l'image est plus large que la case (ex: 96px vs 24px), on la centre.
+                // BRIDGE CENTERING ('B')
+                // If the bridge image is wider than the tile (e.g., 96px vs 24px), we center it on the cell.
                 if (cell == 'B') {
-                    // Formule : (Position X case) - (Moitié largeur Image) + (Moitié largeur Case)
+                    // Formula: (Cell X position) - (Half Image Width) + (Half Tile Width)
                     posX = (x * ts) - (currentTex->getSize().x / 2.0f) + (ts / 2.0f);
-
-                    // Ajustement vertical si besoin (décommente pour tester)
-                    // posY += 5.0f;
                 }
-
-                // Le Shop est très grand, on le laisse s'étendre, mais on le décale un peu à gauche si besoin
-                // (Là je le laisse par défaut à la case X)
 
                 s.setPosition(posX, posY);
                 m_decorations.push_back(s);
             }
 
-            // --- GESTION DU TERRAIN (VERTEX ARRAY) ---
+            // --- TERRAIN MANAGEMENT (VERTEX ARRAY) ---
             int index = (x + y * width) * 6;
             sf::Vertex* tri = &m_vertices[index];
 
-            // Si c'est vide OU une décoration, on ne dessine pas de terrain (transparent)
+            // If the cell is empty or contains a decoration, we render a transparent tile.
             if (cell == ' ' || cell == 'b' || currentTex != nullptr) {
-                int index = (x + y * width) * 6;
                 for(int i=0; i<6; ++i) {
                     m_vertices[index + i].position = sf::Vector2f(0,0);
                     m_vertices[index + i].color = sf::Color::Transparent;
                 }
                 continue;
             }
-            // Si on est ici, c'est que cell est '1', '2', '3' ou '4'
+
+            // Define geometry for numeric terrain tiles (1, 2, 3, 4, etc.)
             float px = x * ts;
             float py = y * ts;
 
-            // Géométrie (Carré)
+            // Square geometry formed by two triangles
             tri[0].position = sf::Vector2f(px, py);
             tri[1].position = sf::Vector2f(px + ts, py);
             tri[2].position = sf::Vector2f(px, py + ts);
@@ -119,32 +129,31 @@ void LevelView::build(const LevelModel& model) {
 
             for(int i=0; i<6; ++i) tri[i].color = sf::Color::White;
 
-            // Coordonnées UV (Texture Terrain)
+            // UV Texture Coordinates Logic
             int tu = 0, tv = 0;
             if (levelId == 1){
-                if (cell == '1')      { tu = 1; tv = 0; } // Herbe
-                else if (cell == '2') { tu = 1; tv = 1; } // Terre
-                else if (cell == '3') { tu = 0; tv = 1; } // Bord G
-                else if (cell == '4') { tu = 3; tv = 1; } // Bord D
+                // Mapping for Level 1 (Forest)
+                if (cell == '1')      { tu = 1; tv = 0; } // Top Grass
+                else if (cell == '2') { tu = 1; tv = 1; } // Underground Dirt
+                else if (cell == '3') { tu = 0; tv = 1; } // Left Dirt Edge
+                else if (cell == '4') { tu = 3; tv = 1; } // Right Dirt Edge
             }
-
             else if (levelId == 2) {
-                // --- LOGIQUE GROTTE (16x16) ---
-                // OUVRE TON FICHIER PNG GROTTE ET COMPTE LES CASES (commence à 0)
-                // Exemple hypothétique :
-                if (cell == '1')      { tu = 1; tv = 0; } // Sol centre
-                else if (cell == '2') { tu = 2; tv = 1; } // Mur gauche
-                else if (cell == '3') { tu = 0; tv = 1; } // mur droit
-                else if (cell == '4') { tu = 1; tv = 2; } // plafond
-                else if (cell == '5') { tu = 3; tv = 0; } // coin haut gauche
-                else if (cell == '6') { tu = 4; tv = 0; } // coin haut droit
-                else if (cell == '7') { tu = 3; tv = 1; } // coin bas gauche
-                else if (cell == '8') { tu = 4; tv = 1; } // coin bas droit
+                // Mapping for Level 2 (Cave)
+                if (cell == '1')      { tu = 1; tv = 0; } // Floor center
+                else if (cell == '2') { tu = 2; tv = 1; } // Left Wall
+                else if (cell == '3') { tu = 0; tv = 1; } // Right Wall
+                else if (cell == '4') { tu = 1; tv = 2; } // Ceiling
+                else if (cell == '5') { tu = 3; tv = 0; } // Top-Left Corner
+                else if (cell == '6') { tu = 4; tv = 0; } // Top-Right Corner
+                else if (cell == '7') { tu = 3; tv = 1; } // Bottom-Left Corner
+                else if (cell == '8') { tu = 4; tv = 1; } // Bottom-Right Corner
             }
 
             float u = tu * ts;
             float v = tv * ts;
 
+            // Assign UV coordinates to vertices
             tri[0].texCoords = sf::Vector2f(u, v);
             tri[1].texCoords = sf::Vector2f(u + ts, v);
             tri[2].texCoords = sf::Vector2f(u, v + ts);
@@ -154,25 +163,34 @@ void LevelView::build(const LevelModel& model) {
         }
     }
 
-    // APPLICATION DU ZOOM
+    // Apply global level scaling to match the physical tile size (e.g., scale 3.0f for 72px tiles)
     this->setScale(model.getScale(), model.getScale());
 }
 
+/**
+ * Custom draw function to render the level.
+ * Inherits the global view transformation for zoom and positioning.
+ */
 void LevelView::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-    states.transform *= getTransform(); // Zoom global
+    states.transform *= getTransform(); // Apply global zoom/scaling
 
-    // 1. D'abord le terrain
+    // 1. Render the Terrain Vertex Array first (lowest layer)
     states.texture = &m_tileset;
     target.draw(m_vertices, states);
 
-    // 2. Ensuite les décorations (par dessus)
+    // 2. Render Decorations on top of the terrain
     for (const auto& deco : m_decorations) {
         target.draw(deco, states);
     }
 }
 
+/**
+ * Loads a specific tileset image for the terrain.
+ * Used during level transitions (e.g., Forest to Cave).
+ * @param path The file path to the new tileset PNG.
+ */
 void LevelView::loadTileset(const std::string& path) {
     if (!m_tileset.loadFromFile(path)) {
-        std::cerr << "ERREUR : Impossible de charger le tileset " << path << std::endl;
+        std::cerr << "ERROR: Unable to load tileset " << path << std::endl;
     }
 }

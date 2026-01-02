@@ -1421,7 +1421,7 @@
 1764973044 source:c:\projetjeuxvideo\projet_jeux_videos\models\levelmodel.cpp
 	"LevelModel.h"
 
-1767364489 source:c:\projet_jeux_videosv2\controllers\game.cpp
+1767367458 source:c:\projet_jeux_videosv2\controllers\game.cpp
 	"Game.h"
 	<iostream>
 	<cmath>
@@ -1899,49 +1899,49 @@
 	<vector>
 	<string>
 
-1766171011 source:c:\projet_jeux_videosv2\controllers\playercontroller.cpp
+1767367571 source:c:\projet_jeux_videosv2\controllers\playercontroller.cpp
 	"PlayerController.h"
 	<SFML/Window/Keyboard.hpp>
 
-1766852655 source:c:\projet_jeux_videosv2\main.cpp
+1767368676 source:c:\projet_jeux_videosv2\main.cpp
 	<SFML/Graphics.hpp>
 	"MenuController.h"
 	"Game.h"
 
-1767359587 source:c:\projet_jeux_videosv2\models\bossmodel.cpp
+1767367738 source:c:\projet_jeux_videosv2\models\bossmodel.cpp
 	"BossModel.h"
 	<cmath>
 
-1767364489 source:c:\projet_jeux_videosv2\models\levelmodel.cpp
+1767367932 source:c:\projet_jeux_videosv2\models\levelmodel.cpp
 	"LevelModel.h"
 
-1767359587 source:c:\projet_jeux_videosv2\models\playermodel.cpp
+1767368156 source:c:\projet_jeux_videosv2\models\playermodel.cpp
 	"PlayerModel.h"
 	<cmath>
 
-1765892551 source:c:\projet_jeux_videosv2\views\background.cpp
+1767368289 source:c:\projet_jeux_videosv2\views\background.cpp
 	"Background.h"
 	<iostream>
 
-1765892551 source:c:\projet_jeux_videosv2\views\bossview.cpp
+1767368564 source:c:\projet_jeux_videosv2\views\bossview.cpp
 	"BossView.h"
 	<iostream>
 
-1767364490 source:c:\projet_jeux_videosv2\views\levelview.cpp
+1767368564 source:c:\projet_jeux_videosv2\views\levelview.cpp
 	"LevelView.h"
 	<iostream>
 
-1766154736 source:c:\projet_jeux_videosv2\views\playerview.cpp
+1767368564 source:c:\projet_jeux_videosv2\views\playerview.cpp
 	"PlayerView.h"
 	<iostream>
 
 1766150320 c:\projet_jeux_videosv2\models\entity.h
 	<SFML/System/Vector2.hpp>
 
-1766150320 source:c:\projet_jeux_videosv2\models\entity.cpp
+1767367738 source:c:\projet_jeux_videosv2\models\entity.cpp
 	"Entity.h"
 
-1767096493 source:c:\projet_jeux_videosv2\views\hudview.cpp
+1767368564 source:c:\projet_jeux_videosv2\views\hudview.cpp
 	"HudView.h"
 	<iostream>
 
@@ -1953,7 +1953,7 @@
 	"Entity.h"
 	<SFML/Graphics/Rect.hpp>
 
-1767359587 source:c:\projet_jeux_videosv2\models\character.cpp
+1767367738 source:c:\projet_jeux_videosv2\models\character.cpp
 	"Character.h"
 
 1766153001 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\character.h
@@ -2673,13 +2673,13 @@
 	<string>
 	"MenuModel.h"
 
-1767285568 source:c:\projet_jeux_videosv2\models\menumodel.cpp
+1767368156 source:c:\projet_jeux_videosv2\models\menumodel.cpp
 	"MenuModel.h"
 
-1766158668 source:c:\projet_jeux_videosv2\models\plantmodel.cpp
+1767368156 source:c:\projet_jeux_videosv2\models\plantmodel.cpp
 	"PlantModel.h"
 
-1767359587 source:c:\projet_jeux_videosv2\models\snakemodel.cpp
+1767368239 source:c:\projet_jeux_videosv2\models\snakemodel.cpp
 	"SnakeModel.h"
 	<cmath>
 
@@ -2696,11 +2696,11 @@
 	"MenuView.h"
 	<cmath>
 
-1766158939 source:c:\projet_jeux_videosv2\views\plantview.cpp
+1767368564 source:c:\projet_jeux_videosv2\views\plantview.cpp
 	"PlantView.h"
 	<algorithm>
 
-1767271655 source:c:\projet_jeux_videosv2\views\snakeview.cpp
+1767368676 source:c:\projet_jeux_videosv2\views\snakeview.cpp
 	"SnakeView.h"
 	<iostream>
 
@@ -2719,7 +2719,7 @@
 1767287312 source:c:\projet_jeux_videosv2\controllers\pausecontroller.cpp
 	"PauseController.h"
 
-1767286980 source:c:\projet_jeux_videosv2\models\pausemodel.cpp
+1767368156 source:c:\projet_jeux_videosv2\models\pausemodel.cpp
 	"PauseModel.h"
 
 1767286980 source:c:\projet_jeux_videosv2\views\pauseview.cpp
@@ -2809,11 +2809,11 @@
 1767364490 c:\projet_jeux_videosv2\views\npcview.h
 	<SFML/Graphics.hpp>
 
-1767364490 source:c:\projet_jeux_videosv2\views\npcview.cpp
+1767368564 source:c:\projet_jeux_videosv2\views\npcview.cpp
 	"NpcView.h"
 	<iostream>
 
-1767359587 source:c:\projet_jeux_videosv2\models\spidermodel.cpp
+1767368239 source:c:\projet_jeux_videosv2\models\spidermodel.cpp
 	"SpiderModel.h"
 	<cmath>
 

@@ -1,36 +1,50 @@
 #include "NpcView.h"
 #include <iostream>
 
+/**
+ * NpcView Constructor
+ * Initializes the visual representation class for NPCs (Non-Player Characters).
+ */
 NpcView::NpcView() {
-    // Constructeur vide ou initialisations de base si besoin
+    // Default constructor or base initializations if required.
 }
 
+/**
+ * Initializes the NPC's graphical assets.
+ * Handles texture loading with fallback paths, sprite clipping, scaling, and pivot alignment.
+ */
 void NpcView::init() {
-    // 1. Chargement de l'image (renommée guardian.png)
+    // 1. Texture Loading (guardian.png)
+    // Attempts to load the asset from the standard resources directory.
     if (!m_texture.loadFromFile("resources/guardian.png")) {
-        // Chemin de secours au cas où le dossier resources n'est pas trouvé
+        // Backup path attempt in case the executable is running from a different relative root.
         if (!m_texture.loadFromFile("guardian.png")) {
-            std::cerr << "ERREUR CRITIQUE : Impossible de charger guardian.png" << std::endl;
+            std::cerr << "CRITICAL ERROR: Unable to load guardian.png" << std::endl;
         }
     }
 
     m_sprite.setTexture(m_texture);
 
-    // 2. Découpage (Texture Rect)
-    // On prend le premier carré de 32x32 pixels en haut à gauche
-    // Cela correspond à la pose "Idle" (immobile) de ta planche
+    // 2. Texture Rect (Clipping/Framing)
+    // Extracts the first 32x32 pixel square from the top-left of the sprite sheet.
+    // This typically represents the "Idle" (standing still) pose for the character.
     m_sprite.setTextureRect(sf::IntRect(0, 0, 32, 32));
 
-    // 3. Mise à l'échelle
-    // On double la taille pour qu'il ne soit pas tout petit
+    // 3. Scaling
+    // Doubles the visual size of the sprite (200%) to ensure visibility within the game world.
     m_sprite.setScale(2.0f, 2.0f);
 
-    // 4. Point d'origine (Pivot)
-    // On met l'origine aux pieds du personnage (milieu bas : x=16, y=32)
-    // Comme ça, quand on le place en (x, y), ses pieds touchent le sol.
+    // 4. Origin Point (Pivot)
+    // Sets the local origin to the character's feet (Bottom-Center: x=16, y=32).
+    // This ensures that when positioned at a specific coordinate, the character stands ON the ground rather than being centered.
     m_sprite.setOrigin(16.0f, 32.0f);
 }
 
+/**
+ * Renders the NPC sprite to the active window.
+ * @param window The SFML RenderWindow target.
+ * @param position The world coordinates (Vector2f) where the NPC should be drawn.
+ */
 void NpcView::draw(sf::RenderWindow& window, sf::Vector2f position) {
     m_sprite.setPosition(position);
     window.draw(m_sprite);
