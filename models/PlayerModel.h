@@ -23,7 +23,7 @@ public:
 
     void move(float dirX);
     bool jump();
-    void attack();
+    bool attack();
     bool dash();
     void revive();
 
@@ -37,6 +37,7 @@ public:
 
 private:
     int m_coins = 3;
+    float m_attackCooldown;
 
 };
 

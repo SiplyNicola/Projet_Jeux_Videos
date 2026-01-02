@@ -1,8 +1,10 @@
 #include "AttackCommand.h"
 #include "PlayerModel.h"
 
-AttackCommand::AttackCommand(PlayerModel& p) : m_player(p){}
+AttackCommand::AttackCommand(PlayerModel& p, SoundManager& soundManager) : m_player(p), m_soundManager(soundManager){}
 
 void AttackCommand::execute() {
-    m_player.attack();
+    if(m_player.attack()){
+        m_soundManager.playAttack();
+    }
 }

@@ -13,7 +13,7 @@ InputHandler::InputHandler(PlayerModel& player, SoundManager& soundManager, sf::
     m_bindings[sf::Keyboard::Q] = std::make_unique<MoveLeftCommand>(player);  //
     m_bindings[sf::Keyboard::D] = std::make_unique<MoveRightCommand>(player); //
     m_bindings[sf::Keyboard::Z] = std::make_unique<JumpCommand>(player, soundManager);
-    m_bindings[sf::Keyboard::K] = std::make_unique<AttackCommand>(player);    //
+    m_bindings[sf::Keyboard::K] = std::make_unique<AttackCommand>(player, soundManager);    //
     m_bindings[sf::Keyboard::J] = std::make_unique<DashCommand>(player, soundManager);      //
     m_bindings[sf::Keyboard::E] = std::make_unique<InteractCommand>(player, guardianZone, onSucces);
     m_bindings[sf::Keyboard::M] = std::make_unique<PauseCommand>(onPause);

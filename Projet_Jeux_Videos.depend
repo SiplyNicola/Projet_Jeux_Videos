@@ -1272,7 +1272,7 @@
 	"../views/SoundManager.h"
 	"command/InputHandler.h"
 
-1767390037 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\playermodel.h
+1767392579 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\playermodel.h
 	<SFML/System/Vector2.hpp>
 	<SFML/Graphics/Rect.hpp>
 	"Character.h"
@@ -1312,7 +1312,7 @@
 1767380331 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\levelmodel.cpp
 	"LevelModel.h"
 
-1767390037 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\playermodel.cpp
+1767392662 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\playermodel.cpp
 	"PlayerModel.h"
 	<cmath>
 
@@ -2870,7 +2870,7 @@
 1767380331 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\worldtransitionmodel.h
 	<string>
 
-1767389822 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\soundmanager.h
+1767392579 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\soundmanager.h
 	<SFML/Audio.hpp>
 	<map>
 	<string>
@@ -2990,7 +2990,7 @@
 	"NpcView.h"
 	<iostream>
 
-1767386990 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\soundmanager.cpp
+1767392748 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\soundmanager.cpp
 	"SoundManager.h"
 	<iostream>
 	<cstdlib>
@@ -3115,20 +3115,21 @@
 
 1767386420 42a6ea1c8fe61ed436e18a2696cd83be2758b
 
-1767387415 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\command\attackcommand.cpp
+1767392634 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\command\attackcommand.cpp
 	"AttackCommand.h"
 	"PlayerModel.h"
 
-1767387415 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\command\attackcommand.h
+1767392656 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\command\attackcommand.h
 	<ICommand.h>
 	<PlayerModel.h>
+	"../views/SoundManager.h"
 
 1767387415 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\command\icommand.h
 
 1767387415 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\command\icommand.cpp
 	"ICommand.h"
 
-1767389663 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\command\inputhandler.cpp
+1767392693 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\command\inputhandler.cpp
 	"InputHandler.h"
 	"AttackCommand.h"
 	"DashCommand.h"

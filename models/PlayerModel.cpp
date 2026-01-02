@@ -27,6 +27,7 @@ PlayerModel::PlayerModel()
     dashDurationTimer = 0.0f;
     m_hasDealtDamage = false; // Prevents dealing damage multiple times in one swing
     m_isGrounded = false;     // Tracks if the player is touching a floor tile
+    m_attackCooldown = 0.0f;
 }
 
 /**
@@ -78,14 +79,18 @@ bool PlayerModel::jump() { // <--- Changé void en bool
 /**
  * Initiates the attack state.
  */
-void PlayerModel::attack() {
+bool PlayerModel::attack() {
     // Attack cannot be triggered if already attacking, dead, or dashing
-    if (state != PlayerState::ATTACK && state != PlayerState::DEAD && !isDashing) {
+    if (m_attackCooldown <= 0 && state != PlayerState::ATTACK && state != PlayerState::DEAD && !isDashing) {
         state = PlayerState::ATTACK;
         attackTimer = 0.0f;
+        m_attackCooldown = 1.0f;
         m_velocity.x = 0; // The player stops moving to perform the strike
         m_hasDealtDamage = false; // Reset damage flag for the new attack session
+
+        return true;
     }
+    return false;
 }
 
 /**
@@ -131,6 +136,7 @@ void PlayerModel::update(float deltaTime) {
 
     // Cooldown management
     if (dashCooldownTimer > 0) dashCooldownTimer -= deltaTime;
+    if (m_attackCooldown > 0) m_attackCooldown -= deltaTime;
 
     // Dash Logic
     if (isDashing) {

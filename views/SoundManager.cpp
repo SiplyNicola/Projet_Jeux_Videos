@@ -16,17 +16,21 @@ void SoundManager::init() {
     loadSound(m_dashBuffer2, "resources/sound/Dash/dash_2.wav");
     loadSound(m_dashBuffer3, "resources/sound/Dash/dash_3.wav");
     loadSound(m_dashBuffer4, "resources/sound/Dash/dash_4.wav");
-    /*loadSound(m_attackBuffer, "resources/audio/attack.wav");
-    loadSound(m_hitBuffer, "resources/audio/hit.wav");*/
+
+    loadSound(m_slashBuffer, "resources/sound/Slash/slash.wav");
+
+    loadSound(m_atkBuffer1, "resources/sound/Attack/attack_1.wav");
+    loadSound(m_atkBuffer2, "resources/sound/Attack/attack_2.wav");
+    loadSound(m_atkBuffer3, "resources/sound/Attack/attack_3.wav");
 
     // On associe les lecteurs aux fichiers
-    /*m_attackSound.setBuffer(m_attackBuffer);
-    m_hitSound.setBuffer(m_hitBuffer);*/
+    m_weaponSound.setBuffer(m_slashBuffer);
 
     // Réglage du volume (optionnel)
     m_jumpSound.setVolume(100.0f);
     m_dashSound.setVolume(100.0f);
-    //m_attackSound.setVolume(70.0f);
+    m_weaponSound.setVolume(20.0f);
+    m_atkSound.setVolume(200.0f);
 }
 
 void SoundManager::loadSound(sf::SoundBuffer& buffer, const std::string& path) {
@@ -81,14 +85,20 @@ void SoundManager::playDash() {
     m_dashSound.play();
 }
 
-/*void SoundManager::playAttack() {
-    // Si le son joue déjà, on le stop pour le relancer (pour spammer l'attaque)
-    if (m_attackSound.getStatus() == sf::Sound::Playing) {
-        m_attackSound.stop();
-    }
-    m_attackSound.play();
-}
+void SoundManager::playAttack() {
+    // --- PARTIE 1 : LE SLASH (Toujours le même) ---
+    // Petit bonus : on varie légèrement le pitch (aigu/grave) pour que le slash
+    // ne sonne pas robotique à chaque coup.
+    float randomPitch = 0.9f + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / 0.2f));
+    m_weaponSound.setPitch(randomPitch);
+    m_weaponSound.play();
 
-void SoundManager::playHit() {
-    m_hitSound.play();
-}*/
+    // --- PARTIE 2 : LA VOIX (Aléatoire) ---
+    int randomPick = std::rand() % 3; // 0, 1 ou 2
+
+    if (randomPick == 0) m_atkSound.setBuffer(m_atkBuffer1);
+    else if (randomPick == 1) m_atkSound.setBuffer(m_atkBuffer2);
+    else m_atkSound.setBuffer(m_atkBuffer3);
+
+    m_atkSound.play();
+}
