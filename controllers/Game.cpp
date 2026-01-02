@@ -13,7 +13,8 @@ Game::Game(sf::RenderWindow& window)
     : m_window(window),
       m_background(sf::Vector2u(1280, 720)),
       m_isPaused(false),
-      m_exitToMainFlag(false)
+      m_exitToMainFlag(false),
+      m_isTransitioning(false)
 {
     // 1. LOAD THE FONT FIRST
     if (!m_font.loadFromFile("resources/fonts/PressStart2P-regular.ttf")) {
@@ -72,7 +73,9 @@ Game::~Game() {
 }
 
 /**
- * Modified run loop to handle Mario-style transitions.
+ * Modified run loop
+ * FIXED: render() is now called outside the pause/transition checks
+ * so the menu can actually be drawn.
  */
 void Game::run() {
     sf::Clock m_clock;
@@ -83,32 +86,39 @@ void Game::run() {
 
         processEvents();
 
-        if (m_isTransitioning) {
-            // Logique de transition Mario
-            m_transitionModel.update(m_dt);
-            m_window.setView(m_window.getDefaultView());
-            m_transitionView.draw(m_window, m_transitionModel);
-            m_window.display();
+        // 1. UPDATE LOGIC
+        if (!m_isPaused) {
+            if (m_isTransitioning) {
+                // Logic for the Mario-style black screen timer
+                m_transitionModel.update(m_dt);
 
-            if (m_transitionModel.isFinished()) {
-                m_isTransitioning = false;
-                m_playerModel.revive();
-                m_playerModel.setPosition(100.0f, 2520.0f);
-                m_camera.setCenter(640.0f, 2520.0f);
-                initEntities();
-                m_clock.restart();
+                if (m_transitionModel.isFinished()) {
+                    m_isTransitioning = false;
+                    m_playerModel.revive();
+                    m_playerModel.setPosition(100.0f, 2520.0f);
+                    m_camera.setCenter(640.0f, 2520.0f);
+                    initEntities();
+                    m_clock.restart();
+                }
             }
-        }
-        else {
-            // SI PAS EN TRANSITION :
-            // On ne met � jour la physique QUE si on n'est PAS en pause
-            if (!m_isPaused) {
+            else {
+                // Standard gameplay physics and AI
                 update(m_dt);
-            }
 
-            // ON DESSINE TOUJOURS (M�me en pause !)
-            render();
+                // Check for death to trigger transition
+                if (m_playerModel.isDead()) {
+                    if (m_playerModel.m_canRevive) {
+                        m_isTransitioning = true;
+                        m_transitionModel.reset("WORLD 1-" + std::to_string(m_currentLevelId), 1);
+                    } else {
+                        return; // Game Over
+                    }
+                }
+            }
         }
+
+        // 2. RENDER LOGIC (Always called)
+        render();
     }
 }
 
@@ -208,87 +218,73 @@ void Game::processEvents() {
 
 /**
  * Game World Update Logic
- * Updates entities, handles collisions, combat, and camera movements.
+ * Includes out-of-bounds detection to handle falling off the map.
  */
 void Game::update(float m_dt) {
-    // 1. Update Models (Physics and Logic)
+    if (m_dt > 0.05f) m_dt = 0.05f;
+
     m_playerModel.update(m_dt);
 
-    // Boss only exists and updates in Level 2
     if (m_currentLevelId == 2) {
         m_boss.updateBoss(m_dt, m_playerModel.getPosition());
     }
 
-    // Early exit if player died during this update frame
+    // --- FALL OUT OF BOUNDS DETECTION ---
+    // Calculate the total height of the map based on tile size (72px)
+    float m_mapH = m_level.getMapData().size() * 72.0f;
+    sf::Vector2f m_pPos = m_playerModel.getPosition();
+
+    // If player falls 100 pixels below the map floor, trigger death
+    if (m_pPos.y > m_mapH + 100.0f) {
+        // Deal massive damage to force the isDead() state
+        m_playerModel.takeDamage(999);
+    }
+
+    // Stop processing if player is dead (avoids further physics updates)
     if (m_playerModel.isDead()) return;
 
-    // --- INTROSPECTION LOOP ---
-    // Iterates over generic character list and applies specific logic based on entity type.
+    // --- ENEMY & ENTITY UPDATES ---
     int snakeIndex = 0;
     int spiderIndex = 0;
-
     for (Character* enemy : m_enemies) {
-        if (enemy->isDead()) continue; // Ignore dead entities
-
-        // Determine specific logic using runtime type identification
-        switch (enemy->getType()) {
-
-            case EntityType::SNAKE: {
-                // Cast to specific model after type verification
-                SnakeModel* snake = static_cast<SnakeModel*>(enemy);
+        if (enemy->getType() == EntityType::SNAKE) {
+            SnakeModel* snake = static_cast<SnakeModel*>(enemy);
+            if (!snake->isDead()) {
                 snake->update(m_dt, m_playerModel.getPosition());
-
-                // Synchronize with the corresponding graphical view
-                if (snakeIndex < m_snakeViews.size()) {
+                if (snakeIndex < (int)m_snakeViews.size())
                     m_snakeViews[snakeIndex].update(m_dt, *snake);
-                }
-                snakeIndex++;
-                break;
             }
-
-            case EntityType::SPIDER: {
-                SpiderModel* spider = static_cast<SpiderModel*>(enemy);
+            snakeIndex++;
+        }
+        else if (enemy->getType() == EntityType::SPIDER) {
+            SpiderModel* spider = static_cast<SpiderModel*>(enemy);
+            if (!spider->isDead()) {
                 spider->update(m_dt, m_playerModel.getPosition());
-
-                if (spiderIndex < m_spiderViews.size()) {
+                if (spiderIndex < (int)m_spiderViews.size())
                     m_spiderViews[spiderIndex].update(m_dt, *spider);
-                }
-                spiderIndex++;
-                break;
             }
-
-            default: break;
+            spiderIndex++;
         }
     }
 
-    // Resolve Combat, Physics, and Tile Collisions
     handleCollisions();
-    if (m_currentLevelId == 2) {
-        handleBossCollisions();
-    }
+    if (m_currentLevelId == 2) handleBossCollisions();
     handleCombat();
 
-    // Update all carnivorous plants (logic + animation sync)
+    // Update Plants
     for (size_t i = 0; i < m_plants.size(); i++) {
         m_plants[i].update(m_dt);
-        m_plantViews[i].update(m_dt, m_plants[i]);
+        if (i < m_plantViews.size()) m_plantViews[i].update(m_dt, m_plants[i]);
     }
 
-    // Camera Clamping Logic: Keeps camera within map boundaries
+    // Camera & Background
     float m_mapW = m_level.getMapData()[0].size() * 72.0f;
-    float m_mapH = m_level.getMapData().size() * 72.0f;
-    sf::Vector2f m_pPos = m_playerModel.getPosition();
     float m_cX = std::max(640.0f, std::min(m_pPos.x, m_mapW - 640.0f));
     float m_cY = std::max(360.0f, std::min(m_pPos.y, m_mapH - 360.0f));
     m_camera.setCenter(m_cX, m_cY);
 
-    // Update visual animations for active entities
     m_playerView.updateAnimation(m_playerModel, m_dt);
-    if (m_currentLevelId == 2) {
-        m_bossView.update(m_dt, m_boss);
-    }
-
-    // Background parallax movement synchronized with camera
+    if (m_currentLevelId == 2) m_bossView.update(m_dt, m_boss);
     m_background.update(m_camera.getCenter().x - 640.0f, m_camera.getCenter().y - 360.0f);
 }
 
@@ -530,54 +526,59 @@ void Game::resolveEnemyCollision(Character* enemy) {
 }
 
 /**
- * Rendering Routine
- * Draws all entities, backgrounds, and UI elements to the screen.
+ * Unified Rendering Routine
+ * Handles normal gameplay, the transition screen, and the pause menu overlay.
  */
 void Game::render() {
     m_window.clear(sf::Color(50, 50, 50));
-    m_window.setView(m_camera);
 
-    // Draw Background, Map, and Static/Semi-static entities
-    m_window.draw(m_background);
-    m_window.draw(m_levelView);
-
-    // Draw all carnivorous plants
-    for (auto& pView : m_plantViews) {
-        pView.draw(m_window);
-    }
-
-    // Level-specific static characters
-    if (m_currentLevelId == 1) {
-        m_guardianView.draw(m_window, m_guardianPos);
-    }
-    if (m_currentLevelId == 2) m_bossView.draw(m_window);
-
-    // Draw Main Character and HUD
-    m_playerView.draw(m_window);
-    m_hud.draw(m_window, m_playerModel.getHP(), m_playerModel.getPosition());
-
-    // Enemy Render Loop
-    int snakeIdx = 0;
-    int spiderIdx = 0;
-
-    for (Character* enemy : m_enemies) {
-        if (enemy->isDead()) continue;
-
-        if (enemy->getType() == EntityType::SNAKE) {
-            m_snakeViews[snakeIdx].draw(m_window);
-            snakeIdx++;
-        }
-        else if (enemy->getType() == EntityType::SPIDER) {
-            // Pass the specific model to draw the spider silk/web thread
-            m_spiderViews[spiderIdx].draw(m_window, *static_cast<SpiderModel*>(enemy));
-            spiderIdx++;
-        }
-    }
-
-    // UI Overlay: Draw Pause menu on top if active
-    if (m_isPaused) {
+    if (m_isTransitioning) {
+        // Draw only the black transition screen (Mario style)
         m_window.setView(m_window.getDefaultView());
-        m_pauseView.draw(m_window, m_pauseModel);
+        m_transitionView.draw(m_window, m_transitionModel);
+    }
+    else {
+        // --- DRAW GAME WORLD ---
+        m_window.setView(m_camera);
+        m_window.draw(m_background);
+        m_window.draw(m_levelView);
+
+        for (auto& pView : m_plantViews) {
+            pView.draw(m_window);
+        }
+
+        if (m_currentLevelId == 1) {
+            m_guardianView.draw(m_window, m_guardianPos);
+        }
+
+        if (m_currentLevelId == 2) m_bossView.draw(m_window);
+
+        m_playerView.draw(m_window);
+
+        // Enemy rendering
+        int snakeIdx = 0;
+        int spiderIdx = 0;
+        for (Character* enemy : m_enemies) {
+            if (enemy->isDead()) continue;
+            if (enemy->getType() == EntityType::SNAKE) {
+                m_snakeViews[snakeIdx].draw(m_window);
+                snakeIdx++;
+            }
+            else if (enemy->getType() == EntityType::SPIDER) {
+                m_spiderViews[spiderIdx].draw(m_window, *static_cast<SpiderModel*>(enemy));
+                spiderIdx++;
+            }
+        }
+
+        // --- DRAW HUD ---
+        // HUD is drawn using the static default view (doesn't move with camera)
+        m_hud.draw(m_window, m_playerModel.getHP(), m_playerModel.getPosition());
+
+        // --- DRAW PAUSE MENU OVERLAY ---
+        if (m_isPaused) {
+            m_window.setView(m_window.getDefaultView());
+            m_pauseView.draw(m_window, m_pauseModel);
+        }
     }
 
     m_window.display();
