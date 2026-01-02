@@ -1430,12 +1430,12 @@
 1764973044 source:c:\projetjeuxvideo\projet_jeux_videos\models\levelmodel.cpp
 	"LevelModel.h"
 
-1767384460 source:c:\projet_jeux_videosv2\controllers\game.cpp
+1767392189 source:c:\projet_jeux_videosv2\controllers\game.cpp
 	"Game.h"
 	<iostream>
 	<cmath>
 
-1767384460 c:\projet_jeux_videosv2\controllers\game.h
+1767390366 c:\projet_jeux_videosv2\controllers\game.h
 	<SFML/Graphics.hpp>
 	<vector>
 	<memory>
@@ -1460,6 +1460,7 @@
 	"../views/NpcView.h"
 	"../views/WorldTransitionView.h"
 	"../models/WorldTransitionModel.h"
+	"../views/SoundManager.h"
 	"command/InputHandler.h"
 
 1765892551 c:\projet_jeux_videosv2\sfml\include\sfml\graphics.hpp
@@ -1871,7 +1872,7 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1767386547 c:\projet_jeux_videosv2\models\playermodel.h
+1767390366 c:\projet_jeux_videosv2\models\playermodel.h
 	<SFML/System/Vector2.hpp>
 	<SFML/Graphics/Rect.hpp>
 	"Character.h"
@@ -1883,8 +1884,9 @@
 	<string>
 	"PlayerModel.h"
 
-1765892551 c:\projet_jeux_videosv2\controllers\playercontroller.h
+1767390366 c:\projet_jeux_videosv2\controllers\playercontroller.h
 	"PlayerModel.h"
+	"../views/SoundManager.h"
 
 1767296696 c:\projet_jeux_videosv2\models\bossmodel.h
 	<SFML/System/Vector2.hpp>
@@ -1912,14 +1914,16 @@
 	<vector>
 	<string>
 
-1767367571 source:c:\projet_jeux_videosv2\controllers\playercontroller.cpp
+1767390366 source:c:\projet_jeux_videosv2\controllers\playercontroller.cpp
 	"PlayerController.h"
 	<SFML/Window/Keyboard.hpp>
 
-1767368676 source:c:\projet_jeux_videosv2\main.cpp
+1767390366 source:c:\projet_jeux_videosv2\main.cpp
 	<SFML/Graphics.hpp>
 	"MenuController.h"
 	"Game.h"
+	<ctime>
+	<cstdlib>
 
 1767367738 source:c:\projet_jeux_videosv2\models\bossmodel.cpp
 	"BossModel.h"
@@ -1928,7 +1932,7 @@
 1767367932 source:c:\projet_jeux_videosv2\models\levelmodel.cpp
 	"LevelModel.h"
 
-1767370213 source:c:\projet_jeux_videosv2\models\playermodel.cpp
+1767390366 source:c:\projet_jeux_videosv2\models\playermodel.cpp
 	"PlayerModel.h"
 	<cmath>
 
@@ -2668,7 +2672,7 @@
 	<SFML/Graphics.hpp>
 	"../models/PlantModel.h"
 
-1767386420 c:\projet_jeux_videosv2\models\snakemodel.h
+1767389209 c:\projet_jeux_videosv2\models\snakemodel.h
 	"Character.h"
 	"Entity.h"
 	"EnemyModel.h"
@@ -2700,7 +2704,7 @@
 1767368156 source:c:\projet_jeux_videosv2\models\plantmodel.cpp
 	"PlantModel.h"
 
-1767386420 source:c:\projet_jeux_videosv2\models\snakemodel.cpp
+1767389209 source:c:\projet_jeux_videosv2\models\snakemodel.cpp
 	"SnakeModel.h"
 	<cmath>
 
@@ -3033,18 +3037,19 @@
 
 1767384460 c:\projet_jeux_videosv2\controllers\command\icommand.h
 
-1767384460 source:c:\projet_jeux_videosv2\controllers\command\dashcommand.cpp
+1767390366 source:c:\projet_jeux_videosv2\controllers\command\dashcommand.cpp
 	"DashCommand.h"
 	"PlayerModel.h"
 
-1767384460 c:\projet_jeux_videosv2\controllers\command\dashcommand.h
+1767390366 c:\projet_jeux_videosv2\controllers\command\dashcommand.h
 	<ICommand.h>
 	<PlayerModel.h>
+	"../views/SoundManager.h"
 
 1767384460 source:c:\projet_jeux_videosv2\controllers\command\icommand.cpp
 	"ICommand.h"
 
-1767384460 source:c:\projet_jeux_videosv2\controllers\command\inputhandler.cpp
+1767390366 source:c:\projet_jeux_videosv2\controllers\command\inputhandler.cpp
 	"InputHandler.h"
 	"AttackCommand.h"
 	"DashCommand.h"
@@ -3054,7 +3059,7 @@
 	"InteractCommand.h"
 	"PauseCommand.h"
 
-1767384460 c:\projet_jeux_videosv2\controllers\command\inputhandler.h
+1767390366 c:\projet_jeux_videosv2\controllers\command\inputhandler.h
 	<SFML/Window/Keyboard.hpp>
 	<SFML/Graphics/Rect.hpp>
 	<map>
@@ -3063,6 +3068,7 @@
 	<functional>
 	"ICommand.h"
 	"PlayerModel.h"
+	"../../views/SoundManager.h"
 
 1767384460 c:\projet_jeux_videosv2\controllers\command\moveleftcommand.h
 	<ICommand.h>
@@ -3072,9 +3078,10 @@
 	<ICommand.h>
 	<PlayerModel.h>
 
-1767384460 c:\projet_jeux_videosv2\controllers\command\jumpcommand.h
+1767390366 c:\projet_jeux_videosv2\controllers\command\jumpcommand.h
 	<ICommand.h>
 	<PlayerModel.h>
+	"../views/SoundManager.h"
 
 1767384460 c:\projet_jeux_videosv2\controllers\command\interactcommand.h
 	"ICommand.h"
@@ -3092,7 +3099,7 @@
 	"SFML/Graphics/Rect.hpp"
 	"functional"
 
-1767384460 source:c:\projet_jeux_videosv2\controllers\command\jumpcommand.cpp
+1767390366 source:c:\projet_jeux_videosv2\controllers\command\jumpcommand.cpp
 	"JumpCommand.h"
 	"PlayerModel.h"
 
@@ -3207,4 +3214,118 @@
 
 1767387416 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\enemymodel.cpp
 	"EnemyModel.h"
+
+1767390366 c:\projet_jeux_videosv2\views\soundmanager.h
+	<SFML/Audio.hpp>
+	<map>
+	<string>
+
+1765892551 c:\projet_jeux_videosv2\sfml\include\sfml\audio.hpp
+	<SFML/System.hpp>
+	<SFML/Audio/InputSoundFile.hpp>
+	<SFML/Audio/Listener.hpp>
+	<SFML/Audio/Music.hpp>
+	<SFML/Audio/OutputSoundFile.hpp>
+	<SFML/Audio/Sound.hpp>
+	<SFML/Audio/SoundBuffer.hpp>
+	<SFML/Audio/SoundBufferRecorder.hpp>
+	<SFML/Audio/SoundFileFactory.hpp>
+	<SFML/Audio/SoundFileReader.hpp>
+	<SFML/Audio/SoundFileWriter.hpp>
+	<SFML/Audio/SoundRecorder.hpp>
+	<SFML/Audio/SoundSource.hpp>
+	<SFML/Audio/SoundStream.hpp>
+
+1765892551 c:\projet_jeux_videosv2\sfml\include\sfml\audio\inputsoundfile.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/System/NonCopyable.hpp>
+	<SFML/System/Time.hpp>
+	<string>
+	<algorithm>
+
+1765892551 c:\projet_jeux_videosv2\sfml\include\sfml\audio\export.hpp
+	<SFML/Config.hpp>
+
+1765892551 c:\projet_jeux_videosv2\sfml\include\sfml\audio\listener.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/System/Vector3.hpp>
+
+1765892551 c:\projet_jeux_videosv2\sfml\include\sfml\audio\music.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/Audio/SoundStream.hpp>
+	<SFML/Audio/InputSoundFile.hpp>
+	<SFML/System/Mutex.hpp>
+	<SFML/System/Time.hpp>
+	<string>
+	<vector>
+
+1765892551 c:\projet_jeux_videosv2\sfml\include\sfml\audio\soundstream.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/Audio/SoundSource.hpp>
+	<SFML/System/Thread.hpp>
+	<SFML/System/Time.hpp>
+	<SFML/System/Mutex.hpp>
+	<cstdlib>
+
+1765892551 c:\projet_jeux_videosv2\sfml\include\sfml\audio\soundsource.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/Audio/AlResource.hpp>
+	<SFML/System/Vector3.hpp>
+
+1765892551 c:\projet_jeux_videosv2\sfml\include\sfml\audio\alresource.hpp
+	<SFML/Audio/Export.hpp>
+
+1765892551 c:\projet_jeux_videosv2\sfml\include\sfml\audio\outputsoundfile.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/System/NonCopyable.hpp>
+	<string>
+
+1765892551 c:\projet_jeux_videosv2\sfml\include\sfml\audio\sound.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/Audio/SoundSource.hpp>
+	<SFML/System/Time.hpp>
+	<cstdlib>
+
+1765892551 c:\projet_jeux_videosv2\sfml\include\sfml\audio\soundbuffer.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/Audio/AlResource.hpp>
+	<SFML/System/Time.hpp>
+	<string>
+	<vector>
+	<set>
+
+1765892551 c:\projet_jeux_videosv2\sfml\include\sfml\audio\soundbufferrecorder.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/Audio/SoundBuffer.hpp>
+	<SFML/Audio/SoundRecorder.hpp>
+	<vector>
+
+1765892551 c:\projet_jeux_videosv2\sfml\include\sfml\audio\soundrecorder.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/Audio/AlResource.hpp>
+	<SFML/System/Thread.hpp>
+	<SFML/System/Time.hpp>
+	<vector>
+	<string>
+
+1765892551 c:\projet_jeux_videosv2\sfml\include\sfml\audio\soundfilefactory.hpp
+	<SFML/Audio/Export.hpp>
+	<string>
+	<vector>
+	<SFML/Audio/SoundFileFactory.inl>
+
+1765892551 c:\projet_jeux_videosv2\sfml\include\sfml\audio\soundfilefactory.inl
+
+1765892551 c:\projet_jeux_videosv2\sfml\include\sfml\audio\soundfilereader.hpp
+	<SFML/Audio/Export.hpp>
+	<string>
+
+1765892551 c:\projet_jeux_videosv2\sfml\include\sfml\audio\soundfilewriter.hpp
+	<SFML/Audio/Export.hpp>
+	<string>
+
+1767390366 source:c:\projet_jeux_videosv2\views\soundmanager.cpp
+	"SoundManager.h"
+	<iostream>
+	<cstdlib>
 
