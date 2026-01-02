@@ -218,105 +218,73 @@ void Game::processEvents() {
 
 /**
  * Game World Update Logic
- * Updates all models, resolves physics/collisions, and synchronizes
- * graphical animations while keeping indices aligned to prevent bugs.
+ * Includes out-of-bounds detection to handle falling off the map.
  */
 void Game::update(float m_dt) {
-    // 1. Safety Physics Clamp
-    // Prevents entities from falling through walls if the frame rate drops.
     if (m_dt > 0.05f) m_dt = 0.05f;
 
-    // 2. Update Player Physics and State
     m_playerModel.update(m_dt);
 
-    // 3. Update Boss Logic (Only active in Level 2)
     if (m_currentLevelId == 2) {
         m_boss.updateBoss(m_dt, m_playerModel.getPosition());
     }
 
-    // 4. Early Exit on Death
-    // Stop processing world logic if the player is dead to avoid glitches.
+    // --- FALL OUT OF BOUNDS DETECTION ---
+    // Calculate the total height of the map based on tile size (72px)
+    float m_mapH = m_level.getMapData().size() * 72.0f;
+    sf::Vector2f m_pPos = m_playerModel.getPosition();
+
+    // If player falls 100 pixels below the map floor, trigger death
+    if (m_pPos.y > m_mapH + 100.0f) {
+        // Deal massive damage to force the isDead() state
+        m_playerModel.takeDamage(999);
+    }
+
+    // Stop processing if player is dead (avoids further physics updates)
     if (m_playerModel.isDead()) return;
 
-    // --- ENEMY SYNCHRONIZATION LOOP ---
-    // We use counters to map each Model in m_enemies to its correct View.
+    // --- ENEMY & ENTITY UPDATES ---
     int snakeIndex = 0;
     int spiderIndex = 0;
-
     for (Character* enemy : m_enemies) {
-        // CASE: SNAKE
         if (enemy->getType() == EntityType::SNAKE) {
             SnakeModel* snake = static_cast<SnakeModel*>(enemy);
-
-            // Only update logic and view if the snake is alive
             if (!snake->isDead()) {
                 snake->update(m_dt, m_playerModel.getPosition());
-
-                if (snakeIndex < (int)m_snakeViews.size()) {
+                if (snakeIndex < (int)m_snakeViews.size())
                     m_snakeViews[snakeIndex].update(m_dt, *snake);
-                }
             }
-            // CRITICAL: Increment index for EVERY snake to keep views aligned.
             snakeIndex++;
         }
-        // CASE: SPIDER
         else if (enemy->getType() == EntityType::SPIDER) {
             SpiderModel* spider = static_cast<SpiderModel*>(enemy);
-
             if (!spider->isDead()) {
                 spider->update(m_dt, m_playerModel.getPosition());
-
-                if (spiderIndex < (int)m_spiderViews.size()) {
+                if (spiderIndex < (int)m_spiderViews.size())
                     m_spiderViews[spiderIndex].update(m_dt, *spider);
-                }
             }
             spiderIndex++;
         }
     }
 
-    // 5. Resolve World Physics & Combat
     handleCollisions();
-    if (m_currentLevelId == 2) {
-        handleBossCollisions();
-    }
+    if (m_currentLevelId == 2) handleBossCollisions();
     handleCombat();
 
-    // 6. Update Carnivorous Plants (Animation & Logic)
+    // Update Plants
     for (size_t i = 0; i < m_plants.size(); i++) {
         m_plants[i].update(m_dt);
-        if (i < m_plantViews.size()) {
-            m_plantViews[i].update(m_dt, m_plants[i]);
-        }
+        if (i < m_plantViews.size()) m_plantViews[i].update(m_dt, m_plants[i]);
     }
 
-    // 7. Interaction Zone (NPC Guardian)
-    sf::FloatRect guardianZone(m_guardianPos.x - 50, m_guardianPos.y - 50, 100, 100);
-    if (m_playerModel.getHitbox().intersects(guardianZone)) {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
-            // Check if player has collected enough coins
-            if (m_playerModel.getCoins() >= 3) {
-                loadCaveLevel(); // Victory: Transition to next level
-            }
-        }
-    }
-
-    // 8. Camera Clamping & View Setup
-    // Ensures the camera stays within the level boundaries.
+    // Camera & Background
     float m_mapW = m_level.getMapData()[0].size() * 72.0f;
-    float m_mapH = m_level.getMapData().size() * 72.0f;
-    sf::Vector2f m_pPos = m_playerModel.getPosition();
-
     float m_cX = std::max(640.0f, std::min(m_pPos.x, m_mapW - 640.0f));
     float m_cY = std::max(360.0f, std::min(m_pPos.y, m_mapH - 360.0f));
     m_camera.setCenter(m_cX, m_cY);
 
-    // 9. Update Visual Animations
     m_playerView.updateAnimation(m_playerModel, m_dt);
-    if (m_currentLevelId == 2) {
-        m_bossView.update(m_dt, m_boss);
-    }
-
-    // 10. Background Parallax Sync
+    if (m_currentLevelId == 2) m_bossView.update(m_dt, m_boss);
     m_background.update(m_camera.getCenter().x - 640.0f, m_camera.getCenter().y - 360.0f);
 }
 
