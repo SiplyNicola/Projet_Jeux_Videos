@@ -2,6 +2,7 @@
 #define SPIDERMODEL_H
 
 #include "Character.h"
+#include "EnemyModel.h"
 
 enum class SpiderState {
     HANGING,    // Au plafond (En attente)
@@ -12,7 +13,7 @@ enum class SpiderState {
     DEATH
 };
 
-class SpiderModel : public Character {
+class SpiderModel : public EnemyModel {
 public:
     SpiderModel(float x, float y);
 
@@ -37,9 +38,6 @@ private:
     float m_anchorY;      // Le plafond
     float m_attackCooldown;
 
-    // Pour la patrouille au sol (comme le snake)
-    float m_patrolTimer;
-    bool m_movingRight;
 };
 
 #endif

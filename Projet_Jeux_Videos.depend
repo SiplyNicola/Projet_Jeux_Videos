@@ -2564,9 +2564,10 @@
 	<SFML/Graphics.hpp>
 	"../models/PlantModel.h"
 
-1767267135 c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\snakemodel.h
+1767385492 c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\snakemodel.h
 	"Character.h"
 	"Entity.h"
+	"EnemyModel.h"
 
 1767268177 c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\snakeview.h
 	<SFML/Graphics.hpp>
@@ -2641,7 +2642,7 @@
 	<iostream>
 	<cmath>
 
-1767372019 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\snakemodel.cpp
+1767385512 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\snakemodel.cpp
 	"SnakeModel.h"
 	<cmath>
 
@@ -2776,14 +2777,15 @@
 	"PauseView.h"
 	<cmath>
 
-1767296937 c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\spidermodel.h
+1767385311 c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\spidermodel.h
 	"Character.h"
+	"EnemyModel.h"
 
 1767297022 c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\spiderview.h
 	<SFML/Graphics.hpp>
 	"../models/SpiderModel.h"
 
-1767372019 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\spidermodel.cpp
+1767385466 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\spidermodel.cpp
 	"SpiderModel.h"
 	<cmath>
 
@@ -2852,4 +2854,10 @@
 
 1767374530 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\worldtransitionview.cpp
 	"WorldTransitionView.h"
+
+1767385738 c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\enemymodel.h
+	"Character.h"
+
+1767385649 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\enemymodel.cpp
+	"EnemyModel.h"
 

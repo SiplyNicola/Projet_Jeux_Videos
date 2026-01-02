@@ -9,12 +9,11 @@
  * @param y The initial Y coordinate, which also serves as the ceiling anchor.
  */
 SpiderModel::SpiderModel(float x, float y)
-    : Character(3, 50.0f, 1, EntityType::SPIDER),
+    : EnemyModel(3, 50.0f, 1, EntityType::SPIDER),
       m_state(SpiderState::HANGING),    // Starts in ambush mode, hanging from the ceiling
       m_stateTimer(0.0f),               // Timer for state durations (like being hurt)
       m_anchorY(y),                     // CRITICAL: This Y-coordinate fixes the ceiling position for the thread
-      m_attackCooldown(0.0f),            // Delay between consecutive attacks
-      m_patrolTimer(0.0f)
+      m_attackCooldown(0.0f)            // Delay between consecutive attacks
 {
     m_position = sf::Vector2f(x, y); // Initial world position
     m_facingRight = true;            // Inherited orientation flag
@@ -76,18 +75,8 @@ void SpiderModel::update(float dt, sf::Vector2f playerPos) {
     case SpiderState::WALK:
     case SpiderState::ATTACK:
         // Standard gravity while on the ground
-        m_velocity.y += 1500.0f * dt;
-
-        // Basic Patrol Behavior (Left <-> Right)
-        // Switches direction every 2 seconds
-        m_patrolTimer += dt;
-        if (m_patrolTimer >= 2.0f) {
-            m_movingRight = !m_movingRight;
-            m_patrolTimer = 0;
-        }
-
-        m_facingRight = m_movingRight;
-        m_velocity.x = m_movingRight ? m_speed : -m_speed;
+       applyGravity(dt);
+       updatePatrolMovement(dt);
 
         // Apply final velocity to position
         m_position += m_velocity * dt;
