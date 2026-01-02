@@ -2469,31 +2469,31 @@
 	<string>
 	"MenuModel.h"
 
-1764406348 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\playercontroller.cpp
+1767372019 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\playercontroller.cpp
 	"PlayerController.h"
 	<SFML/Window/Keyboard.hpp>
 
 1764406348 c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\playercontroller.h
 	"PlayerModel.h"
 
-1767360853 c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\playermodel.h
+1767374530 c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\playermodel.h
 	<SFML/System/Vector2.hpp>
 	<SFML/Graphics/Rect.hpp>
 	"Character.h"
 
-1767346377 c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\character.h
+1767374530 c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\character.h
 	"Entity.h"
 	<SFML/Graphics/Rect.hpp>
 
 1766150614 c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\entity.h
 	<SFML/System/Vector2.hpp>
 
-1766865791 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\main.cpp
+1767372019 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\main.cpp
 	<SFML/Graphics.hpp>
 	"MenuController.h"
 	"Game.h"
 
-1767360557 c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\game.h
+1767374530 c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\game.h
 	<SFML/Graphics.hpp>
 	<vector>
 	"../models/PlayerModel.h"
@@ -2515,6 +2515,8 @@
 	"PauseView.h"
 	"PauseController.h"
 	"../views/NpcView.h"
+	"../views/WorldTransitionView.h"
+	"../models/WorldTransitionModel.h"
 
 1766149553 c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\playerview.h
 	<SFML/Graphics.hpp>
@@ -2553,9 +2555,10 @@
 	<SFML/Graphics.hpp>
 	<vector>
 
-1766163422 c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\plantmodel.h
+1767374530 c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\plantmodel.h
 	"Entity.h"
 	<SFML/Graphics/Rect.hpp>
+	<string>
 
 1766163423 c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\plantview.h
 	<SFML/Graphics.hpp>
@@ -2569,26 +2572,26 @@
 	<SFML/Graphics.hpp>
 	"../models/SnakeModel.h"
 
-1767346891 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\bossmodel.cpp
+1767372019 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\bossmodel.cpp
 	"BossModel.h"
 	<cmath>
 
-1767346393 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\character.cpp
+1767372019 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\character.cpp
 	"Character.h"
 
-1766150614 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\entity.cpp
+1767372019 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\entity.cpp
 	"Entity.h"
 
-1767359864 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\levelmodel.cpp
+1767372019 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\levelmodel.cpp
 	"LevelModel.h"
 
-1767291023 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\menumodel.cpp
+1767372019 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\menumodel.cpp
 	"MenuModel.h"
 
-1766163422 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\plantmodel.cpp
+1767372019 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\plantmodel.cpp
 	"PlantModel.h"
 
-1767346522 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\playermodel.cpp
+1767374530 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\playermodel.cpp
 	"PlayerModel.h"
 	<cmath>
 
@@ -2601,19 +2604,19 @@
 	<SFML/Graphics/Rect.hpp>
 	<string>
 
-1764406349 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\background.cpp
+1767372019 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\background.cpp
 	"Background.h"
 	<iostream>
 
-1767297707 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\bossview.cpp
+1767372019 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\bossview.cpp
 	"BossView.h"
 	<iostream>
 
-1767265779 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\hudview.cpp
+1767372020 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\hudview.cpp
 	"HudView.h"
 	<iostream>
 
-1767359378 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\levelview.cpp
+1767372020 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\levelview.cpp
 	"LevelView.h"
 	<iostream>
 
@@ -2621,24 +2624,24 @@
 	"MenuView.h"
 	<cmath>
 
-1766163423 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\plantview.cpp
+1767372020 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\plantview.cpp
 	"PlantView.h"
 	<algorithm>
 
-1766149553 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\playerview.cpp
+1767372020 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\playerview.cpp
 	"PlayerView.h"
 	<iostream>
 
-1767268446 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\snakeview.cpp
+1767372020 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\snakeview.cpp
 	"SnakeView.h"
 	<iostream>
 
-1767361748 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\game.cpp
+1767374530 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\game.cpp
 	"Game.h"
 	<iostream>
 	<cmath>
 
-1767347904 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\snakemodel.cpp
+1767372019 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\snakemodel.cpp
 	"SnakeModel.h"
 	<cmath>
 
@@ -2766,7 +2769,7 @@
 	<vector>
 	"PauseModel.h"
 
-1767291024 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\pausemodel.cpp
+1767372019 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\pausemodel.cpp
 	"PauseModel.h"
 
 1767291024 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\pauseview.cpp
@@ -2780,11 +2783,11 @@
 	<SFML/Graphics.hpp>
 	"../models/SpiderModel.h"
 
-1767347922 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\spidermodel.cpp
+1767372019 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\spidermodel.cpp
 	"SpiderModel.h"
 	<cmath>
 
-1767347922 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\spiderview.cpp
+1767372020 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\spiderview.cpp
 	"SpiderView.h"
 	<iostream>
 
@@ -2798,7 +2801,7 @@
 1767360467 c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\npcview.h
 	<SFML/Graphics.hpp>
 
-1767360451 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\npcview.cpp
+1767372020 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\npcview.cpp
 	"NpcView.h"
 	<iostream>
 
@@ -2835,5 +2838,18 @@
 	"WorldTransitionModel.h"
 
 1767372585 source:c:\projet_jeux_videosv2\views\worldtransitionview.cpp
+	"WorldTransitionView.h"
+
+1767374530 c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\worldtransitionview.h
+	<SFML/Graphics.hpp>
+	"WorldTransitionModel.h"
+
+1767374530 c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\worldtransitionmodel.h
+	<string>
+
+1767374530 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\worldtransitionmodel.cpp
+	"WorldTransitionModel.h"
+
+1767374530 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\worldtransitionview.cpp
 	"WorldTransitionView.h"
 

@@ -13,7 +13,8 @@ SpiderModel::SpiderModel(float x, float y)
       m_state(SpiderState::HANGING),    // Starts in ambush mode, hanging from the ceiling
       m_stateTimer(0.0f),               // Timer for state durations (like being hurt)
       m_anchorY(y),                     // CRITICAL: This Y-coordinate fixes the ceiling position for the thread
-      m_attackCooldown(0.0f)            // Delay between consecutive attacks
+      m_attackCooldown(0.0f),            // Delay between consecutive attacks
+      m_patrolTimer(0.0f)
 {
     m_position = sf::Vector2f(x, y); // Initial world position
     m_facingRight = true;            // Inherited orientation flag

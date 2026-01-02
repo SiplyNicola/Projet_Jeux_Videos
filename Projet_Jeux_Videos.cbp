@@ -71,7 +71,6 @@
 		<Unit filename="controllers/PauseController.h" />
 		<Unit filename="controllers/PlayerController.cpp" />
 		<Unit filename="controllers/PlayerController.h" />
-		<Unit filename="include/Loot.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="models/BossModel.cpp" />
 		<Unit filename="models/BossModel.h" />
@@ -91,7 +90,8 @@
 		<Unit filename="models/PlayerModel.h" />
 		<Unit filename="models/SnakeModel.cpp" />
 		<Unit filename="models/SnakeModel.h" />
-		<Unit filename="src/Loot.cpp" />
+		<Unit filename="models/SpiderModel.cpp" />
+		<Unit filename="models/SpiderModel.h" />
 		<Unit filename="views/Background.cpp" />
 		<Unit filename="views/Background.h" />
 		<Unit filename="views/BossView.cpp" />
@@ -102,6 +102,8 @@
 		<Unit filename="views/LevelView.h" />
 		<Unit filename="views/MenuView.cpp" />
 		<Unit filename="views/MenuView.h" />
+		<Unit filename="views/NpcView.cpp" />
+		<Unit filename="views/NpcView.h" />
 		<Unit filename="views/PauseView.cpp" />
 		<Unit filename="views/PauseView.h" />
 		<Unit filename="views/PlantView.cpp" />
@@ -109,6 +111,8 @@
 		<Unit filename="views/PlayerView.cpp" />
 		<Unit filename="views/PlayerView.h" />
 		<Unit filename="views/SnakeView.cpp" />
+		<Unit filename="views/SpiderView.cpp" />
+		<Unit filename="views/SpiderView.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
