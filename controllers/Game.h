@@ -76,8 +76,8 @@ private:
 
     LevelModel m_level;
     LevelView m_levelView;
-    PlantModel m_plantModel;
-    PlantView m_plantView;
+   std::vector<PlantModel> m_plants;      // List of plant logic objects
+    std::vector<PlantView>  m_plantViews;  // List of plant visual representations
 
     sf::Vector2f m_guardianPos;
     NpcView m_guardianView;

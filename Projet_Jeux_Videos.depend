@@ -1421,12 +1421,12 @@
 1764973044 source:c:\projetjeuxvideo\projet_jeux_videos\models\levelmodel.cpp
 	"LevelModel.h"
 
-1767287223 source:c:\projet_jeux_videosv2\controllers\game.cpp
+1767364489 source:c:\projet_jeux_videosv2\controllers\game.cpp
 	"Game.h"
 	<iostream>
 	<cmath>
 
-1767286980 c:\projet_jeux_videosv2\controllers\game.h
+1767365571 c:\projet_jeux_videosv2\controllers\game.h
 	<SFML/Graphics.hpp>
 	<vector>
 	"../models/PlayerModel.h"
@@ -1442,9 +1442,12 @@
 	"../views/PlantView.h"
 	"../models/SnakeModel.h"
 	"../views/SnakeView.h"
+	"../models/SpiderModel.h"
+	"../views/SpiderView.h"
 	"PauseModel.h"
 	"PauseView.h"
 	"PauseController.h"
+	"../views/NpcView.h"
 
 1765892551 c:\projet_jeux_videosv2\sfml\include\sfml\graphics.hpp
 	<SFML/Window.hpp>
@@ -1855,7 +1858,7 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1766762792 c:\projet_jeux_videosv2\models\playermodel.h
+1767364489 c:\projet_jeux_videosv2\models\playermodel.h
 	<SFML/System/Vector2.hpp>
 	<SFML/Graphics/Rect.hpp>
 	"Character.h"
@@ -1870,7 +1873,7 @@
 1765892551 c:\projet_jeux_videosv2\controllers\playercontroller.h
 	"PlayerModel.h"
 
-1766150371 c:\projet_jeux_videosv2\models\bossmodel.h
+1767296696 c:\projet_jeux_videosv2\models\bossmodel.h
 	<SFML/System/Vector2.hpp>
 	<SFML/Graphics/Rect.hpp>
 	"Character.h"
@@ -1891,7 +1894,7 @@
 	<map>
 	<string>
 
-1765892551 c:\projet_jeux_videosv2\views\background.h
+1767296697 c:\projet_jeux_videosv2\views\background.h
 	<SFML/Graphics.hpp>
 	<vector>
 	<string>
@@ -1905,14 +1908,14 @@
 	"MenuController.h"
 	"Game.h"
 
-1766150320 source:c:\projet_jeux_videosv2\models\bossmodel.cpp
+1767359587 source:c:\projet_jeux_videosv2\models\bossmodel.cpp
 	"BossModel.h"
 	<cmath>
 
-1767096493 source:c:\projet_jeux_videosv2\models\levelmodel.cpp
+1767364489 source:c:\projet_jeux_videosv2\models\levelmodel.cpp
 	"LevelModel.h"
 
-1767096493 source:c:\projet_jeux_videosv2\models\playermodel.cpp
+1767359587 source:c:\projet_jeux_videosv2\models\playermodel.cpp
 	"PlayerModel.h"
 	<cmath>
 
@@ -1924,7 +1927,7 @@
 	"BossView.h"
 	<iostream>
 
-1767096493 source:c:\projet_jeux_videosv2\views\levelview.cpp
+1767364490 source:c:\projet_jeux_videosv2\views\levelview.cpp
 	"LevelView.h"
 	<iostream>
 
@@ -1946,11 +1949,11 @@
 	<SFML/Graphics.hpp>
 	<vector>
 
-1766150320 c:\projet_jeux_videosv2\models\character.h
+1767359587 c:\projet_jeux_videosv2\models\character.h
 	"Entity.h"
 	<SFML/Graphics/Rect.hpp>
 
-1766150320 source:c:\projet_jeux_videosv2\models\character.cpp
+1767359587 source:c:\projet_jeux_videosv2\models\character.cpp
 	"Character.h"
 
 1766153001 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\character.h
@@ -2676,7 +2679,7 @@
 1766158668 source:c:\projet_jeux_videosv2\models\plantmodel.cpp
 	"PlantModel.h"
 
-1767271655 source:c:\projet_jeux_videosv2\models\snakemodel.cpp
+1767359587 source:c:\projet_jeux_videosv2\models\snakemodel.cpp
 	"SnakeModel.h"
 	<cmath>
 
@@ -2794,5 +2797,27 @@
 
 1767360451 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\npcview.cpp
 	"NpcView.h"
+	<iostream>
+
+1767299419 c:\projet_jeux_videosv2\models\spidermodel.h
+	"Character.h"
+
+1767299419 c:\projet_jeux_videosv2\views\spiderview.h
+	<SFML/Graphics.hpp>
+	"../models/SpiderModel.h"
+
+1767364490 c:\projet_jeux_videosv2\views\npcview.h
+	<SFML/Graphics.hpp>
+
+1767364490 source:c:\projet_jeux_videosv2\views\npcview.cpp
+	"NpcView.h"
+	<iostream>
+
+1767359587 source:c:\projet_jeux_videosv2\models\spidermodel.cpp
+	"SpiderModel.h"
+	<cmath>
+
+1767299419 source:c:\projet_jeux_videosv2\views\spiderview.cpp
+	"SpiderView.h"
 	<iostream>
 

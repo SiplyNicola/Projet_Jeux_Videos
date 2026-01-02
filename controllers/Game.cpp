@@ -5,8 +5,8 @@
 Game::Game(sf::RenderWindow& window)
     : m_window(window),
       m_background(sf::Vector2u(1280, 720)),
-      m_plantModel({100.0f, 2520.0f}),
       m_isPaused(false),
+      m_playerModel(),
       m_exitToMainFlag(false)
 {
     m_camera.setSize(1280, 720);
@@ -17,7 +17,6 @@ Game::Game(sf::RenderWindow& window)
     m_levelView.init();
     m_level.loadLevel(1);
     m_levelView.build(m_level);
-    m_plantView.init();
     m_hud.init();
 
     m_guardianView.init();
@@ -31,7 +30,27 @@ Game::Game(sf::RenderWindow& window)
     m_enemies.clear();
     m_snakeViews.clear();
     m_spiderViews.clear();
+    // --- PLANT CREATION ---
+    m_plants.clear();
+    m_plantViews.clear();
 
+    std::vector<sf::Vector2f> plantPositions = {
+        {1669.0f, 1449.0f},
+        {1500.0f, 2520.0f},
+        {4561.0f, 366.0f},
+        {5829.0f, 1776.0f}
+    };
+
+    // AJOUTEZ CETTE LIGNE : On réserve la place pour éviter les déplacements mémoire
+    m_plantViews.reserve(plantPositions.size());
+    m_plants.reserve(plantPositions.size());
+
+    for (const auto& pos : plantPositions) {
+        m_plants.push_back(PlantModel(pos));
+
+        m_plantViews.emplace_back();
+        m_plantViews.back().init();
+    }
     // 1. Create Snakes
     std::vector<sf::Vector2f> m_snakePositions = {
         {400.0f, 2520.0f}, {1258.0f, 2663.0f}, {1908.0f, 2520.0f}, {2961.0f, 2264.0f},
@@ -151,7 +170,7 @@ void Game::update(float m_dt) {
         m_boss.updateBoss(m_dt, m_playerModel.getPosition());
     }
 
-    m_plantModel.update(m_dt);
+
 
     if (m_playerModel.isDead()) return;
 
@@ -227,6 +246,11 @@ void Game::update(float m_dt) {
         }
     }
 
+    for (size_t i = 0; i < m_plants.size(); i++) {
+    m_plants[i].update(m_dt);
+    m_plantViews[i].update(m_dt, m_plants[i]);
+    }
+
     // Camera Clamping logic
     float m_mapW = m_level.getMapData()[0].size() * 72.0f;
     float m_mapH = m_level.getMapData().size() * 72.0f;
@@ -235,7 +259,7 @@ void Game::update(float m_dt) {
     float m_cY = std::max(360.0f, std::min(m_pPos.y, m_mapH - 360.0f));
     m_camera.setCenter(m_cX, m_cY);
 
-    m_plantView.update(m_dt, m_plantModel);
+
     m_playerView.updateAnimation(m_playerModel, m_dt);
     if (m_currentLevelId == 2) {
         m_bossView.update(m_dt, m_boss);
@@ -339,6 +363,23 @@ void Game::handleCombat() {
 
         // Handling Enemy Physics (Walls)
         resolveEnemyCollision(enemy);
+
+        // --- PLANT COMBAT LOGIC ---
+    for (auto& plant : m_plants) {
+        // We check if the plant is attacking
+        if (plant.getState() == P_ATTACKING) {
+
+            // We only deal damage during a specific window of the animation (e.g., 0.5s)
+            // to avoid draining the player's life in 1 frame
+            if (plant.getTimer() >= 0.5f && plant.getTimer() <= 0.55f) {
+
+                // Check collision between the plant's mouth and the player
+                if (plant.getBiteZone().intersects(m_playerModel.getHitbox())) {
+                    m_playerModel.takeDamage(20); //
+                }
+            }
+        }
+    }
     }
 }
 
@@ -460,7 +501,12 @@ void Game::render() {
     m_window.setView(m_camera);
     m_window.draw(m_background);
     m_window.draw(m_levelView);
-    m_plantView.draw(m_window);
+
+    // Draw all plant instances
+    for (auto& pView : m_plantViews) {
+        pView.draw(m_window);
+    }
+
     if (m_currentLevelId == 1) {
         m_guardianView.draw(m_window, m_guardianPos);
     }
