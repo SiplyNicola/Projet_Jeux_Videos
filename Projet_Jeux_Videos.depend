@@ -2478,7 +2478,7 @@
 1764406348 c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\playercontroller.h
 	"PlayerModel.h"
 
-1767374530 c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\playermodel.h
+1767387177 c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\playermodel.h
 	<SFML/System/Vector2.hpp>
 	<SFML/Graphics/Rect.hpp>
 	"Character.h"
@@ -2495,9 +2495,10 @@
 	"MenuController.h"
 	"Game.h"
 
-1767374530 c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\game.h
+1767385813 c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\game.h
 	<SFML/Graphics.hpp>
 	<vector>
+	<memory>
 	"../models/PlayerModel.h"
 	"../views/PlayerView.h"
 	"../controllers/PlayerController.h"
@@ -2519,6 +2520,7 @@
 	"../views/NpcView.h"
 	"../views/WorldTransitionView.h"
 	"../models/WorldTransitionModel.h"
+	"command/InputHandler.h"
 
 1766149553 c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\playerview.h
 	<SFML/Graphics.hpp>
@@ -2566,7 +2568,7 @@
 	<SFML/Graphics.hpp>
 	"../models/PlantModel.h"
 
-1767385492 c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\snakemodel.h
+1767388299 c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\snakemodel.h
 	"Character.h"
 	"Entity.h"
 	"EnemyModel.h"
@@ -2594,7 +2596,7 @@
 1767372019 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\plantmodel.cpp
 	"PlantModel.h"
 
-1767374530 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\playermodel.cpp
+1767386066 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\playermodel.cpp
 	"PlayerModel.h"
 	<cmath>
 
@@ -2639,12 +2641,12 @@
 	"SnakeView.h"
 	<iostream>
 
-1767374530 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\game.cpp
+1767387177 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\game.cpp
 	"Game.h"
 	<iostream>
 	<cmath>
 
-1767385512 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\snakemodel.cpp
+1767388142 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\snakemodel.cpp
 	"SnakeModel.h"
 	<cmath>
 
@@ -2954,4 +2956,88 @@
 
 1767386420 source:c:\projet_jeux_videosv2\models\enemymodel.cpp
 	"EnemyModel.h"
+
+1767385813 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\command\attackcommand.cpp
+	"AttackCommand.h"
+	"PlayerModel.h"
+
+1767385813 c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\command\attackcommand.h
+	<ICommand.h>
+	<PlayerModel.h>
+
+1767385813 c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\command\icommand.h
+
+1767385813 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\command\dashcommand.cpp
+	"DashCommand.h"
+	"PlayerModel.h"
+
+1767385813 c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\command\dashcommand.h
+	<ICommand.h>
+	<PlayerModel.h>
+
+1767385813 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\command\icommand.cpp
+	"ICommand.h"
+
+1767385813 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\command\inputhandler.cpp
+	"InputHandler.h"
+	"AttackCommand.h"
+	"DashCommand.h"
+	"MoveLeftCommand.h"
+	"MoveRightCommand.h"
+	"JumpCommand.h"
+	"InteractCommand.h"
+	"PauseCommand.h"
+
+1767385813 c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\command\inputhandler.h
+	<SFML/Window/Keyboard.hpp>
+	<SFML/Graphics/Rect.hpp>
+	<map>
+	<vector>
+	<memory>
+	<functional>
+	"ICommand.h"
+	"PlayerModel.h"
+
+1767385813 c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\command\moveleftcommand.h
+	<ICommand.h>
+	<PlayerModel.h>
+
+1767385813 c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\command\moverightcommand.h
+	<ICommand.h>
+	<PlayerModel.h>
+
+1767385813 c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\command\jumpcommand.h
+	<ICommand.h>
+	<PlayerModel.h>
+
+1767385813 c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\command\interactcommand.h
+	"ICommand.h"
+	"PlayerModel.h"
+	<SFML/Graphics/Rect.hpp>
+	<functional>
+
+1767385813 c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\command\pausecommand.h
+	"ICommand.h"
+	<functional>
+
+1767385813 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\command\interactcommand.cpp
+	"InteractCommand.h"
+	"iostream"
+	"SFML/Graphics/Rect.hpp"
+	"functional"
+
+1767385813 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\command\jumpcommand.cpp
+	"JumpCommand.h"
+	"PlayerModel.h"
+
+1767385813 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\command\moveleftcommand.cpp
+	"MoveLeftCommand.h"
+	"PlayerModel.h"
+
+1767385813 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\command\moverightcommand.cpp
+	"MoveRightCommand.h"
+	"PlayerModel.h"
+
+1767385813 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\command\pausecommand.cpp
+	"PauseCommand.h"
 

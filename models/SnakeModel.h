@@ -15,9 +15,9 @@ class SnakeModel : public EnemyModel {
 public:
     SnakeModel(float x, float y);
 
-    void update(float dt) override {} // Vide pour satisfaire le parent
+    void update(float dt) override {}
 
-    // Fonction principale de mise à jour
+
     void update(float dt, sf::Vector2f playerPos);
 
     SnakeState getState() const { return m_state; }
@@ -25,16 +25,16 @@ public:
 
     sf::FloatRect getHitbox() const;
 
-    // --- GESTION DU DÉLAI D'ATTAQUE ---
-    bool canAttack() const { return m_attackCooldown <= 0; } // Vrai si le timer est fini
-    void resetAttackCooldown(); // Le serpent doit attendre avant de remordre
-    // ----------------------------------
+
+    bool canAttack() const { return m_attackCooldown <= 0; }
+    void resetAttackCooldown();
+
 
 private:
     SnakeState m_state;
-    float m_stateTimer;   // Pour gérer la durée du clignotement rouge
-    // Pour l'attaque
-    float m_attackCooldown; // Temps d'attente entre deux morsures
+    float m_stateTimer;
+
+    float m_attackCooldown;
 };
 
 #endif

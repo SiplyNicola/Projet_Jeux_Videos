@@ -27,31 +27,30 @@ SnakeModel::SnakeModel(float x, float y)
 void SnakeModel::update(float dt, sf::Vector2f playerPos) {
     if (m_state == SnakeState::DEATH) return;
 
-    // 1. Cooldown Attaque
+    // 1. Cooldown
     if (m_attackCooldown > 0) m_attackCooldown -= dt;
 
-    // 2. Gestion HURT
+    // 2.  HURT
     if (m_state == SnakeState::HURT) {
         m_stateTimer += dt;
         if (m_stateTimer >= 0.5f) {
             m_state = SnakeState::WALK;
             m_stateTimer = 0;
         }
-        // On applique quand même la gravité pendant qu'il a mal
+
+        m_velocity.x = 0.0f;
+
         applyGravity(dt);
         m_position += m_velocity * dt;
         return;
     }
 
-    // --- REMPLACEMENT DU CODE DUPLIQUÉ ---
 
-    // 3. Gravité (Via EnemyModel)
+
     applyGravity(dt);
 
-    // 4. Patrouille (Via EnemyModel)
     updatePatrolMovement(dt);
 
-    // 5. Application du mouvement final
     m_position += m_velocity * dt;
 }
 
