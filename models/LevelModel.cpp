@@ -15,7 +15,7 @@ void LevelModel::loadLevel(int levelId) {
         m_tileSize = 24.0f;
         m_scale = 3.0f;     // Taille finale bloc = 72px
         // DESIGN "PLATFORMER RYTHM�" (Structure IDENTIQUE � ton fichier)
-        // Ajout des codes : S=Shop, P=Panneau, L=Lampe, F=Fence, G=Grass, R=Rock
+        // Ajout des codes : S=Shop, P=Panneau, L=Lampe, F=Fence, G=Grass, R=Rock bBb= Point
 
         m_mapData = {
             // --- ETAGE 3 : VERS LA DROITE -> BOSS ---
@@ -25,9 +25,9 @@ void LevelModel::loadLevel(int levelId) {
             "                                                                                                                                  ",
             "                                                                                                                                  ",
             "                                                                                                                                  ", // Herbe
-            "                                                        P            L  F                                                         ",
-            "      L F   L                                        1111111       111111111            11111                                     ",
-            "      1111111                      1111             322222224                   L      3222224                                    ",
+            "                                                        P            L  F                  11bBbbBbbBbbBb                                       ",
+            "      L F   L                                        1111111       111111111            11124                                     ",
+            "      1111111                      1111             322222224                   L      322224                                   ",
             "                                  322224    GG                               1111111                                              ",
             "                111111    11111            111111                       1111                                                      ",
             "                                          32222224                     322224                                                     ",

@@ -23,6 +23,7 @@ void LevelView::init() {
     loadTextureProp("lamp",   path + "lamp.png");
     loadTextureProp("rock",   path + "rock_1.png");  // J'ai pris rock_1
     loadTextureProp("sign",   path + "sign.png");
+    loadTextureProp("bridge", "resources/bridge/bridge.png");
 }
 
 void LevelView::build(const LevelModel& model) {
@@ -56,6 +57,7 @@ void LevelView::build(const LevelModel& model) {
             else if (cell == 'F') currentTex = &m_textures["fence"];
             else if (cell == 'G') currentTex = &m_textures["grass"];
             else if (cell == 'R') currentTex = &m_textures["rock"];
+            else if (cell == 'B') currentTex = &m_textures["bridge"];
 
             if (currentTex != nullptr) {
                 // Création du sprite
@@ -73,6 +75,16 @@ void LevelView::build(const LevelModel& model) {
                      posX += (ts - currentTex->getSize().x) / 2.0f;
                 }
 
+                // CENTRAGE DU PONT ('B')
+                // Si l'image est plus large que la case (ex: 96px vs 24px), on la centre.
+                if (cell == 'B') {
+                    // Formule : (Position X case) - (Moitié largeur Image) + (Moitié largeur Case)
+                    posX = (x * ts) - (currentTex->getSize().x / 2.0f) + (ts / 2.0f);
+
+                    // Ajustement vertical si besoin (décommente pour tester)
+                    // posY += 5.0f;
+                }
+
                 // Le Shop est très grand, on le laisse s'étendre, mais on le décale un peu à gauche si besoin
                 // (Là je le laisse par défaut à la case X)
 
@@ -85,14 +97,14 @@ void LevelView::build(const LevelModel& model) {
             sf::Vertex* tri = &m_vertices[index];
 
             // Si c'est vide OU une décoration, on ne dessine pas de terrain (transparent)
-            if (cell == ' ' || currentTex != nullptr) {
+            if (cell == ' ' || cell == 'b' || currentTex != nullptr) {
+                int index = (x + y * width) * 6;
                 for(int i=0; i<6; ++i) {
-                    tri[i].position = sf::Vector2f(0,0);
-                    tri[i].color = sf::Color::Transparent;
+                    m_vertices[index + i].position = sf::Vector2f(0,0);
+                    m_vertices[index + i].color = sf::Color::Transparent;
                 }
                 continue;
             }
-
             // Si on est ici, c'est que cell est '1', '2', '3' ou '4'
             float px = x * ts;
             float py = y * ts;
