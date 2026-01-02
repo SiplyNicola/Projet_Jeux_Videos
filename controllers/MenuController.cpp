@@ -1,11 +1,16 @@
 #include "MenuController.h"
 #include <cmath>
+#include "../views/SoundManager.h"
 
 void MenuController::run(sf::RenderWindow& window) {
     // Reset the view to the default for the menu UI
     window.setView(window.getDefaultView());
     MenuModel m_menuModel;
     MenuView m_menuView;
+
+    // --- AUDIO MENU ---
+    SoundManager menuAudio;   // temporary manager
+    menuAudio.playMenuMusic(); // playing music
 
     // Load textures and fonts; exit if resources are missing
     if (!m_menuView.init(window)) return;

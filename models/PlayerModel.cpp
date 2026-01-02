@@ -65,7 +65,7 @@ void PlayerModel::revive() {
  */
 bool PlayerModel::jump() { // <--- Changé void en bool
     // On vérifie si le saut est possible
-    if (m_isGrounded && state != PlayerState::DEAD && !isDashing) {
+    if (/*m_isGrounded && */state != PlayerState::DEAD && !isDashing) {
         m_velocity.y = JUMP_FORCE;
         state = PlayerState::JUMP;
         m_isGrounded = false;

@@ -1239,7 +1239,7 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1767392849 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\game.cpp
+1767394613 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\game.cpp
 	"Game.h"
 	<iostream>
 	<cmath>
@@ -1312,7 +1312,7 @@
 1767380331 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\levelmodel.cpp
 	"LevelModel.h"
 
-1767392797 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\playermodel.cpp
+1767394823 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\playermodel.cpp
 	"PlayerModel.h"
 	<cmath>
 
@@ -1994,9 +1994,10 @@
 1767380331 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\character.cpp
 	"Character.h"
 
-1767295436 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\menucontroller.cpp
+1767394613 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\menucontroller.cpp
 	"MenuController.h"
 	<cmath>
+	"../views/SoundManager.h"
 
 1767045465 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\menucontroller.h
 	<SFML/Graphics.hpp>
@@ -2874,7 +2875,7 @@
 1767380331 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\worldtransitionmodel.h
 	<string>
 
-1767392579 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\soundmanager.h
+1767394613 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\soundmanager.h
 	<SFML/Audio.hpp>
 	<map>
 	<string>
@@ -2994,7 +2995,7 @@
 	"NpcView.h"
 	<iostream>
 
-1767392748 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\soundmanager.cpp
+1767394613 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\soundmanager.cpp
 	"SoundManager.h"
 	<iostream>
 	<cstdlib>

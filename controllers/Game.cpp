@@ -35,6 +35,7 @@ Game::Game(sf::RenderWindow& window)
     m_guardianZone = sf::FloatRect(m_guardianPos.x - 50.0f, m_guardianPos.y - 50.0f, 100.0f, 100.0f);
     m_pauseView.init(m_window);
     m_soundManager.init();
+    m_soundManager.playLevel1Music();
 
     m_inputHandler = std::make_unique<InputHandler>(
         m_playerModel,
@@ -222,6 +223,11 @@ void Game::processEvents() {
  */
 void Game::update(float m_dt) {
     if (m_dt > 0.05f) m_dt = 0.05f;
+
+    if (m_currentLevelId == 1 && m_playerModel.getHitbox().intersects(m_nextLevelTrigger)) {
+        loadCaveLevel();
+        return;
+    }
 
     m_playerModel.update(m_dt);
 
@@ -592,6 +598,7 @@ void Game::loadCaveLevel() {
     std::cout << "--- TRANSITION TO THE CAVE ---" << std::endl;
 
     m_currentLevelId = 2;
+    m_soundManager.playCaveMusic();
     m_level.loadLevel(2);
     m_levelView.loadTileset("resources/Tileset_Cave.png");
     m_levelView.build(m_level);
