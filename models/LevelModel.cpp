@@ -78,16 +78,16 @@ void LevelModel::loadLevel(int levelId) {
 
         // TUNNEL STYLE LAYOUT: A more enclosed, cave-like environment
         m_mapData = {
-            "5444444444444444444444444446",
-            "2                          3",
-            "2      L       R     L     3",
-            "2    11111   11111  11111  3", // Platforms
-            "2                          3",
-            "2              R           3",
-            "2             11111        3",
-            "2      P                   3",
-            "2    11111                 3", // Player spawn point
-            "7111111111111111111111111118"
+            "vvvvvvvvvvvvvvvvvv",
+            "vvvvvvv54444444446",
+            "vvvvv54s         3",
+            "54444s           3", // Platforms
+            "2                3",
+            "2                3",
+            "2                3",
+            "2      P         3",
+            "2    11111       3", // Player spawn point
+            "711111111111111118"
         };
     }
 }

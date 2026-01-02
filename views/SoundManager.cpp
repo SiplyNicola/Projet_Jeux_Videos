@@ -42,7 +42,7 @@ void SoundManager::playMenuMusic() {
     // CHARGEMENT ET LECTURE (Adapte le chemin du fichier !)
     if (m_music.openFromFile("resources/sound/Musics/MenuMusic.wav")) {
         m_music.setLoop(true);   // La musique tourne en boucle
-        m_music.setVolume(50.f); // Volume modéré pour la musique (0 à 100)
+        m_music.setVolume(5.f); // Volume modéré pour la musique (0 à 100)
         m_music.play();
     }
 }
@@ -53,7 +53,7 @@ void SoundManager::playLevel1Music() {
     // Musique de la Forêt
     if (m_music.openFromFile("resources/sound/Musics/ForestMusic.wav")) {
         m_music.setLoop(true);
-        m_music.setVolume(40.f);
+        m_music.setVolume(10.f);
         m_music.play();
     }
 }
@@ -64,7 +64,7 @@ void SoundManager::playCaveMusic() {
     // Musique de la Grotte
     if (m_music.openFromFile("resources/sound/Musics/BossMusic.wav")) {
         m_music.setLoop(true);
-        m_music.setVolume(40.f);
+        m_music.setVolume(10.f);
         m_music.play();
     }
 }

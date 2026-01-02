@@ -608,7 +608,7 @@ void Game::loadCaveLevel() {
     m_background.addLayer("resources/cave_background.png");
 
     // Reset positions for Level 2
-    m_playerModel.setPosition(100.0f, 300.0f);
+    m_playerModel.setPosition(150.0f, 350.0f);
     m_playerModel.setVelocity(sf::Vector2f(0, 0));
-    m_boss.reset(600.0f, 400.0f);
+    m_boss.reset(1000.0f, 400.0f);
 }
