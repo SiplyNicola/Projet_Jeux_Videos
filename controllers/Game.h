@@ -24,6 +24,8 @@
 #include "PauseView.h"
 #include "PauseController.h"
 #include "../views/NpcView.h"
+#include "../views/WorldTransitionView.h"
+#include "../models/WorldTransitionModel.h"
 
 /**
  * @brief Main Game class managing the game loop and logic.
@@ -44,6 +46,13 @@ private:
     // Justification: The Game class owns unique resources (Window reference, unique pointers).
     // Copying a Game instance would lead to ambiguous ownership and double-free errors.
     Game(const Game& other) = delete;
+
+    WorldTransitionModel m_transitionModel;
+    View::WorldTransitionView m_transitionView;
+    bool m_isTransitioning; // Flag to track if the transition screen is active
+    sf::Font m_font;
+
+    void initEntities();
 
     // 4. Assignment Operator (Deleted)
     Game& operator=(const Game& other) = delete;

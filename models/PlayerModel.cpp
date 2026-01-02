@@ -50,6 +50,16 @@ void PlayerModel::move(float dirX) {
 }
 
 /**
+ * Resurrects the player, resetting health and consuming the extra life.
+ */
+void PlayerModel::revive() {
+    m_hp = 5;                  // Restore initial health points
+    state = PlayerState::IDLE; // Reset animation state from DEAD back to IDLE
+    m_canRevive = false;       // Mark the one-time revive as used
+    m_velocity = sf::Vector2f(0.0f, 0.0f); // Reset physics to prevent sliding on spawn
+}
+
+/**
  * Triggers a jump by applying an upward force.
  */
 void PlayerModel::jump() {

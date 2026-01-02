@@ -3,6 +3,7 @@
 
 #include "Entity.h"
 #include <SFML/Graphics/Rect.hpp>
+#include <string>
 
 enum PlantState { P_IDLE, P_ATTACKING };
 
@@ -10,6 +11,7 @@ class PlantModel : public Entity {
 public:
     PlantModel(sf::Vector2f pos);
     void update(float dt) override;
+    virtual std::string getType() const { return "PlantModel"; }
 
     PlantState getState() const { return m_state; }
     float getTimer() const { return m_timer; }

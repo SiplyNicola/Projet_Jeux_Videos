@@ -10,7 +10,8 @@ enum class PlayerState { IDLE, RUN, JUMP, FALL, ATTACK, DASH, DEAD };
 
 class PlayerModel : public Character{
 public:
-    bool m_hasDealtDamage; // Pour ne frapper qu'une fois par coup
+    bool m_canRevive = true; // Tracks if the player still has their second chance
+    bool m_hasDealtDamage;
     PlayerState state;
     float dashCooldownTimer;
     float attackTimer;
@@ -24,6 +25,7 @@ public:
     void jump();
     void attack();
     void dash();
+    void revive();
 
 
     sf::FloatRect getHitbox() const override;
@@ -34,7 +36,8 @@ public:
     int getCoins() const { return m_coins; }
 
 private:
-    int m_coins; // Le compteur de pièces
+    int m_coins;
+
 };
 
 #endif

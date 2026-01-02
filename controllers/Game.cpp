@@ -6,6 +6,9 @@
  * Game Constructor
  * Initializes the window, world state, levels, and all entity lists.
  */
+/**
+ * Modified Constructor
+ */
 Game::Game(sf::RenderWindow& window)
     : m_window(window),
       m_background(sf::Vector2u(1280, 720)),
@@ -13,99 +16,34 @@ Game::Game(sf::RenderWindow& window)
       m_playerModel(),
       m_exitToMainFlag(false)
 {
-    // Define initial camera size (matches the background resolution)
+    // 1. LOAD THE FONT FIRST
+    if (!m_font.loadFromFile("resources/fonts/PressStart2P-regular.ttf")) {
+        std::cerr << "ERROR: Could not load m_font for the Game class!" << std::endl;
+    }
+
     m_camera.setSize(1280, 720);
     m_currentLevelId = 1;
 
-    // Initialization of views and levels logic
     m_bossView.init();
     m_levelView.init();
-    m_level.loadLevel(1); // Load level 1 data
-    m_levelView.build(m_level); // Build the graphical vertex array for the map
+    m_level.loadLevel(1);
+    m_levelView.build(m_level);
     m_hud.init();
 
-    // Setup the NPC Guardian
     m_guardianView.init();
     m_guardianPos = sf::Vector2f(6634.0f, 432.0f);
-
-    // Initialize Pause Menu View
     m_pauseView.init(m_window);
 
-    // --- UNIFIED ENEMY CREATION (HEAP ALLOCATION) ---
-    // Clear previous entities to ensure a clean state
-    m_enemies.clear();
-    m_snakeViews.clear();
-    m_spiderViews.clear();
+    // Initialize the transition view (assuming m_font is already loaded)
+    m_transitionView.init(m_font);
 
-    // --- PLANT CREATION ---
-    m_plants.clear();
-    m_plantViews.clear();
+    // CALL THE NEW INITIALIZATION METHOD
+    initEntities();
 
-    // Pre-defined world positions for carnivorous plants
-    std::vector<sf::Vector2f> plantPositions = {
-        {1669.0f, 1449.0f},
-        {1500.0f, 2520.0f},
-        {4561.0f, 366.0f},
-        {5829.0f, 1776.0f}
-    };
-
-    // MEMORY SAFETY: Reserve space in vectors to prevent pointer invalidation
-    // during push_back operations (crucial for SFML textures in views)
-    m_plantViews.reserve(plantPositions.size());
-    m_plants.reserve(plantPositions.size());
-
-    for (const auto& pos : plantPositions) {
-        // Create the logical plant model
-        m_plants.push_back(PlantModel(pos));
-
-        // Create and initialize the view directly within the vector
-        m_plantViews.emplace_back();
-        m_plantViews.back().init();
-    }
-
-    // 1. Create Snakes - Define positions across the level
-    std::vector<sf::Vector2f> m_snakePositions = {
-        {400.0f, 2520.0f}, {1258.0f, 2663.0f}, {1908.0f, 2520.0f}, {2961.0f, 2264.0f},
-        {3780.0f, 2520.0f}, {3780.0f, 2520.0f},{7060.0f, 2230.0f},
-        {7720.0f, 1780.0f},{8500.0f, 1944.0f},{6212.0f, 1871.0f},
-        {5453.0f, 1655.0f},{5002.0f, 1439.0f},{2066.0f, 719.0f},
-        {6680.0f, 2520.0f},{5722.0f, 2520.0f},{5054.0f, 2664.0f},
-        {1153.0f, 1124.0f},{1202.0f, 1511.0f},{1357.0f, 719.0f},{4116.0f, 1008.0f}
-    };
-
-    for (const auto& pos : m_snakePositions) {
-        // Dynamic Allocation (Heap) -> Stored in Character* list for polymorphism
-        SnakeModel* snake = new SnakeModel(pos.x, pos.y);
-        m_enemies.push_back(snake);
-
-        // Create associated View for visual representation
-        SnakeView sView; sView.init();
-        m_snakeViews.push_back(sView);
-    }
-
-    // 2. Create Spiders - Define positions on the ceiling
-    std::vector<sf::Vector2f> spiderPositions = {
-        {1908.0f, 2400.0f},{3924.0f, 2400.0f},{4141.0f, 2400.0f},
-        {5808.0f, 2400.0f},{6584.0f, 2400.0f}, {4215.0f, 1500.0f},
-        {1040.0f, 1120.0f},{1117.0f, 1400.0f},{2129.0f, 1415.0f}
-    };
-
-    for (const auto& pos : spiderPositions) {
-        // Dynamic Allocation for generic character handling
-        SpiderModel* spider = new SpiderModel(pos.x, pos.y);
-        m_enemies.push_back(spider);
-
-        // Associated graphical view
-        SpiderView spView; spView.init();
-        m_spiderViews.push_back(spView);
-    }
-
-    // Load Parallax background layers
     m_background.addLayer("resources/oak_woods_v1.0/background/background_layer_1.png");
     m_background.addLayer("resources/oak_woods_v1.0/background/background_layer_2.png");
     m_background.addLayer("resources/oak_woods_v1.0/background/background_layer_3.png");
 
-    // Level transition trigger zone
     m_nextLevelTrigger = sf::FloatRect(3000.0f, 0.0f, 100.0f, 1000.0f);
 }
 
@@ -122,28 +60,116 @@ Game::~Game() {
 }
 
 /**
- * Main Game Loop
- * Handles timing, events, world updates, and rendering.
+ * Modified run loop to handle Mario-style transitions.
  */
 void Game::run() {
     sf::Clock m_clock;
+
     while (m_window.isOpen() && !m_exitToMainFlag) {
-        // Restart clock to get the frame delta time
         float m_dt = m_clock.restart().asSeconds();
+
+        // Safety clamp for physics stability
+        if (m_dt > 0.1f) m_dt = 0.1f;
+
         processEvents();
 
-        // Pause mechanism: Only update world logic if the game is active
-        if (!m_isPaused) {
+        // --- CASE 1: Standard Gameplay ---
+        if (!m_isPaused && !m_isTransitioning) {
             update(m_dt);
-        }
+            render();
 
-        render();
-
-        // Death Handling: Wait a moment before exiting if player is dead
-        if (m_playerModel.isDead()) {
-            sf::sleep(sf::seconds(1.0f));
-            return;
+            // Check if player died to trigger the transition
+            if (m_playerModel.isDead()) {
+                if (m_playerModel.m_canRevive) {
+                    m_isTransitioning = true;
+                    // Prepare the transition screen data
+                    m_transitionModel.reset("WORLD 1-" + std::to_string(m_currentLevelId), 1);
+                } else {
+                    return; // True Game Over
+                }
+            }
         }
+        // --- CASE 2: Mario Transition Screen ---
+        else if (m_isTransitioning) {
+            m_transitionModel.update(m_dt);
+
+            // Draw ONLY the black screen during transition
+            m_window.setView(m_window.getDefaultView());
+            m_transitionView.draw(m_window, m_transitionModel);
+            m_window.display();
+
+            // When the 2.5s timer finishes, respawn the player
+            if (m_transitionModel.isFinished()) {
+                m_isTransitioning = false;
+
+                // Reset world and player
+                m_playerModel.revive();
+                m_playerModel.setPosition(100.0f, 2520.0f);
+                m_camera.setCenter(640.0f, 2520.0f);
+                initEntities();
+
+                // Restart clock after transition to prevent physics teleportation
+                m_clock.restart();
+            }
+        }
+    }
+}
+
+/**
+ * (New Method) initEntities
+ * Handles the creation and cleanup of all level entities (Enemies and Plants).
+ * This is used for initial setup and during player respawn.
+ */
+void Game::initEntities() {
+    // A. CLEANUP: Delete existing enemy pointers to prevent memory leaks
+    for (Character* enemy : m_enemies) {
+        delete enemy;
+    }
+    m_enemies.clear();
+    m_snakeViews.clear();
+    m_spiderViews.clear();
+
+    // Clear plants
+    m_plants.clear();
+    m_plantViews.clear();
+
+    // B. RE-CREATE PLANTS
+    std::vector<sf::Vector2f> plantPositions = {
+        {1669.0f, 1449.0f}, {1500.0f, 2520.0f}, {4561.0f, 366.0f}, {5829.0f, 1776.0f}
+    };
+    m_plantViews.reserve(plantPositions.size());
+    m_plants.reserve(plantPositions.size());
+    for (const auto& pos : plantPositions) {
+        m_plants.push_back(PlantModel(pos));
+        m_plantViews.emplace_back();
+        m_plantViews.back().init();
+    }
+
+    // C. RE-CREATE SNAKES
+    std::vector<sf::Vector2f> snakePositions = {
+        {400.0f, 2520.0f}, {1258.0f, 2663.0f}, {1908.0f, 2520.0f}, {2961.0f, 2264.0f},
+        {3780.0f, 2520.0f}, {3780.0f, 2520.0f},{7060.0f, 2230.0f},
+        {7720.0f, 1780.0f},{8500.0f, 1944.0f},{6212.0f, 1871.0f},
+        {5453.0f, 1655.0f},{5002.0f, 1439.0f},{2066.0f, 719.0f},
+        {6680.0f, 2520.0f},{5722.0f, 2520.0f},{5054.0f, 2664.0f},
+        {1153.0f, 1124.0f},{1202.0f, 1511.0f},{1357.0f, 719.0f},{4116.0f, 1008.0f}
+    };
+    for (const auto& pos : snakePositions) {
+        m_enemies.push_back(new SnakeModel(pos.x, pos.y));
+        SnakeView sView; sView.init();
+        m_snakeViews.push_back(sView);
+    }
+
+    // D. RE-CREATE SPIDERS
+    std::vector<sf::Vector2f> spiderPositions = {
+        {1908.0f, 2400.0f},{3924.0f, 2400.0f},{4141.0f, 2400.0f},
+        {5808.0f, 2400.0f},{6584.0f, 2400.0f}, {4215.0f, 1500.0f},
+        {1040.0f, 1120.0f},{1117.0f, 1400.0f},{2129.0f, 1415.0f}
+    };
+    for (const auto& pos : spiderPositions) {
+        m_enemies.push_back(new SpiderModel(pos.x, pos.y));
+        SpiderView spView; spView.init();
+        m_spiderViews.push_back(spView);
     }
 }
 

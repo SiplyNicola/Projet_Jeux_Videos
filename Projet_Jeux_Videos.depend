@@ -1421,12 +1421,12 @@
 1764973044 source:c:\projetjeuxvideo\projet_jeux_videos\models\levelmodel.cpp
 	"LevelModel.h"
 
-1767367458 source:c:\projet_jeux_videosv2\controllers\game.cpp
+1767372833 source:c:\projet_jeux_videosv2\controllers\game.cpp
 	"Game.h"
 	<iostream>
 	<cmath>
 
-1767365571 c:\projet_jeux_videosv2\controllers\game.h
+1767372833 c:\projet_jeux_videosv2\controllers\game.h
 	<SFML/Graphics.hpp>
 	<vector>
 	"../models/PlayerModel.h"
@@ -1448,6 +1448,8 @@
 	"PauseView.h"
 	"PauseController.h"
 	"../views/NpcView.h"
+	"../views/WorldTransitionView.h"
+	"../models/WorldTransitionModel.h"
 
 1765892551 c:\projet_jeux_videosv2\sfml\include\sfml\graphics.hpp
 	<SFML/Window.hpp>
@@ -1858,7 +1860,7 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1767364489 c:\projet_jeux_videosv2\models\playermodel.h
+1767370337 c:\projet_jeux_videosv2\models\playermodel.h
 	<SFML/System/Vector2.hpp>
 	<SFML/Graphics/Rect.hpp>
 	"Character.h"
@@ -1915,7 +1917,7 @@
 1767367932 source:c:\projet_jeux_videosv2\models\levelmodel.cpp
 	"LevelModel.h"
 
-1767368156 source:c:\projet_jeux_videosv2\models\playermodel.cpp
+1767370213 source:c:\projet_jeux_videosv2\models\playermodel.cpp
 	"PlayerModel.h"
 	<cmath>
 
@@ -1949,7 +1951,7 @@
 	<SFML/Graphics.hpp>
 	<vector>
 
-1767359587 c:\projet_jeux_videosv2\models\character.h
+1767369518 c:\projet_jeux_videosv2\models\character.h
 	"Entity.h"
 	<SFML/Graphics/Rect.hpp>
 
@@ -2640,9 +2642,10 @@
 	"SnakeModel.h"
 	<cmath>
 
-1766154564 c:\projet_jeux_videosv2\models\plantmodel.h
+1767369551 c:\projet_jeux_videosv2\models\plantmodel.h
 	"Entity.h"
 	<SFML/Graphics/Rect.hpp>
+	<string>
 
 1766154564 c:\projet_jeux_videosv2\views\plantview.h
 	<SFML/Graphics.hpp>
@@ -2817,7 +2820,20 @@
 	"SpiderModel.h"
 	<cmath>
 
-1767299419 source:c:\projet_jeux_videosv2\views\spiderview.cpp
+1767368713 source:c:\projet_jeux_videosv2\views\spiderview.cpp
 	"SpiderView.h"
 	<iostream>
+
+1767372585 c:\projet_jeux_videosv2\views\worldtransitionview.h
+	<SFML/Graphics.hpp>
+	"WorldTransitionModel.h"
+
+1767372585 c:\projet_jeux_videosv2\models\worldtransitionmodel.h
+	<string>
+
+1767372585 source:c:\projet_jeux_videosv2\models\worldtransitionmodel.cpp
+	"WorldTransitionModel.h"
+
+1767372585 source:c:\projet_jeux_videosv2\views\worldtransitionview.cpp
+	"WorldTransitionView.h"
 

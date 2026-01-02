@@ -14,7 +14,7 @@ enum class EntityType {
 
 class Character : public Entity {
 public:
-    // 2. CONSTRUCTEUR MODIFIÉ (4 Arguments)
+
     Character(int hp, float speed, int attackDamage, EntityType type);
 
     // 3. DESTRUCTEUR VIRTUEL (Obligatoire pour Coplien/Polymorphisme)
