@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <memory>
 
 // Models & Views
 #include "../models/PlayerModel.h"
@@ -26,6 +27,7 @@
 #include "../views/NpcView.h"
 #include "../views/WorldTransitionView.h"
 #include "../models/WorldTransitionModel.h"
+#include "command/InputHandler.h"
 
 /**
  * @brief Main Game class managing the game loop and logic.
@@ -76,7 +78,7 @@ private:
     View::Background m_background;
     PlayerModel m_playerModel;
     PlayerView m_playerView;
-    PlayerController m_playerController;
+    std::unique_ptr<InputHandler> m_inputHandler;
     HudView m_hud;
 
     // Boss remains separate as it is a unique entity with specific phase logic
@@ -89,6 +91,7 @@ private:
     std::vector<PlantView>  m_plantViews;  // List of plant visual representations
 
     sf::Vector2f m_guardianPos;
+    sf::FloatRect m_guardianZone;
     NpcView m_guardianView;
 
     int m_currentLevelId;

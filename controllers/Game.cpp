@@ -13,7 +13,6 @@ Game::Game(sf::RenderWindow& window)
     : m_window(window),
       m_background(sf::Vector2u(1280, 720)),
       m_isPaused(false),
-      m_playerModel(),
       m_exitToMainFlag(false)
 {
     // 1. LOAD THE FONT FIRST
@@ -32,7 +31,18 @@ Game::Game(sf::RenderWindow& window)
 
     m_guardianView.init();
     m_guardianPos = sf::Vector2f(6634.0f, 432.0f);
+    m_guardianZone = sf::FloatRect(m_guardianPos.x - 50.0f, m_guardianPos.y - 50.0f, 100.0f, 100.0f);
     m_pauseView.init(m_window);
+
+    m_inputHandler = std::make_unique<InputHandler>(
+        m_playerModel,
+        m_guardianZone,
+        [this]() { this->loadCaveLevel(); },
+        [this]() {
+            this->m_isPaused = !this->m_isPaused;
+            this->m_pauseModel.reset();
+        }
+    );
 
     // Initialize the transition view (assuming m_font is already loaded)
     m_transitionView.init(m_font);
@@ -182,12 +192,6 @@ void Game::processEvents() {
     while (m_window.pollEvent(m_event)) {
         if (m_event.type == sf::Event::Closed) m_window.close();
 
-        // Check for Pause Toggle (Key 'M')
-        if (m_event.type == sf::Event::KeyPressed && m_event.key.code == sf::Keyboard::M) {
-            m_isPaused = !m_isPaused;
-            m_pauseModel.reset();
-        }
-
         // Delegate input to Pause Controller if the menu is active
         if (m_isPaused) {
             m_pauseController.handleInput(m_window, m_event, m_pauseModel, m_pauseView);
@@ -205,7 +209,13 @@ void Game::processEvents() {
 
     // Player movement controls: only active when alive and unpaused
     if (!m_playerModel.isDead() && !m_isPaused) {
-        m_playerController.handleInput(m_playerModel);
+        m_playerModel.move(0.0f);
+        std::vector<ICommand*> commands = m_inputHandler->handleInput();
+
+        for (ICommand* cmd : commands)
+        {
+            if (cmd) cmd->execute();
+        }
     }
 }
 
@@ -270,25 +280,6 @@ void Game::update(float m_dt) {
         handleBossCollisions();
     }
     handleCombat();
-
-    // Interaction zone around the NPC Guardian
-    sf::FloatRect guardianZone(m_guardianPos.x - 50, m_guardianPos.y - 50, 100, 100);
-
-    if (m_playerModel.getHitbox().intersects(guardianZone)) {
-        // Interact key: 'E'
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
-
-            if (m_playerModel.getCoins() >= 3) {
-                std::cout << "Guardian: You have the 3 coins. Cross the bridge!" << std::endl;
-                loadCaveLevel(); // <--- VICTORY: CHANGE LEVEL
-            }
-            else {
-                std::cout << "Guardian: You need 3 coins!" << std::endl;
-                // Repel the player slightly to prevent bypassing without coins
-                m_playerModel.setPosition(m_playerModel.getPosition().x - 20, m_playerModel.getPosition().y);
-            }
-        }
-    }
 
     // Update all carnivorous plants (logic + animation sync)
     for (size_t i = 0; i < m_plants.size(); i++) {
