@@ -36,7 +36,7 @@ public:
     int getCoins() const { return m_coins; }
 
 private:
-    int m_coins;
+    int m_coins = 3;
 
 };
 

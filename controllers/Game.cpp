@@ -77,50 +77,35 @@ void Game::run() {
 
     while (m_window.isOpen() && !m_exitToMainFlag) {
         float m_dt = m_clock.restart().asSeconds();
-
-        // Safety clamp for physics stability
         if (m_dt > 0.1f) m_dt = 0.1f;
 
         processEvents();
 
-        // --- CASE 1: Standard Gameplay ---
-        if (!m_isPaused && !m_isTransitioning) {
-            update(m_dt);
-            render();
-
-            // Check if player died to trigger the transition
-            if (m_playerModel.isDead()) {
-                if (m_playerModel.m_canRevive) {
-                    m_isTransitioning = true;
-                    // Prepare the transition screen data
-                    m_transitionModel.reset("WORLD 1-" + std::to_string(m_currentLevelId), 1);
-                } else {
-                    return; // True Game Over
-                }
-            }
-        }
-        // --- CASE 2: Mario Transition Screen ---
-        else if (m_isTransitioning) {
+        if (m_isTransitioning) {
+            // Logique de transition Mario
             m_transitionModel.update(m_dt);
-
-            // Draw ONLY the black screen during transition
             m_window.setView(m_window.getDefaultView());
             m_transitionView.draw(m_window, m_transitionModel);
             m_window.display();
 
-            // When the 2.5s timer finishes, respawn the player
             if (m_transitionModel.isFinished()) {
                 m_isTransitioning = false;
-
-                // Reset world and player
                 m_playerModel.revive();
                 m_playerModel.setPosition(100.0f, 2520.0f);
                 m_camera.setCenter(640.0f, 2520.0f);
                 initEntities();
-
-                // Restart clock after transition to prevent physics teleportation
                 m_clock.restart();
             }
+        }
+        else {
+            // SI PAS EN TRANSITION :
+            // On ne met à jour la physique QUE si on n'est PAS en pause
+            if (!m_isPaused) {
+                update(m_dt);
+            }
+
+            // ON DESSINE TOUJOURS (Même en pause !)
+            render();
         }
     }
 }

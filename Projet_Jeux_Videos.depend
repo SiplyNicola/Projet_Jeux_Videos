@@ -1421,14 +1421,15 @@
 1764973044 source:c:\projetjeuxvideo\projet_jeux_videos\models\levelmodel.cpp
 	"LevelModel.h"
 
-1767372833 source:c:\projet_jeux_videosv2\controllers\game.cpp
+1767384460 source:c:\projet_jeux_videosv2\controllers\game.cpp
 	"Game.h"
 	<iostream>
 	<cmath>
 
-1767372833 c:\projet_jeux_videosv2\controllers\game.h
+1767384460 c:\projet_jeux_videosv2\controllers\game.h
 	<SFML/Graphics.hpp>
 	<vector>
+	<memory>
 	"../models/PlayerModel.h"
 	"../views/PlayerView.h"
 	"../controllers/PlayerController.h"
@@ -1450,6 +1451,7 @@
 	"../views/NpcView.h"
 	"../views/WorldTransitionView.h"
 	"../models/WorldTransitionModel.h"
+	"command/InputHandler.h"
 
 1765892551 c:\projet_jeux_videosv2\sfml\include\sfml\graphics.hpp
 	<SFML/Window.hpp>
@@ -1860,7 +1862,7 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1767370337 c:\projet_jeux_videosv2\models\playermodel.h
+1767386547 c:\projet_jeux_videosv2\models\playermodel.h
 	<SFML/System/Vector2.hpp>
 	<SFML/Graphics/Rect.hpp>
 	"Character.h"
@@ -2655,9 +2657,10 @@
 	<SFML/Graphics.hpp>
 	"../models/PlantModel.h"
 
-1767271655 c:\projet_jeux_videosv2\models\snakemodel.h
+1767386420 c:\projet_jeux_videosv2\models\snakemodel.h
 	"Character.h"
 	"Entity.h"
+	"EnemyModel.h"
 
 1767271656 c:\projet_jeux_videosv2\views\snakeview.h
 	<SFML/Graphics.hpp>
@@ -2686,7 +2689,7 @@
 1767368156 source:c:\projet_jeux_videosv2\models\plantmodel.cpp
 	"PlantModel.h"
 
-1767368239 source:c:\projet_jeux_videosv2\models\snakemodel.cpp
+1767386420 source:c:\projet_jeux_videosv2\models\snakemodel.cpp
 	"SnakeModel.h"
 	<cmath>
 
@@ -2807,8 +2810,9 @@
 	"NpcView.h"
 	<iostream>
 
-1767299419 c:\projet_jeux_videosv2\models\spidermodel.h
+1767386420 c:\projet_jeux_videosv2\models\spidermodel.h
 	"Character.h"
+	"EnemyModel.h"
 
 1767299419 c:\projet_jeux_videosv2\views\spiderview.h
 	<SFML/Graphics.hpp>
@@ -2821,7 +2825,7 @@
 	"NpcView.h"
 	<iostream>
 
-1767368239 source:c:\projet_jeux_videosv2\models\spidermodel.cpp
+1767386420 source:c:\projet_jeux_videosv2\models\spidermodel.cpp
 	"SpiderModel.h"
 	<cmath>
 
@@ -2859,5 +2863,95 @@
 	"Character.h"
 
 1767385649 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\enemymodel.cpp
+	"EnemyModel.h"
+
+1767384460 source:c:\projet_jeux_videosv2\controllers\command\attackcommand.cpp
+	"AttackCommand.h"
+	"PlayerModel.h"
+
+1767384460 c:\projet_jeux_videosv2\controllers\command\attackcommand.h
+	<ICommand.h>
+	<PlayerModel.h>
+
+1767384460 c:\projet_jeux_videosv2\controllers\command\icommand.h
+
+1767384460 source:c:\projet_jeux_videosv2\controllers\command\dashcommand.cpp
+	"DashCommand.h"
+	"PlayerModel.h"
+
+1767384460 c:\projet_jeux_videosv2\controllers\command\dashcommand.h
+	<ICommand.h>
+	<PlayerModel.h>
+
+1767384460 source:c:\projet_jeux_videosv2\controllers\command\icommand.cpp
+	"ICommand.h"
+
+1767384460 source:c:\projet_jeux_videosv2\controllers\command\inputhandler.cpp
+	"InputHandler.h"
+	"AttackCommand.h"
+	"DashCommand.h"
+	"MoveLeftCommand.h"
+	"MoveRightCommand.h"
+	"JumpCommand.h"
+	"InteractCommand.h"
+	"PauseCommand.h"
+
+1767384460 c:\projet_jeux_videosv2\controllers\command\inputhandler.h
+	<SFML/Window/Keyboard.hpp>
+	<SFML/Graphics/Rect.hpp>
+	<map>
+	<vector>
+	<memory>
+	<functional>
+	"ICommand.h"
+	"PlayerModel.h"
+
+1767384460 c:\projet_jeux_videosv2\controllers\command\moveleftcommand.h
+	<ICommand.h>
+	<PlayerModel.h>
+
+1767384460 c:\projet_jeux_videosv2\controllers\command\moverightcommand.h
+	<ICommand.h>
+	<PlayerModel.h>
+
+1767384460 c:\projet_jeux_videosv2\controllers\command\jumpcommand.h
+	<ICommand.h>
+	<PlayerModel.h>
+
+1767384460 c:\projet_jeux_videosv2\controllers\command\interactcommand.h
+	"ICommand.h"
+	"PlayerModel.h"
+	<SFML/Graphics/Rect.hpp>
+	<functional>
+
+1767384460 c:\projet_jeux_videosv2\controllers\command\pausecommand.h
+	"ICommand.h"
+	<functional>
+
+1767384460 source:c:\projet_jeux_videosv2\controllers\command\interactcommand.cpp
+	"InteractCommand.h"
+	"iostream"
+	"SFML/Graphics/Rect.hpp"
+	"functional"
+
+1767384460 source:c:\projet_jeux_videosv2\controllers\command\jumpcommand.cpp
+	"JumpCommand.h"
+	"PlayerModel.h"
+
+1767384460 source:c:\projet_jeux_videosv2\controllers\command\moveleftcommand.cpp
+	"MoveLeftCommand.h"
+	"PlayerModel.h"
+
+1767384460 source:c:\projet_jeux_videosv2\controllers\command\moverightcommand.cpp
+	"MoveRightCommand.h"
+	"PlayerModel.h"
+
+1767384460 source:c:\projet_jeux_videosv2\controllers\command\pausecommand.cpp
+	"PauseCommand.h"
+
+1767386420 c:\projet_jeux_videosv2\models\enemymodel.h
+	"Character.h"
+
+1767386420 source:c:\projet_jeux_videosv2\models\enemymodel.cpp
 	"EnemyModel.h"
 
