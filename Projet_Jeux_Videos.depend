@@ -411,10 +411,12 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1767045465 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\main.cpp
+1767387094 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\main.cpp
 	<SFML/Graphics.hpp>
 	"MenuController.h"
 	"Game.h"
+	<ctime>
+	<cstdlib>
 
 1764337505 source:c:\projetjeuxvideo\projet_jeux_videos\main.cpp
 	"controllers/Game.h"
@@ -1237,12 +1239,12 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1767299846 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\game.cpp
+1767383454 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\game.cpp
 	"Game.h"
 	<iostream>
 	<cmath>
 
-1767299846 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\game.h
+1767383454 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\game.h
 	<SFML/Graphics.hpp>
 	<vector>
 	"../models/PlayerModel.h"
@@ -1263,8 +1265,12 @@
 	"PauseModel.h"
 	"PauseView.h"
 	"PauseController.h"
+	"../views/NpcView.h"
+	"../views/WorldTransitionView.h"
+	"../models/WorldTransitionModel.h"
+	"../views/SoundManager.h"
 
-1767045465 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\playermodel.h
+1767386748 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\playermodel.h
 	<SFML/System/Vector2.hpp>
 	<SFML/Graphics/Rect.hpp>
 	"Character.h"
@@ -1297,33 +1303,34 @@
 	<map>
 	<string>
 
-1767287320 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\bossmodel.cpp
+1767380331 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\bossmodel.cpp
 	"BossModel.h"
 	<cmath>
 
-1767278206 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\levelmodel.cpp
+1767380331 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\levelmodel.cpp
 	"LevelModel.h"
 
-1767049479 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\playermodel.cpp
+1767387172 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\playermodel.cpp
 	"PlayerModel.h"
 	<cmath>
 
-1767278206 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\levelview.cpp
+1767380331 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\levelview.cpp
 	"LevelView.h"
 	<iostream>
 
-1766143410 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\playerview.cpp
+1767380331 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\playerview.cpp
 	"PlayerView.h"
 	<iostream>
 
-1767296499 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\bossview.cpp
+1767380331 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\bossview.cpp
 	"BossView.h"
 	<iostream>
 
-1764335744 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\playercontroller.h
+1767383454 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\playercontroller.h
 	"PlayerModel.h"
+	"../views/SoundManager.h"
 
-1764337149 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\playercontroller.cpp
+1767386748 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\playercontroller.cpp
 	"PlayerController.h"
 	<SFML/Window/Keyboard.hpp>
 
@@ -1332,7 +1339,7 @@
 	<vector>
 	<string>
 
-1764338889 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\background.cpp
+1767380331 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\background.cpp
 	"Background.h"
 	<iostream>
 
@@ -1958,7 +1965,7 @@
 1767367738 source:c:\projet_jeux_videosv2\models\character.cpp
 	"Character.h"
 
-1766153001 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\character.h
+1767380331 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\character.h
 	"Entity.h"
 	<SFML/Graphics/Rect.hpp>
 
@@ -1969,14 +1976,14 @@
 	<SFML/Graphics.hpp>
 	<vector>
 
-1766153001 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\entity.cpp
+1767380331 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\entity.cpp
 	"Entity.h"
 
-1766155227 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\hudview.cpp
+1767380331 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\hudview.cpp
 	"HudView.h"
 	<iostream>
 
-1766153001 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\character.cpp
+1767380331 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\character.cpp
 	"Character.h"
 
 1767295436 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\menucontroller.cpp
@@ -1996,9 +2003,10 @@
 	<string>
 	"MenuModel.h"
 
-1767045465 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\plantmodel.h
+1767380331 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\plantmodel.h
 	"Entity.h"
 	<SFML/Graphics/Rect.hpp>
+	<string>
 
 1767045465 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\plantview.h
 	<SFML/Graphics.hpp>
@@ -2012,13 +2020,13 @@
 	<SFML/Graphics.hpp>
 	"../models/SnakeModel.h"
 
-1767295436 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\menumodel.cpp
+1767380331 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\menumodel.cpp
 	"MenuModel.h"
 
-1767045465 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\plantmodel.cpp
+1767380331 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\plantmodel.cpp
 	"PlantModel.h"
 
-1767299846 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\snakemodel.cpp
+1767380331 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\snakemodel.cpp
 	"SnakeModel.h"
 	<cmath>
 
@@ -2035,11 +2043,11 @@
 	"MenuView.h"
 	<cmath>
 
-1767045465 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\plantview.cpp
+1767380331 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\plantview.cpp
 	"PlantView.h"
 	<algorithm>
 
-1767278210 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\snakeview.cpp
+1767380331 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\snakeview.cpp
 	"SnakeView.h"
 	<iostream>
 
@@ -2744,7 +2752,7 @@
 	<vector>
 	"PauseModel.h"
 
-1767295436 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\pausemodel.cpp
+1767380331 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\pausemodel.cpp
 	"PauseModel.h"
 
 1767295436 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\pauseview.cpp
@@ -2835,5 +2843,147 @@
 	"WorldTransitionModel.h"
 
 1767372585 source:c:\projet_jeux_videosv2\views\worldtransitionview.cpp
+	"WorldTransitionView.h"
+
+1767363046 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\npcview.h
+	<SFML/Graphics.hpp>
+
+1767380331 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\worldtransitionview.h
+	<SFML/Graphics.hpp>
+	"WorldTransitionModel.h"
+
+1767380331 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\worldtransitionmodel.h
+	<string>
+
+1767385786 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\soundmanager.h
+	<SFML/Audio.hpp>
+	<map>
+	<string>
+
+1764062846 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\sfml\include\sfml\audio.hpp
+	<SFML/System.hpp>
+	<SFML/Audio/InputSoundFile.hpp>
+	<SFML/Audio/Listener.hpp>
+	<SFML/Audio/Music.hpp>
+	<SFML/Audio/OutputSoundFile.hpp>
+	<SFML/Audio/Sound.hpp>
+	<SFML/Audio/SoundBuffer.hpp>
+	<SFML/Audio/SoundBufferRecorder.hpp>
+	<SFML/Audio/SoundFileFactory.hpp>
+	<SFML/Audio/SoundFileReader.hpp>
+	<SFML/Audio/SoundFileWriter.hpp>
+	<SFML/Audio/SoundRecorder.hpp>
+	<SFML/Audio/SoundSource.hpp>
+	<SFML/Audio/SoundStream.hpp>
+
+1764062846 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\sfml\include\sfml\audio\inputsoundfile.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/System/NonCopyable.hpp>
+	<SFML/System/Time.hpp>
+	<string>
+	<algorithm>
+
+1764062846 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\sfml\include\sfml\audio\export.hpp
+	<SFML/Config.hpp>
+
+1764062846 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\sfml\include\sfml\audio\listener.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/System/Vector3.hpp>
+
+1764062846 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\sfml\include\sfml\audio\music.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/Audio/SoundStream.hpp>
+	<SFML/Audio/InputSoundFile.hpp>
+	<SFML/System/Mutex.hpp>
+	<SFML/System/Time.hpp>
+	<string>
+	<vector>
+
+1764062846 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\sfml\include\sfml\audio\soundstream.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/Audio/SoundSource.hpp>
+	<SFML/System/Thread.hpp>
+	<SFML/System/Time.hpp>
+	<SFML/System/Mutex.hpp>
+	<cstdlib>
+
+1764062846 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\sfml\include\sfml\audio\soundsource.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/Audio/AlResource.hpp>
+	<SFML/System/Vector3.hpp>
+
+1764062846 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\sfml\include\sfml\audio\alresource.hpp
+	<SFML/Audio/Export.hpp>
+
+1764062846 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\sfml\include\sfml\audio\outputsoundfile.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/System/NonCopyable.hpp>
+	<string>
+
+1764062846 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\sfml\include\sfml\audio\sound.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/Audio/SoundSource.hpp>
+	<SFML/System/Time.hpp>
+	<cstdlib>
+
+1764062846 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\sfml\include\sfml\audio\soundbuffer.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/Audio/AlResource.hpp>
+	<SFML/System/Time.hpp>
+	<string>
+	<vector>
+	<set>
+
+1764062846 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\sfml\include\sfml\audio\soundbufferrecorder.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/Audio/SoundBuffer.hpp>
+	<SFML/Audio/SoundRecorder.hpp>
+	<vector>
+
+1764062846 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\sfml\include\sfml\audio\soundrecorder.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/Audio/AlResource.hpp>
+	<SFML/System/Thread.hpp>
+	<SFML/System/Time.hpp>
+	<vector>
+	<string>
+
+1764062846 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\sfml\include\sfml\audio\soundfilefactory.hpp
+	<SFML/Audio/Export.hpp>
+	<string>
+	<vector>
+	<SFML/Audio/SoundFileFactory.inl>
+
+1764062846 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\sfml\include\sfml\audio\soundfilefactory.inl
+
+1764062846 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\sfml\include\sfml\audio\soundfilereader.hpp
+	<SFML/Audio/Export.hpp>
+	<string>
+
+1764062846 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\sfml\include\sfml\audio\soundfilewriter.hpp
+	<SFML/Audio/Export.hpp>
+	<string>
+
+1767380331 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\spidermodel.cpp
+	"SpiderModel.h"
+	<cmath>
+
+1767380331 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\worldtransitionmodel.cpp
+	"WorldTransitionModel.h"
+
+1767380331 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\npcview.cpp
+	"NpcView.h"
+	<iostream>
+
+1767386990 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\soundmanager.cpp
+	"SoundManager.h"
+	<iostream>
+	<cstdlib>
+
+1767380331 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\spiderview.cpp
+	"SpiderView.h"
+	<iostream>
+
+1767380331 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\worldtransitionview.cpp
 	"WorldTransitionView.h"
 

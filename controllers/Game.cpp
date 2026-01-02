@@ -33,6 +33,7 @@ Game::Game(sf::RenderWindow& window)
     m_guardianView.init();
     m_guardianPos = sf::Vector2f(6634.0f, 432.0f);
     m_pauseView.init(m_window);
+    m_soundManager.init();
 
     // Initialize the transition view (assuming m_font is already loaded)
     m_transitionView.init(m_font);
@@ -205,7 +206,7 @@ void Game::processEvents() {
 
     // Player movement controls: only active when alive and unpaused
     if (!m_playerModel.isDead() && !m_isPaused) {
-        m_playerController.handleInput(m_playerModel);
+        m_playerController.handleInput(m_playerModel, m_soundManager);
     }
 }
 

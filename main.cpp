@@ -2,6 +2,9 @@
 #include "MenuController.h"
 #include "Game.h"
 
+#include <ctime>
+#include <cstdlib>
+
 /**
  * Whisper of Steel - Main Entry Point
  * This file manages the high-level lifecycle of the application,
@@ -9,13 +12,16 @@
  */
 int main() {
     // Initialize the main render window using the desktop's native resolution in Fullscreen mode.
-    sf::RenderWindow m_window(sf::VideoMode::getDesktopMode(), "Whisper of Steel", sf::Style::Fullscreen);
+    sf::RenderWindow m_window(sf::VideoMode(1280, 720), "Whisper of Steel", sf::Style::Default);
 
     // Limit the framerate to 60 FPS to ensure consistent physics and animation timing across different monitors.
     m_window.setFramerateLimit(60);
 
     // Instantiate the controller responsible for the Main Menu logic and rendering.
     MenuController m_menuController;
+
+    // Initialise the random generator with current time
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
     // --- GLOBAL APPLICATION LOOP ---
     // This loop keeps the application alive, allowing the user to cycle between the menu and the game.

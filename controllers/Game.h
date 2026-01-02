@@ -26,6 +26,7 @@
 #include "../views/NpcView.h"
 #include "../views/WorldTransitionView.h"
 #include "../models/WorldTransitionModel.h"
+#include "../views/SoundManager.h"
 
 /**
  * @brief Main Game class managing the game loop and logic.
@@ -78,6 +79,7 @@ private:
     PlayerView m_playerView;
     PlayerController m_playerController;
     HudView m_hud;
+    SoundManager m_soundManager;
 
     // Boss remains separate as it is a unique entity with specific phase logic
     BossModel m_boss;

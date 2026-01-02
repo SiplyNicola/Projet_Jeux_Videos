@@ -22,7 +22,7 @@ public:
     PlayerModel();
 
     void move(float dirX);
-    void jump();
+    bool jump();
     void attack();
     void dash();
     void revive();

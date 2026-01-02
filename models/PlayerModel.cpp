@@ -62,11 +62,17 @@ void PlayerModel::revive() {
 /**
  * Triggers a jump by applying an upward force.
  */
-void PlayerModel::jump() {
-    // Current logic applies force directly; grounding check is often handled in Game::handleCollisions
-    m_velocity.y = JUMP_FORCE;
-    state = PlayerState::JUMP;
-    m_isGrounded = false; // Immediately lose grounded status upon ascending
+bool PlayerModel::jump() { // <--- Changé void en bool
+    // On vérifie si le saut est possible
+    if (m_isGrounded && state != PlayerState::DEAD && !isDashing) {
+        m_velocity.y = JUMP_FORCE;
+        state = PlayerState::JUMP;
+        m_isGrounded = false;
+
+        return true; // <--- AJOUT : Le saut a réussi !
+    }
+
+    return false; // <--- AJOUT : Le saut a échoué (déjà en l'air, etc.)
 }
 
 /**
