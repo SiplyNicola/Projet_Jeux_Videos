@@ -1,6 +1,7 @@
 #include "SnakeModel.h"
 #include <cmath>
 
+
 /**
  * SnakeModel Constructor
  * Initializes the snake enemy with specific stats: 3 HP, 50.0f speed, and 1 attack damage.
@@ -9,11 +10,9 @@
  * @param y The initial Y coordinate in the world.
  */
 SnakeModel::SnakeModel(float x, float y)
-    : Character(3, 50.0f, 1, EntityType::SNAKE), // Base character stats
+    : EnemyModel(3, 50.0f, 1, EntityType::SNAKE), // Base character stats
       m_state(SnakeState::WALK),                // Initial state set to walking
       m_stateTimer(0.0f),                       // Timer for state transitions
-      m_patrolTimer(0.0f),                      // Timer for the AI patrol cycle
-      m_movingRight(true),                      // Start moving toward the right
       m_attackCooldown(0.0f)                    // Initialize attack readiness
 {
     m_position = sf::Vector2f(x, y); // Set world position
@@ -26,51 +25,33 @@ SnakeModel::SnakeModel(float x, float y)
  * @param playerPos Current world position of the player (reserved for future AI logic).
  */
 void SnakeModel::update(float dt, sf::Vector2f playerPos) {
-    // If dead, skip all logic
     if (m_state == SnakeState::DEATH) return;
 
-    // --- 1. Attack Cooldown Management ---
-    // Counts down the time until the snake can deal damage to the player again.
-    if (m_attackCooldown > 0) {
-        m_attackCooldown -= dt;
-    }
+    // 1. Cooldown Attaque
+    if (m_attackCooldown > 0) m_attackCooldown -= dt;
 
-    // --- 2. Damage Handling (HURT State) ---
-    // When hit by the player, the snake enters a flinch state.
+    // 2. Gestion HURT
     if (m_state == SnakeState::HURT) {
         m_stateTimer += dt;
-        // The hurt/flinch duration lasts exactly 0.5 seconds
         if (m_stateTimer >= 0.5f) {
             m_state = SnakeState::WALK;
             m_stateTimer = 0;
         }
-        return; // The snake remains immobile while recovering from damage
+        // On applique quand même la gravité pendant qu'il a mal
+        applyGravity(dt);
+        m_position += m_velocity * dt;
+        return;
     }
 
-    // --- 3. Gravity ---
-    // Constant downward acceleration to keep the entity on platforms.
-    m_velocity.y += 1500.0f * dt;
+    // --- REMPLACEMENT DU CODE DUPLIQUÉ ---
 
-    // --- 4. Patrol Logic (Left <-> Right) ---
-    // The AI switches movement direction every 2 seconds to patrol its area.
-    m_patrolTimer += dt;
-    if (m_patrolTimer >= 2.0f) {
-        m_movingRight = !m_movingRight;
-        m_patrolTimer = 0;
-    }
+    // 3. Gravité (Via EnemyModel)
+    applyGravity(dt);
 
-    // Update orientation based on patrol direction
-    m_facingRight = m_movingRight;
+    // 4. Patrouille (Via EnemyModel)
+    updatePatrolMovement(dt);
 
-    // Calculate horizontal velocity based on patrol direction
-    if (m_movingRight) {
-        m_velocity.x = m_speed;
-    } else {
-        m_velocity.x = -m_speed;
-    }
-
-    // --- 5. Final Movement Integration ---
-    // Apply the calculated velocity to the entity's world position.
+    // 5. Application du mouvement final
     m_position += m_velocity * dt;
 }
 

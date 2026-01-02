@@ -19,6 +19,7 @@
 					<Add directory="views" />
 					<Add directory="controllers" />
 					<Add directory="include" />
+					<Add directory="controllers/command" />
 				</Compiler>
 				<Linker>
 					<Add library="sfml-graphics" />
@@ -38,6 +39,7 @@
 					<Add directory="views" />
 					<Add directory="controllers" />
 					<Add directory="include" />
+					<Add directory="controllers/command" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -71,6 +73,24 @@
 		<Unit filename="controllers/PauseController.h" />
 		<Unit filename="controllers/PlayerController.cpp" />
 		<Unit filename="controllers/PlayerController.h" />
+		<Unit filename="controllers/command/AttackCommand.cpp" />
+		<Unit filename="controllers/command/AttackCommand.h" />
+		<Unit filename="controllers/command/DashCommand.cpp" />
+		<Unit filename="controllers/command/DashCommand.h" />
+		<Unit filename="controllers/command/ICommand.cpp" />
+		<Unit filename="controllers/command/ICommand.h" />
+		<Unit filename="controllers/command/InputHandler.cpp" />
+		<Unit filename="controllers/command/InputHandler.h" />
+		<Unit filename="controllers/command/InteractCommand.cpp" />
+		<Unit filename="controllers/command/InteractCommand.h" />
+		<Unit filename="controllers/command/JumpCommand.cpp" />
+		<Unit filename="controllers/command/JumpCommand.h" />
+		<Unit filename="controllers/command/MoveLeftCommand.cpp" />
+		<Unit filename="controllers/command/MoveLeftCommand.h" />
+		<Unit filename="controllers/command/MoveRightCommand.cpp" />
+		<Unit filename="controllers/command/MoveRightCommand.h" />
+		<Unit filename="controllers/command/PauseCommand.cpp" />
+		<Unit filename="controllers/command/PauseCommand.h" />
 		<Unit filename="include/Loot.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="models/BossModel.cpp" />
@@ -91,6 +111,10 @@
 		<Unit filename="models/PlayerModel.h" />
 		<Unit filename="models/SnakeModel.cpp" />
 		<Unit filename="models/SnakeModel.h" />
+		<Unit filename="models/SpiderModel.cpp" />
+		<Unit filename="models/SpiderModel.h" />
+		<Unit filename="models/WorldTransitionModel.cpp" />
+		<Unit filename="models/WorldTransitionModel.h" />
 		<Unit filename="src/Loot.cpp" />
 		<Unit filename="views/Background.cpp" />
 		<Unit filename="views/Background.h" />
@@ -102,6 +126,8 @@
 		<Unit filename="views/LevelView.h" />
 		<Unit filename="views/MenuView.cpp" />
 		<Unit filename="views/MenuView.h" />
+		<Unit filename="views/NpcView.cpp" />
+		<Unit filename="views/NpcView.h" />
 		<Unit filename="views/PauseView.cpp" />
 		<Unit filename="views/PauseView.h" />
 		<Unit filename="views/PlantView.cpp" />
@@ -109,6 +135,10 @@
 		<Unit filename="views/PlayerView.cpp" />
 		<Unit filename="views/PlayerView.h" />
 		<Unit filename="views/SnakeView.cpp" />
+		<Unit filename="views/SpiderView.cpp" />
+		<Unit filename="views/SpiderView.h" />
+		<Unit filename="views/WorldTransitionView.cpp" />
+		<Unit filename="views/WorldTransitionView.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

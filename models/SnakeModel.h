@@ -3,6 +3,7 @@
 
 #include "Character.h"
 #include "Entity.h"
+#include "EnemyModel.h"
 
 enum class SnakeState {
     WALK,
@@ -10,7 +11,7 @@ enum class SnakeState {
     DEATH
 };
 
-class SnakeModel : public Character {
+class SnakeModel : public EnemyModel {
 public:
     SnakeModel(float x, float y);
 
@@ -32,11 +33,6 @@ public:
 private:
     SnakeState m_state;
     float m_stateTimer;   // Pour gérer la durée du clignotement rouge
-
-    // Pour la patrouille
-    float m_patrolTimer;  // Chronomètre pour changer de direction
-    bool m_movingRight;   // Dans quel sens on va ?
-
     // Pour l'attaque
     float m_attackCooldown; // Temps d'attente entre deux morsures
 };
