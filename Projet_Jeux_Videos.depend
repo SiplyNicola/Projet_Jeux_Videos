@@ -1430,7 +1430,7 @@
 1764973044 source:c:\projetjeuxvideo\projet_jeux_videos\models\levelmodel.cpp
 	"LevelModel.h"
 
-1767392427 source:c:\projet_jeux_videosv2\controllers\game.cpp
+1767392574 source:c:\projet_jeux_videosv2\controllers\game.cpp
 	"Game.h"
 	<iostream>
 	<cmath>
@@ -1872,7 +1872,7 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1767390366 c:\projet_jeux_videosv2\models\playermodel.h
+1767392892 c:\projet_jeux_videosv2\models\playermodel.h
 	<SFML/System/Vector2.hpp>
 	<SFML/Graphics/Rect.hpp>
 	"Character.h"
@@ -1932,7 +1932,7 @@
 1767367932 source:c:\projet_jeux_videosv2\models\levelmodel.cpp
 	"LevelModel.h"
 
-1767390366 source:c:\projet_jeux_videosv2\models\playermodel.cpp
+1767392892 source:c:\projet_jeux_videosv2\models\playermodel.cpp
 	"PlayerModel.h"
 	<cmath>
 
@@ -3027,13 +3027,14 @@
 1767385649 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\enemymodel.cpp
 	"EnemyModel.h"
 
-1767384460 source:c:\projet_jeux_videosv2\controllers\command\attackcommand.cpp
+1767392892 source:c:\projet_jeux_videosv2\controllers\command\attackcommand.cpp
 	"AttackCommand.h"
 	"PlayerModel.h"
 
-1767384460 c:\projet_jeux_videosv2\controllers\command\attackcommand.h
+1767392892 c:\projet_jeux_videosv2\controllers\command\attackcommand.h
 	<ICommand.h>
 	<PlayerModel.h>
+	"../views/SoundManager.h"
 
 1767384460 c:\projet_jeux_videosv2\controllers\command\icommand.h
 
@@ -3049,7 +3050,7 @@
 1767384460 source:c:\projet_jeux_videosv2\controllers\command\icommand.cpp
 	"ICommand.h"
 
-1767390366 source:c:\projet_jeux_videosv2\controllers\command\inputhandler.cpp
+1767392892 source:c:\projet_jeux_videosv2\controllers\command\inputhandler.cpp
 	"InputHandler.h"
 	"AttackCommand.h"
 	"DashCommand.h"
@@ -3216,7 +3217,7 @@
 1767387416 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\enemymodel.cpp
 	"EnemyModel.h"
 
-1767390366 c:\projet_jeux_videosv2\views\soundmanager.h
+1767392893 c:\projet_jeux_videosv2\views\soundmanager.h
 	<SFML/Audio.hpp>
 	<map>
 	<string>
@@ -3325,7 +3326,7 @@
 	<SFML/Audio/Export.hpp>
 	<string>
 
-1767390366 source:c:\projet_jeux_videosv2\views\soundmanager.cpp
+1767392893 source:c:\projet_jeux_videosv2\views\soundmanager.cpp
 	"SoundManager.h"
 	<iostream>
 	<cstdlib>

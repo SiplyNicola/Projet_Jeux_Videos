@@ -218,52 +218,56 @@ void Game::processEvents() {
 
 /**
  * Game World Update Logic
- * Includes out-of-bounds detection to handle falling off the map.
+ * Updates all entities and physics. Dead enemies are skipped for logic
+ * but still counted for index synchronization.
  */
 void Game::update(float m_dt) {
+    // 1. Safety Physics Clamp
     if (m_dt > 0.05f) m_dt = 0.05f;
 
     m_playerModel.update(m_dt);
+
+    // Fall death detection
+    float m_mapH = m_level.getMapData().size() * 72.0f;
+    if (m_playerModel.getPosition().y > m_mapH + 100.0f) {
+        m_playerModel.takeDamage(999);
+    }
 
     if (m_currentLevelId == 2) {
         m_boss.updateBoss(m_dt, m_playerModel.getPosition());
     }
 
-    // --- FALL OUT OF BOUNDS DETECTION ---
-    // Calculate the total height of the map based on tile size (72px)
-    float m_mapH = m_level.getMapData().size() * 72.0f;
-    sf::Vector2f m_pPos = m_playerModel.getPosition();
-
-    // If player falls 100 pixels below the map floor, trigger death
-    if (m_pPos.y > m_mapH + 100.0f) {
-        // Deal massive damage to force the isDead() state
-        m_playerModel.takeDamage(999);
-    }
-
-    // Stop processing if player is dead (avoids further physics updates)
     if (m_playerModel.isDead()) return;
 
-    // --- ENEMY & ENTITY UPDATES ---
-    int snakeIndex = 0;
-    int spiderIndex = 0;
+    // --- ENEMY UPDATE LOOP ---
+    int m_snakeIndex = 0;
+    int m_spiderIndex = 0;
+
     for (Character* enemy : m_enemies) {
+        // CASE: SNAKE
         if (enemy->getType() == EntityType::SNAKE) {
-            SnakeModel* snake = static_cast<SnakeModel*>(enemy);
-            if (!snake->isDead()) {
+            if (!enemy->isDead()) { // Only update logic if alive
+                SnakeModel* snake = static_cast<SnakeModel*>(enemy);
                 snake->update(m_dt, m_playerModel.getPosition());
-                if (snakeIndex < (int)m_snakeViews.size())
-                    m_snakeViews[snakeIndex].update(m_dt, *snake);
+
+                if (m_snakeIndex < (int)m_snakeViews.size()) {
+                    m_snakeViews[m_snakeIndex].update(m_dt, *snake);
+                }
             }
-            snakeIndex++;
+            // INCREMENT REGARDLESS of life status to keep indices aligned
+            m_snakeIndex++;
         }
+        // CASE: SPIDER
         else if (enemy->getType() == EntityType::SPIDER) {
-            SpiderModel* spider = static_cast<SpiderModel*>(enemy);
-            if (!spider->isDead()) {
+            if (!enemy->isDead()) {
+                SpiderModel* spider = static_cast<SpiderModel*>(enemy);
                 spider->update(m_dt, m_playerModel.getPosition());
-                if (spiderIndex < (int)m_spiderViews.size())
-                    m_spiderViews[spiderIndex].update(m_dt, *spider);
+
+                if (m_spiderIndex < (int)m_spiderViews.size()) {
+                    m_spiderViews[m_spiderIndex].update(m_dt, *spider);
+                }
             }
-            spiderIndex++;
+            m_spiderIndex++;
         }
     }
 
@@ -274,20 +278,21 @@ void Game::update(float m_dt) {
     // Update Plants
     for (size_t i = 0; i < m_plants.size(); i++) {
         m_plants[i].update(m_dt);
-        if (i < m_plantViews.size()) m_plantViews[i].update(m_dt, m_plants[i]);
+        if (i < m_plantViews.size()) {
+            m_plantViews[i].update(m_dt, m_plants[i]);
+        }
     }
 
-    // Camera & Background
+    // Camera and Background Parallax
     float m_mapW = m_level.getMapData()[0].size() * 72.0f;
+    sf::Vector2f m_pPos = m_playerModel.getPosition();
     float m_cX = std::max(640.0f, std::min(m_pPos.x, m_mapW - 640.0f));
     float m_cY = std::max(360.0f, std::min(m_pPos.y, m_mapH - 360.0f));
     m_camera.setCenter(m_cX, m_cY);
 
     m_playerView.updateAnimation(m_playerModel, m_dt);
-    if (m_currentLevelId == 2) m_bossView.update(m_dt, m_boss);
     m_background.update(m_camera.getCenter().x - 640.0f, m_camera.getCenter().y - 360.0f);
 }
-
 /**
  * Combat Handling
  * Manages attack hitzones, damage dealing, and specific hit reactions.
@@ -526,61 +531,54 @@ void Game::resolveEnemyCollision(Character* enemy) {
 }
 
 /**
- * Unified Rendering Routine
- * Handles normal gameplay, the transition screen, and the pause menu overlay.
+ * Rendering Routine
+ * Draws all visible entities. Dead enemies are skipped for drawing
+ * but still counted for index synchronization.
  */
 void Game::render() {
     m_window.clear(sf::Color(50, 50, 50));
 
     if (m_isTransitioning) {
-        // Draw only the black transition screen (Mario style)
         m_window.setView(m_window.getDefaultView());
         m_transitionView.draw(m_window, m_transitionModel);
     }
     else {
-        // --- DRAW GAME WORLD ---
         m_window.setView(m_camera);
         m_window.draw(m_background);
         m_window.draw(m_levelView);
 
-        for (auto& pView : m_plantViews) {
-            pView.draw(m_window);
-        }
-
-        if (m_currentLevelId == 1) {
-            m_guardianView.draw(m_window, m_guardianPos);
-        }
-
-        if (m_currentLevelId == 2) m_bossView.draw(m_window);
+        if (m_currentLevelId == 1) m_guardianView.draw(m_window, m_guardianPos);
+        for (auto& pView : m_plantViews) { pView.draw(m_window); }
 
         m_playerView.draw(m_window);
 
-        // Enemy rendering
-        int snakeIdx = 0;
-        int spiderIdx = 0;
+        // --- ENEMY RENDERING LOOP ---
+        int m_snakeIdx = 0;
+        int m_spiderIdx = 0;
+
         for (Character* enemy : m_enemies) {
-            if (enemy->isDead()) continue;
             if (enemy->getType() == EntityType::SNAKE) {
-                m_snakeViews[snakeIdx].draw(m_window);
-                snakeIdx++;
+                // Only draw if alive
+                if (!enemy->isDead() && m_snakeIdx < (int)m_snakeViews.size()) {
+                    m_snakeViews[m_snakeIdx].draw(m_window);
+                }
+                m_snakeIdx++; // Always increment to maintain synchronization
             }
             else if (enemy->getType() == EntityType::SPIDER) {
-                m_spiderViews[spiderIdx].draw(m_window, *static_cast<SpiderModel*>(enemy));
-                spiderIdx++;
+                if (!enemy->isDead() && m_spiderIdx < (int)m_spiderViews.size()) {
+                    m_spiderViews[m_spiderIdx].draw(m_window, *static_cast<SpiderModel*>(enemy));
+                }
+                m_spiderIdx++;
             }
         }
 
-        // --- DRAW HUD ---
-        // HUD is drawn using the static default view (doesn't move with camera)
         m_hud.draw(m_window, m_playerModel.getHP(), m_playerModel.getPosition());
 
-        // --- DRAW PAUSE MENU OVERLAY ---
         if (m_isPaused) {
             m_window.setView(m_window.getDefaultView());
             m_pauseView.draw(m_window, m_pauseModel);
         }
     }
-
     m_window.display();
 }
 
