@@ -1,6 +1,8 @@
 #include "Game.h"
 #include <iostream>
 #include <cmath>
+#include <ctime>
+#include <cstdlib>
 
 /**
  * Game Constructor
@@ -16,6 +18,7 @@ Game::Game(sf::RenderWindow& window)
       m_exitToMainFlag(false),
       m_isTransitioning(false)
 {
+    srand(static_cast<unsigned>(time(NULL)));
     // 1. LOAD THE FONT FIRST
     if (!m_font.loadFromFile("resources/fonts/PressStart2P-regular.ttf")) {
         std::cerr << "ERROR: Could not load m_font for the Game class!" << std::endl;
@@ -48,6 +51,9 @@ Game::Game(sf::RenderWindow& window)
         }
     );
 
+    //Items views
+    m_healthPotionView.init();
+
     // Initialize the transition view (assuming m_font is already loaded)
     m_transitionView.init(m_font);
 
@@ -71,6 +77,7 @@ Game::~Game() {
         delete enemy;
     }
     m_enemies.clear();
+    m_items.clear();
 }
 
 /**
@@ -136,6 +143,7 @@ void Game::initEntities() {
     m_enemies.clear();
     m_snakeViews.clear();
     m_spiderViews.clear();
+    m_items.clear();
 
     // Clear plants
     m_plants.clear();
@@ -277,6 +285,16 @@ void Game::update(float m_dt) {
     if (m_currentLevelId == 2) handleBossCollisions();
     handleCombat();
 
+    // Update items
+    for (auto it = m_items.begin(); it != m_items.end(); ) {
+        if (m_playerModel.getHitbox().intersects((*it)->getHitbox())) {
+            (*it)->applyEffect(m_playerModel);
+            it = m_items.erase(it);
+        } else {
+            ++it;
+        }
+    }
+
     // Update Plants
     for (size_t i = 0; i < m_plants.size(); i++) {
         m_plants[i].update(m_dt);
@@ -350,6 +368,12 @@ void Game::handleCombat() {
 
             if (swordZone.intersects(enemy->getHitbox())) {
                 enemy->takeDamage(m_playerModel.getAttackDamage());
+                if(enemy->isDead()) {
+                    int luck = rand() % 100 + 1;
+                    if(luck <= 30) {
+                        m_items.push_back(std::make_unique<HealthPotion>(enemy->getPosition()));
+                    }
+                }
 
                 // Trigger specific hit reactions (e.g., animations)
                 if (enemy->getType() == EntityType::SPIDER) {
@@ -574,6 +598,12 @@ void Game::render() {
                 m_spiderViews[spiderIdx].draw(m_window, *static_cast<SpiderModel*>(enemy));
                 spiderIdx++;
             }
+        }
+
+        //Draw items
+        for (const auto& potion : m_items) {
+            // On demande à la vue de dessiner la potion à sa position actuelle
+            m_healthPotionView.draw(m_window, potion->getPosition());
         }
 
         // --- DRAW HUD ---
