@@ -138,10 +138,10 @@ void Game::processEvents() {
 }
 
 void Game::update(float m_dt) {
-    //if (m_currentLevelId == 1 && m_playerModel.getHitbox().intersects(m_nextLevelTrigger)) {
+    if (m_currentLevelId == 1 && m_playerModel.getHitbox().intersects(m_nextLevelTrigger)) {
         loadCaveLevel();
         return;
-   // }
+    }
 
     // 1. Mise à jour des modèles
     m_playerModel.update(m_dt);
