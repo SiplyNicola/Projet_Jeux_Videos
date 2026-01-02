@@ -20,6 +20,10 @@ Game::Game(sf::RenderWindow& window)
     m_plantView.init();
     m_hud.init();
 
+    m_guardianView.init();
+    m_guardianPos = sf::Vector2f(6634.0f, 432.0f);
+
+
     // Initialize Pause View
     m_pauseView.init(m_window);
 
@@ -134,10 +138,10 @@ void Game::processEvents() {
 }
 
 void Game::update(float m_dt) {
-    if (m_currentLevelId == 1 && m_playerModel.getHitbox().intersects(m_nextLevelTrigger)) {
+    //if (m_currentLevelId == 1 && m_playerModel.getHitbox().intersects(m_nextLevelTrigger)) {
         loadCaveLevel();
         return;
-    }
+   // }
 
     // 1. Mise à jour des modèles
     m_playerModel.update(m_dt);
@@ -203,6 +207,25 @@ void Game::update(float m_dt) {
     // NOTE: Les fonctions handleSnakeCollisions() et handleSpiderCollisions()
     // ne sont plus appelées ici car la physique est gérée dans handleCombat
     // via resolveEnemyCollision pour tous les ennemis.
+
+    // Zone autour du gardien
+    sf::FloatRect guardianZone(m_guardianPos.x - 50, m_guardianPos.y - 50, 100, 100);
+
+    if (m_playerModel.getHitbox().intersects(guardianZone)) {
+        // Touche 'E' pour interagir
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
+
+            if (m_playerModel.getCoins() >= 3) {
+                std::cout << "Gardien : Tu as les 3 pieces. Passe le pont !" << std::endl;
+                loadCaveLevel(); // <--- VICTOIRE : ON CHANGE DE NIVEAU
+            }
+            else {
+                std::cout << "Gardien : Il te faut 3 pieces !" << std::endl;
+                // On repousse un peu le joueur pour éviter qu'il traverse
+                m_playerModel.setPosition(m_playerModel.getPosition().x - 20, m_playerModel.getPosition().y);
+            }
+        }
+    }
 
     // Camera Clamping logic
     float m_mapW = m_level.getMapData()[0].size() * 72.0f;
@@ -438,6 +461,9 @@ void Game::render() {
     m_window.draw(m_background);
     m_window.draw(m_levelView);
     m_plantView.draw(m_window);
+    if (m_currentLevelId == 1) {
+        m_guardianView.draw(m_window, m_guardianPos);
+    }
     if (m_currentLevelId == 2) m_bossView.draw(m_window);
 
     m_playerView.draw(m_window);

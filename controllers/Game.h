@@ -23,6 +23,7 @@
 #include "PauseModel.h"
 #include "PauseView.h"
 #include "PauseController.h"
+#include "../views/NpcView.h"
 
 /**
  * @brief Main Game class managing the game loop and logic.
@@ -77,6 +78,9 @@ private:
     LevelView m_levelView;
     PlantModel m_plantModel;
     PlantView m_plantView;
+
+    sf::Vector2f m_guardianPos;
+    NpcView m_guardianView;
 
     int m_currentLevelId;
     sf::FloatRect m_nextLevelTrigger;

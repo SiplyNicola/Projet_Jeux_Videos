@@ -25,11 +25,16 @@ public:
     void attack();
     void dash();
 
+
     sf::FloatRect getHitbox() const override;
     void update(float deltaTime) override;
     void takeDamage(int amount) override;
 
+    void addCoin() { m_coins++; }
+    int getCoins() const { return m_coins; }
 
+private:
+    int m_coins; // Le compteur de pièces
 };
 
 #endif

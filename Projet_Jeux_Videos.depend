@@ -2471,7 +2471,7 @@
 1764406348 c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\playercontroller.h
 	"PlayerModel.h"
 
-1766865792 c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\playermodel.h
+1767360853 c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\playermodel.h
 	<SFML/System/Vector2.hpp>
 	<SFML/Graphics/Rect.hpp>
 	"Character.h"
@@ -2488,7 +2488,7 @@
 	"MenuController.h"
 	"Game.h"
 
-1767345290 c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\game.h
+1767360557 c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\game.h
 	<SFML/Graphics.hpp>
 	<vector>
 	"../models/PlayerModel.h"
@@ -2509,6 +2509,7 @@
 	"PauseModel.h"
 	"PauseView.h"
 	"PauseController.h"
+	"../views/NpcView.h"
 
 1766149553 c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\playerview.h
 	<SFML/Graphics.hpp>
@@ -2573,7 +2574,7 @@
 1766150614 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\entity.cpp
 	"Entity.h"
 
-1767265779 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\levelmodel.cpp
+1767359864 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\levelmodel.cpp
 	"LevelModel.h"
 
 1767291023 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\models\menumodel.cpp
@@ -2627,7 +2628,7 @@
 	"SnakeView.h"
 	<iostream>
 
-1767346925 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\game.cpp
+1767360902 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\controllers\game.cpp
 	"Game.h"
 	<iostream>
 	<cmath>
@@ -2787,4 +2788,11 @@
 1767299846 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\spiderview.h
 	<SFML/Graphics.hpp>
 	"../models/SpiderModel.h"
+
+1767360467 c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\npcview.h
+	<SFML/Graphics.hpp>
+
+1767360451 source:c:\users\darah\onedrive\documents\github\projet_jeux_videos\views\npcview.cpp
+	"NpcView.h"
+	<iostream>
 
