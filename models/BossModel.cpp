@@ -1,7 +1,9 @@
 #include "BossModel.h"
 #include <cmath>
 
-BossModel::BossModel() : Character(13, 100.0f, 2) {
+BossModel::BossModel()
+    : Character(13, 100.0f, 2, EntityType::BOSS)
+{
     m_position = {2000.0f, 2000.0f};
     m_state = IDLE;
     m_facingRight = false;
@@ -9,7 +11,6 @@ BossModel::BossModel() : Character(13, 100.0f, 2) {
     m_attackCooldown = 0;
     m_velocity = sf::Vector2f(0.0f, 0.0f);
 }
-
 void BossModel::update(float dt) {
     // Logique de base ou vide, l'IA utilise updateBoss
 }

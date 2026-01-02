@@ -6,11 +6,13 @@ const float GRAVITY = 0.8f;
 const float JUMP_FORCE = -17.f;
 const float DASH_SPEED = 20.0f;
 
-PlayerModel::PlayerModel() : Character(5, 7.0f, 1) { // 5 PV, 7.0 vitesse, 1 d�g�t
-    m_position = sf::Vector2f(100.0f, 2520.0f); // Position initiale au spawn
+// Passing EntityType::PLAYER to the base constructor
+PlayerModel::PlayerModel()
+    : Character(5, 7.0f, 1, EntityType::PLAYER)
+{
+    m_position = sf::Vector2f(100.0f, 2520.0f); // Cette ligne ne sera plus soulignée
     m_velocity = sf::Vector2f(0.0f, 0.0f);
     m_facingRight = true;
-
     state = PlayerState::IDLE;
     dashCooldownTimer = 0.0f;
     attackTimer = 0.0f;

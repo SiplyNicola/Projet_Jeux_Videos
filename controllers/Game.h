@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
-// Existing inclusions
+// Models & Views
 #include "../models/PlayerModel.h"
 #include "../views/PlayerView.h"
 #include "../controllers/PlayerController.h"
@@ -20,60 +20,78 @@
 #include "../views/SnakeView.h"
 #include "../models/SpiderModel.h"
 #include "../views/SpiderView.h"
-// New Pause system inclusions
 #include "PauseModel.h"
 #include "PauseView.h"
 #include "PauseController.h"
 
+/**
+ * @brief Main Game class managing the game loop and logic.
+ * Follows the Coplien Canonical Form (Destructor, Copy Constructor, Assignment Operator).
+ */
 class Game {
 public:
-    Game(sf::RenderWindow& m_window);
+    // 1. Default/Parametrized Constructor
+    Game(sf::RenderWindow& window);
+
+    // 2. Destructor (Essential for cleaning up dynamic memory in m_enemies)
     ~Game();
+
     void run();
 
 private:
-    // Prevent copying due to the sf::RenderWindow reference (Coplien compliance for complex classes)
-    Game(const Game& m_other) = delete;
-    Game& operator=(const Game& m_other) = delete;
+    // 3. Copy Constructor (Deleted)
+    // Justification: The Game class owns unique resources (Window reference, unique pointers).
+    // Copying a Game instance would lead to ambiguous ownership and double-free errors.
+    Game(const Game& other) = delete;
+
+    // 4. Assignment Operator (Deleted)
+    Game& operator=(const Game& other) = delete;
 
     void processEvents();
-    void update(float m_dt);
+    void update(float dt);
     void render();
+
+    // Unified collision handling or kept separate for clarity
     void handleCollisions();
     void handleBossCollisions();
     void handleCombat();
     void loadCaveLevel();
-    void handleSnakeCollisions();
-    void handleSpiderCollisions();
 
-    // Core SFML members
+    // Helper to separate physics logic (called inside unified update loop)
+    void resolveEnemyCollision(Character* enemy);
+
     sf::RenderWindow& m_window;
     sf::View m_camera;
 
-    // Game logic members
     View::Background m_background;
     PlayerModel m_playerModel;
     PlayerView m_playerView;
     PlayerController m_playerController;
     HudView m_hud;
+
+    // Boss remains separate as it is a unique entity with specific phase logic
     BossModel m_boss;
     BossView m_bossView;
+
     LevelModel m_level;
     LevelView m_levelView;
     PlantModel m_plantModel;
     PlantView m_plantView;
 
-    // Level and enemy management
     int m_currentLevelId;
     sf::FloatRect m_nextLevelTrigger;
-    sf::Texture m_snakeTexture;
-    std::vector<SnakeModel> m_snakes;
-    std::vector<SnakeView> m_snakeViews;
 
-    std::vector<SpiderModel> m_spiders;
+    // --- INTROSPECTION ARCHITECTURE ---
+    // Instead of separate vectors, we use a single polymorphic container.
+    // Justification: Allows processing all entities in a single loop (physics, combat).
+    std::vector<Character*> m_enemies;
+
+    // Views represent the "Presentation" layer and remain specific.
+    // We will sync them using the index or by introspection mapping.
+    std::vector<SnakeView> m_snakeViews;
     std::vector<SpiderView> m_spiderViews;
 
-    // --- PAUSE SYSTEM MEMBERS ---
+    // Pause System
     bool m_isPaused;
     bool m_exitToMainFlag;
     PauseModel m_pauseModel;

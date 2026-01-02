@@ -1,15 +1,15 @@
 #include "SnakeModel.h"
 #include <cmath>
 
+// Modification: Passing EntityType::SNAKE
 SnakeModel::SnakeModel(float x, float y)
-    : Character(3, 50.0f, 1),
+    : Character(3, 50.0f, 1, EntityType::SNAKE),
       m_state(SnakeState::WALK),
       m_stateTimer(0.0f),
       m_patrolTimer(0.0f),
       m_movingRight(true),
       m_attackCooldown(0.0f)
 {
-    // MODIFICATION : On utilise les coordonnées données au lieu de 400, 2520
     m_position = sf::Vector2f(x, y);
     m_facingRight = true;
 }

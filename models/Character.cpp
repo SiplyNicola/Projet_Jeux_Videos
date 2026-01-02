@@ -1,7 +1,12 @@
 #include "Character.h"
 
-Character::Character(int hp, float speed, int attackDamage)
-    : Entity(), m_hp(hp), m_speed(speed), m_attackDamage(attackDamage)
+// Mise à jour du constructeur pour accepter et stocker 'type'
+Character::Character(int hp, float speed, int attackDamage, EntityType type)
+    : Entity(),
+      m_hp(hp),
+      m_speed(speed),
+      m_attackDamage(attackDamage),
+      m_type(type) // <--- On enregistre l'identité ici
 {}
 
 void Character::takeDamage(int amount) {

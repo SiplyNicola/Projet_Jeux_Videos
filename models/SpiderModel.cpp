@@ -1,14 +1,14 @@
 #include "SpiderModel.h"
 #include <cmath>
 
+// Modification: Passing EntityType::SPIDER
+// Enlève la virgule à la fin de la ligne Character
 SpiderModel::SpiderModel(float x, float y)
-    : Character(3, 50.0f, 1),
-      m_state(SpiderState::HANGING),
+    : Character(3, 50.0f, 1, EntityType::SPIDER), // Pas de virgule ici si c'était fini, MAIS...
+      m_state(SpiderState::HANGING),    // ... on continue la liste !
       m_stateTimer(0.0f),
-      m_anchorY(y),
-      m_attackCooldown(0.0f),
-      m_patrolTimer(0.0f),
-      m_movingRight(true)
+      m_anchorY(y),                     // <--- C'EST CETTE LIGNE QUI FIXE LE PLAFOND (IMPORTANT)
+      m_attackCooldown(0.0f)
 {
     m_position = sf::Vector2f(x, y);
     m_facingRight = true;
