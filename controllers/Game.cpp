@@ -142,7 +142,7 @@ void Game::initEntities() {
 
     // B. RE-CREATE PLANTS
     std::vector<sf::Vector2f> plantPositions = {
-        {1669.0f, 1449.0f}, {1500.0f, 2520.0f}, {4561.0f, 366.0f}, {5829.0f, 1776.0f}
+        {1669.0f, 1449.0f}, {1500.0f, 2520.0f}, {4561.0f, 451.0f}, {5829.0f, 1776.0f}
     };
     m_plantViews.reserve(plantPositions.size());
     m_plants.reserve(plantPositions.size());

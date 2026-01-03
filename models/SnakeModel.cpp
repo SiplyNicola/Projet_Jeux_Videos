@@ -38,7 +38,7 @@ void SnakeModel::update(float dt, sf::Vector2f playerPos) {
             m_stateTimer = 0;
         }
 
-        m_velocity.x = 0.0f;
+        m_velocity.x = 30.0f;
 
         applyGravity(dt);
         m_position += m_velocity * dt;
