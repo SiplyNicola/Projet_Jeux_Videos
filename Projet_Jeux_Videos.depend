@@ -1435,12 +1435,12 @@
 1764973044 source:c:\projetjeuxvideo\projet_jeux_videos\models\levelmodel.cpp
 	"LevelModel.h"
 
-1767392574 source:c:\projet_jeux_videosv2\controllers\game.cpp
+1767441792 source:c:\projet_jeux_videosv2\controllers\game.cpp
 	"Game.h"
 	<iostream>
 	<cmath>
 
-1767390366 c:\projet_jeux_videosv2\controllers\game.h
+1767441622 c:\projet_jeux_videosv2\controllers\game.h
 	<SFML/Graphics.hpp>
 	<vector>
 	<memory>
@@ -1467,6 +1467,9 @@
 	"../models/WorldTransitionModel.h"
 	"../views/SoundManager.h"
 	"command/InputHandler.h"
+	"../models/Items.h"
+	"../models/HealthPotion.h"
+	"../views/HealthPotionView.h"
 
 1765892551 c:\projet_jeux_videosv2\sfml\include\sfml\graphics.hpp
 	<SFML/Window.hpp>
@@ -1877,7 +1880,7 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1767392892 c:\projet_jeux_videosv2\models\playermodel.h
+1767441622 c:\projet_jeux_videosv2\models\playermodel.h
 	<SFML/System/Vector2.hpp>
 	<SFML/Graphics/Rect.hpp>
 	"Character.h"
@@ -1930,14 +1933,14 @@
 	<ctime>
 	<cstdlib>
 
-1767367738 source:c:\projet_jeux_videosv2\models\bossmodel.cpp
+1767441622 source:c:\projet_jeux_videosv2\models\bossmodel.cpp
 	"BossModel.h"
 	<cmath>
 
-1767367932 source:c:\projet_jeux_videosv2\models\levelmodel.cpp
+1767441622 source:c:\projet_jeux_videosv2\models\levelmodel.cpp
 	"LevelModel.h"
 
-1767392892 source:c:\projet_jeux_videosv2\models\playermodel.cpp
+1767441622 source:c:\projet_jeux_videosv2\models\playermodel.cpp
 	"PlayerModel.h"
 	<cmath>
 
@@ -1945,11 +1948,11 @@
 	"Background.h"
 	<iostream>
 
-1767368564 source:c:\projet_jeux_videosv2\views\bossview.cpp
+1767441623 source:c:\projet_jeux_videosv2\views\bossview.cpp
 	"BossView.h"
 	<iostream>
 
-1767368564 source:c:\projet_jeux_videosv2\views\levelview.cpp
+1767441623 source:c:\projet_jeux_videosv2\views\levelview.cpp
 	"LevelView.h"
 	<iostream>
 
@@ -1971,11 +1974,11 @@
 	<SFML/Graphics.hpp>
 	<vector>
 
-1767369518 c:\projet_jeux_videosv2\models\character.h
+1767441622 c:\projet_jeux_videosv2\models\character.h
 	"Entity.h"
 	<SFML/Graphics/Rect.hpp>
 
-1767367738 source:c:\projet_jeux_videosv2\models\character.cpp
+1767441622 source:c:\projet_jeux_videosv2\models\character.cpp
 	"Character.h"
 
 1767397018 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\character.h
@@ -2687,9 +2690,10 @@
 	<SFML/Graphics.hpp>
 	"../models/SnakeModel.h"
 
-1767285568 source:c:\projet_jeux_videosv2\controllers\menucontroller.cpp
+1767441622 source:c:\projet_jeux_videosv2\controllers\menucontroller.cpp
 	"MenuController.h"
 	<cmath>
+	"../views/SoundManager.h"
 
 1766851653 c:\projet_jeux_videosv2\controllers\menucontroller.h
 	<SFML/Graphics.hpp>
@@ -3223,7 +3227,7 @@
 1767387416 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\enemymodel.cpp
 	"EnemyModel.h"
 
-1767392893 c:\projet_jeux_videosv2\views\soundmanager.h
+1767441623 c:\projet_jeux_videosv2\views\soundmanager.h
 	<SFML/Audio.hpp>
 	<map>
 	<string>
@@ -3332,7 +3336,7 @@
 	<SFML/Audio/Export.hpp>
 	<string>
 
-1767392893 source:c:\projet_jeux_videosv2\views\soundmanager.cpp
+1767441623 source:c:\projet_jeux_videosv2\views\soundmanager.cpp
 	"SoundManager.h"
 	<iostream>
 	<cstdlib>
@@ -4272,5 +4276,33 @@
 	<Items.h>
 
 1767397019 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\healthpotionview.cpp
+	"HealthPotionView.h"
+
+1767441622 c:\projet_jeux_videosv2\models\items.h
+	<SFML/Graphics/Rect.hpp>
+	<SFML/System/Vector2.hpp>
+	<string>
+	"../../models/PlayerModel.h"
+
+1767441622 c:\projet_jeux_videosv2\models\healthpotion.h
+	"Items.h"
+
+1767441623 c:\projet_jeux_videosv2\views\healthpotionview.h
+	<SFML/Graphics.hpp>
+	<iostream>
+
+1767441622 source:c:\projet_jeux_videosv2\models\healthpotion.cpp
+	"HealthPotion.h"
+
+1767441622 source:c:\projet_jeux_videosv2\models\items.cpp
+	"Items.h"
+
+1767441622 source:c:\projet_jeux_videosv2\models\sushiplatter.cpp
+	"SushiPlatter.h"
+
+1767441622 c:\projet_jeux_videosv2\models\sushiplatter.h
+	<Items.h>
+
+1767441623 source:c:\projet_jeux_videosv2\views\healthpotionview.cpp
 	"HealthPotionView.h"
 
