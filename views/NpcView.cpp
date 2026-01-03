@@ -25,6 +25,9 @@ void NpcView::init() {
 
     m_sprite.setTexture(m_texture);
 
+    m_animTimer = 0.0f;
+    m_currentFrame = 0;
+
     // 2. Texture Rect (Clipping/Framing)
     // Extracts the first 32x32 pixel square from the top-left of the sprite sheet.
     // This typically represents the "Idle" (standing still) pose for the character.
@@ -32,7 +35,7 @@ void NpcView::init() {
 
     // 3. Scaling
     // Doubles the visual size of the sprite (200%) to ensure visibility within the game world.
-    m_sprite.setScale(2.0f, 2.0f);
+    m_sprite.setScale(-2.0f, 2.0f);
 
     // 4. Origin Point (Pivot)
     // Sets the local origin to the character's feet (Bottom-Center: x=16, y=32).
@@ -48,4 +51,23 @@ void NpcView::init() {
 void NpcView::draw(sf::RenderWindow& window, sf::Vector2f position) {
     m_sprite.setPosition(position);
     window.draw(m_sprite);
+}
+
+void NpcView::updateAnimation(float dt) {
+    m_animTimer += dt;
+
+    // Change d'image toutes les 0.5 secondes (tu peux changer ce chiffre pour accélérer/ralentir)
+    if (m_animTimer >= 0.3f) {
+        m_animTimer = 0.0f; // Reset le timer
+
+        // On passe à la frame suivante (0 -> 1 -> 0 -> 1...)
+        m_currentFrame = (m_currentFrame + 1) % 2;
+
+        // Calcul du rectangle de texture
+        // Frame 0 : x = 0
+        // Frame 1 : x = 32 (car ton sprite fait 32 de large)
+        int left = m_currentFrame * 32;
+
+        m_sprite.setTextureRect(sf::IntRect(left, 0, 32, 32));
+    }
 }

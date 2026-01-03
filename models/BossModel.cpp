@@ -80,7 +80,7 @@ void BossModel::updateBoss(float dt, sf::Vector2f playerPos) {
                 m_hasDealtDamage = false; // Reset damage flag for the new attack
             }
             // Transition to WALKING if player is detected within agro range (400 units)
-            else if (dist < 400) m_state = WALKING;
+            else if (dist < 400 && dist >90) m_state = WALKING;
             break;
 
         case WALKING:

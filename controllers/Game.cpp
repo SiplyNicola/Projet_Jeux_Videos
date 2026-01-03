@@ -1,6 +1,8 @@
 #include "Game.h"
 #include <iostream>
 #include <cmath>
+#include <ctime>
+#include <cstdlib>
 
 /**
  * Game Constructor
@@ -14,8 +16,10 @@ Game::Game(sf::RenderWindow& window)
       m_background(sf::Vector2u(1280, 720)),
       m_isPaused(false),
       m_exitToMainFlag(false),
-      m_isTransitioning(false)
+      m_isTransitioning(false),
+      m_deathTimer(0.0f)
 {
+    srand(static_cast<unsigned>(time(NULL)));
     // 1. LOAD THE FONT FIRST
     if (!m_font.loadFromFile("resources/fonts/PressStart2P-regular.ttf")) {
         std::cerr << "ERROR: Could not load m_font for the Game class!" << std::endl;
@@ -35,6 +39,7 @@ Game::Game(sf::RenderWindow& window)
     m_guardianZone = sf::FloatRect(m_guardianPos.x - 50.0f, m_guardianPos.y - 50.0f, 100.0f, 100.0f);
     m_pauseView.init(m_window);
     m_soundManager.init();
+    m_soundManager.playLevel1Music();
 
     m_inputHandler = std::make_unique<InputHandler>(
         m_playerModel,
@@ -47,6 +52,9 @@ Game::Game(sf::RenderWindow& window)
         }
     );
 
+    //Items views
+    m_healthPotionView.init();
+
     // Initialize the transition view (assuming m_font is already loaded)
     m_transitionView.init(m_font);
 
@@ -57,7 +65,7 @@ Game::Game(sf::RenderWindow& window)
     m_background.addLayer("resources/oak_woods_v1.0/background/background_layer_2.png");
     m_background.addLayer("resources/oak_woods_v1.0/background/background_layer_3.png");
 
-    m_nextLevelTrigger = sf::FloatRect(3000.0f, 0.0f, 100.0f, 1000.0f);
+    //m_nextLevelTrigger = sf::FloatRect(3000.0f, 0.0f, 100.0f, 1000.0f);
 }
 
 /**
@@ -70,6 +78,7 @@ Game::~Game() {
         delete enemy;
     }
     m_enemies.clear();
+    m_items.clear();
 }
 
 /**
@@ -98,6 +107,7 @@ void Game::run() {
                     m_playerModel.setPosition(100.0f, 2520.0f);
                     m_camera.setCenter(640.0f, 2520.0f);
                     initEntities();
+                    m_deathTimer = 0.0f;
                     m_clock.restart();
                 }
             }
@@ -107,12 +117,19 @@ void Game::run() {
 
                 // Check for death to trigger transition
                 if (m_playerModel.isDead()) {
-                    if (m_playerModel.m_canRevive) {
-                        m_isTransitioning = true;
-                        m_transitionModel.reset("WORLD 1-" + std::to_string(m_currentLevelId), 1);
-                    } else {
-                        return; // Game Over
-                    }
+                    m_deathTimer += m_dt;
+                        if (m_deathTimer >= 2.0f) {
+                            if (m_playerModel.m_canRevive) {
+                                m_isTransitioning = true;
+                                m_transitionModel.reset("WORLD 1-" + std::to_string(m_currentLevelId), 1);
+                            } else {
+                                return; // Game Over
+                            }
+                        }
+                }
+                else {
+                    // If player alive = timer => 0
+                    m_deathTimer = 0.0f;
                 }
             }
         }
@@ -135,6 +152,7 @@ void Game::initEntities() {
     m_enemies.clear();
     m_snakeViews.clear();
     m_spiderViews.clear();
+    m_items.clear();
 
     // Clear plants
     m_plants.clear();
@@ -225,7 +243,16 @@ void Game::update(float m_dt) {
     // 1. Safety Physics Clamp
     if (m_dt > 0.05f) m_dt = 0.05f;
 
+    if (m_currentLevelId == 1 && m_playerModel.getHitbox().intersects(m_nextLevelTrigger)) {
+        loadCaveLevel();
+        return;
+    }
+
     m_playerModel.update(m_dt);
+
+    if (m_currentLevelId == 1) {
+        m_guardianView.updateAnimation(m_dt);
+    }
 
     // Fall death detection
     float m_mapH = m_level.getMapData().size() * 72.0f;
@@ -275,6 +302,16 @@ void Game::update(float m_dt) {
     if (m_currentLevelId == 2) handleBossCollisions();
     handleCombat();
 
+    // Update items
+    for (auto it = m_items.begin(); it != m_items.end(); ) {
+        if (m_playerModel.getHitbox().intersects((*it)->getHitbox())) {
+            (*it)->applyEffect(m_playerModel);
+            it = m_items.erase(it);
+        } else {
+            ++it;
+        }
+    }
+
     // Update Plants
     for (size_t i = 0; i < m_plants.size(); i++) {
         m_plants[i].update(m_dt);
@@ -291,6 +328,7 @@ void Game::update(float m_dt) {
     m_camera.setCenter(m_cX, m_cY);
 
     m_playerView.updateAnimation(m_playerModel, m_dt);
+    if (m_currentLevelId == 2) m_bossView.update(m_dt, m_boss);
     m_background.update(m_camera.getCenter().x - 640.0f, m_camera.getCenter().y - 360.0f);
 }
 /**
@@ -349,6 +387,12 @@ void Game::handleCombat() {
 
             if (swordZone.intersects(enemy->getHitbox())) {
                 enemy->takeDamage(m_playerModel.getAttackDamage());
+                if(enemy->isDead()) {
+                    int luck = rand() % 100 + 1;
+                    if(luck <= 30) {
+                        m_items.push_back(std::make_unique<HealthPotion>(enemy->getPosition()));
+                    }
+                }
 
                 // Trigger specific hit reactions (e.g., animations)
                 if (enemy->getType() == EntityType::SPIDER) {
@@ -398,6 +442,9 @@ void Game::handleCombat() {
                 if (plant.getTimer() >= 0.5f && plant.getTimer() <= 0.55f) {
                     if (plant.getBiteZone().intersects(m_playerModel.getHitbox())) {
                         m_playerModel.takeDamage(20);
+                        if (m_playerModel.isDead()) {
+                            m_playerModel.isEaten = true;
+                        }
                     }
                 }
             }
@@ -421,14 +468,22 @@ void Game::handleCollisions() {
         sf::FloatRect m_overlap;
         if (m_pBounds.intersects(m_wall, m_overlap)) {
 
-            // Detect if collision is mostly horizontal or vertical
-            bool m_isSideCollision = (m_overlap.width < m_overlap.height) || m_playerModel.isDashing;
+            // On d�termine si c'est une collision horizontale (C�t�) ou verticale (Sol/Plafond)
+            // On regarde quelle "tranche" de l'overlap est la plus petite
+            bool m_isSideCollision = (m_overlap.width < m_overlap.height);
 
-            if (m_isSideCollision && std::abs(m_pVel.x) > 0.01f) {
-                // --- SIDE RESOLUTION ---
-                if (m_pVel.x > 0) {
+            // Si on dash, on ignore souvent les petits obstacles au sol, donc on force le side collision
+            if (m_playerModel.isDashing) m_isSideCollision = true;
+
+            if (m_isSideCollision) {
+                // --- R�SOLUTION HORIZONTALE ---
+                // Au lieu de regarder la vitesse (m_pVel.x), on regarde la POSITION DU MUR
+                // Si le centre du joueur est � GAUCHE du mur -> Le mur est � DROITE -> On pousse � GAUCHE
+                if (m_pPos.x < m_wall.left) {
                     m_playerModel.setPosition(m_wall.left - m_pBounds.width / 2.0f, m_pPos.y);
-                } else if (m_pVel.x < 0) {
+                }
+                // Sinon, le mur est � GAUCHE -> On pousse � DROITE
+                else {
                     m_playerModel.setPosition(m_wall.left + m_wall.width + m_pBounds.width / 2.0f, m_pPos.y);
                 }
 
@@ -443,8 +498,7 @@ void Game::handleCollisions() {
             else {
                 // --- VERTICAL RESOLUTION ---
                 if (m_pVel.y >= 0) { // Landing on ground or falling
-                    // Allow small margin (15px) for landing detection accuracy
-                    if (m_pBounds.top + m_pBounds.height <= m_wall.top + 15.0f) {
+                    if (m_pBounds.top < m_wall.top) {
                         m_playerModel.setPosition(m_pPos.x, m_wall.top - 0.01f);
                         m_playerModel.setVelocity(sf::Vector2f(m_pVel.x, 0.0f));
                         m_playerModel.m_isGrounded = true;
@@ -456,7 +510,7 @@ void Game::handleCollisions() {
                     }
                 }
                 else if (m_pVel.y < 0) { // Hitting a ceiling
-                    if (m_pBounds.top >= m_wall.top + m_wall.height - 15.0f) {
+                    if (m_pBounds.top > m_wall.top) {
                         m_playerModel.setPosition(m_pPos.x, m_wall.top + m_wall.height + m_pBounds.height + 0.01f);
                         m_playerModel.setVelocity(sf::Vector2f(m_pVel.x, 0.0f));
                     }
@@ -476,17 +530,51 @@ void Game::handleCollisions() {
 void Game::handleBossCollisions() {
     sf::Vector2f bPos = m_boss.getPosition();
     sf::Vector2f bVel = m_boss.getVelocity();
+    sf::FloatRect bBounds = m_boss.getHitbox();
     std::vector<sf::FloatRect> walls = m_level.getNearbyWalls(bPos.x, bPos.y);
     sf::FloatRect bossBox = m_boss.getHitbox();
 
     for (const auto& wall : walls) {
-        if (bossBox.intersects(wall)) {
-            float overlapY = (bossBox.top + bossBox.height) - wall.top;
-            // Floor landing logic for Boss
-            if (bVel.y > 0 && overlapY < 70.0f) {
-                m_boss.setVelocity(sf::Vector2f(bVel.x, 0));
-                m_boss.setPosition(bPos.x, wall.top - 50.0f);
+        sf::FloatRect overlap;
+
+        if (bBounds.intersects(wall, overlap)) {
+            // On d�termine le c�t� le moins enfonc�
+            bool isSideCollision = (overlap.width < overlap.height);
+
+            // Priorit� au sol si on tombe (m�me si on touche un coin)
+            if (bVel.y > 0 && (bBounds.top + bBounds.height - wall.top) < 15.0f) {
+                isSideCollision = false;
             }
+            if (isSideCollision) {
+                // --- MUR ---
+                if (bPos.x < wall.left) { // Pousser � gauche
+                    m_boss.setPosition(wall.left - bBounds.width / 2.0f, bPos.y);
+                } else { // Pousser � droite
+                    m_boss.setPosition(wall.left + wall.width + bBounds.width / 2.0f, bPos.y);
+                }
+
+                // On annule juste la vitesse (Stop net) au lieu de rebondir
+                // �a �vite le ping-pong infini
+                m_boss.setVelocity(sf::Vector2f(0.0f, bVel.y));
+            }
+            else {
+                // --- SOL / PLAFOND ---
+                if (bVel.y >= 0) { // Sol
+                    if (bBounds.top < wall.top) {
+                        m_boss.setPosition(bPos.x, wall.top - 0.01f);
+                        m_boss.setVelocity(sf::Vector2f(bVel.x, 0.0f));
+                    }
+                }
+                else if (bVel.y < 0) { // Plafond
+                     if (bBounds.top > wall.top) {
+                        m_boss.setPosition(bPos.x, wall.top + wall.height + bBounds.height + 0.01f);
+                        m_boss.setVelocity(sf::Vector2f(bVel.x, 0.0f));
+                    }
+                }
+            }
+            // Mise � jour vitale
+            bBounds = m_boss.getHitbox();
+            bPos = m_boss.getPosition();
         }
     }
 }
@@ -547,10 +635,19 @@ void Game::render() {
         m_window.draw(m_background);
         m_window.draw(m_levelView);
 
-        if (m_currentLevelId == 1) m_guardianView.draw(m_window, m_guardianPos);
-        for (auto& pView : m_plantViews) { pView.draw(m_window); }
+        for (auto& pView : m_plantViews) {
+            pView.draw(m_window);
+        }
 
-        m_playerView.draw(m_window);
+        if (m_currentLevelId == 1) {
+            m_guardianView.draw(m_window, m_guardianPos);
+        }
+
+        if (m_currentLevelId == 2) m_bossView.draw(m_window);
+
+        if (!m_playerModel.isEaten) {
+            m_playerView.draw(m_window);
+        }
 
         // --- ENEMY RENDERING LOOP ---
         int m_snakeIdx = 0;
@@ -572,8 +669,18 @@ void Game::render() {
             }
         }
 
+        //Draw items
+        for (const auto& potion : m_items) {
+            // On demande � la vue de dessiner la potion � sa position actuelle
+            m_healthPotionView.draw(m_window, potion->getPosition());
+        }
+
+        // --- DRAW HUD ---
+        // HUD is drawn using the static default view (doesn't move with camera)
+
         m_hud.draw(m_window, m_playerModel.getHP(), m_playerModel.getPosition());
 
+        // --- DRAW PAUSE MENU OVERLAY ---
         if (m_isPaused) {
             m_window.setView(m_window.getDefaultView());
             m_pauseView.draw(m_window, m_pauseModel);
@@ -590,6 +697,7 @@ void Game::loadCaveLevel() {
     std::cout << "--- TRANSITION TO THE CAVE ---" << std::endl;
 
     m_currentLevelId = 2;
+    m_soundManager.playCaveMusic();
     m_level.loadLevel(2);
     m_levelView.loadTileset("resources/Tileset_Cave.png");
     m_levelView.build(m_level);
@@ -599,7 +707,7 @@ void Game::loadCaveLevel() {
     m_background.addLayer("resources/cave_background.png");
 
     // Reset positions for Level 2
-    m_playerModel.setPosition(100.0f, 300.0f);
+    m_playerModel.setPosition(150.0f, 50.0f);
     m_playerModel.setVelocity(sf::Vector2f(0, 0));
-    m_boss.reset(600.0f, 400.0f);
+    m_boss.reset(800.0f, 450.0f);
 }

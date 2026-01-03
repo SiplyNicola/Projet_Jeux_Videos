@@ -34,7 +34,7 @@ void LevelModel::loadLevel(int levelId) {
             "                                                                                                                                  ",
             "                                                                                                                                  ",
             "                                                                                                                                  ", // Grass
-            "                                                        P            L  F                  11bBbbBbbBbbBb                                       ",
+            "                                                        P            L  F                  11bBb bBb bBb bBb                                       ",
             "      L F   L                                        1111111       111111111            11124                                     ",
             "      1111111                      1111             322222224                   L      322224                                   ",
             "                                  322224    GG                               1111111                                              ",
