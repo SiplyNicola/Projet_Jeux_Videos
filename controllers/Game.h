@@ -101,6 +101,7 @@ private:
 
     int m_currentLevelId;
     sf::FloatRect m_nextLevelTrigger;
+    float m_deathTimer;
 
     // --- INTROSPECTION ARCHITECTURE ---
     // Instead of separate vectors, we use a single polymorphic container.

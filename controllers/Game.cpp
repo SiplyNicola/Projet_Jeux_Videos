@@ -16,7 +16,8 @@ Game::Game(sf::RenderWindow& window)
       m_background(sf::Vector2u(1280, 720)),
       m_isPaused(false),
       m_exitToMainFlag(false),
-      m_isTransitioning(false)
+      m_isTransitioning(false),
+      m_deathTimer(0.0f)
 {
     srand(static_cast<unsigned>(time(NULL)));
     // 1. LOAD THE FONT FIRST
@@ -106,6 +107,7 @@ void Game::run() {
                     m_playerModel.setPosition(100.0f, 2520.0f);
                     m_camera.setCenter(640.0f, 2520.0f);
                     initEntities();
+                    m_deathTimer = 0.0f;
                     m_clock.restart();
                 }
             }
@@ -115,12 +117,19 @@ void Game::run() {
 
                 // Check for death to trigger transition
                 if (m_playerModel.isDead()) {
-                    if (m_playerModel.m_canRevive) {
-                        m_isTransitioning = true;
-                        m_transitionModel.reset("WORLD 1-" + std::to_string(m_currentLevelId), 1);
-                    } else {
-                        return; // Game Over
-                    }
+                        m_deathTimer += m_dt;
+                        if (m_deathTimer >= 2.0f) {
+                            if (m_playerModel.m_canRevive) {
+                                m_isTransitioning = true;
+                                m_transitionModel.reset("WORLD 1-" + std::to_string(m_currentLevelId), 1);
+                            } else {
+                                return; // Game Over
+                            }
+                        }
+                }
+                else {
+                    // Si le joueur est vivant, le timer reste à 0
+                    m_deathTimer = 0.0f;
                 }
             }
         }
@@ -423,6 +432,9 @@ void Game::handleCombat() {
                 if (plant.getTimer() >= 0.5f && plant.getTimer() <= 0.55f) {
                     if (plant.getBiteZone().intersects(m_playerModel.getHitbox())) {
                         m_playerModel.takeDamage(20);
+                        if (m_playerModel.isDead()) {
+                            m_playerModel.isEaten = true;
+                        }
                     }
                 }
             }
@@ -629,6 +641,9 @@ void Game::render() {
         if (m_currentLevelId == 2) m_bossView.draw(m_window);
 
         m_playerView.draw(m_window);
+        if (!m_playerModel.isEaten) {
+            m_playerView.draw(m_window);
+        }
 
         // Enemy rendering
         int snakeIdx = 0;
