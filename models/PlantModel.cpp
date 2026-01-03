@@ -43,6 +43,16 @@ void PlantModel::update(float dt) {
  * @return A square FloatRect (80x80) centered around the plant's position.
  */
 sf::FloatRect PlantModel::getBiteZone() const {
-    // Defines the bite area centered on the plant's position
-    return sf::FloatRect(m_position.x - 40, m_position.y - 40, 80, 80);
+    // The sprite is scaled by 3.0x, making it roughly 192 pixels tall
+    // We need to move the bite zone UP (negative Y) and make it LARGER
+
+    float width = 120.0f;  // Increased width for better reach
+    float height = 120.0f; // Increased height
+
+    return sf::FloatRect(
+        m_position.x - width / 2.0f,
+        m_position.y - 140.0f, // Move the box up to align with the plant's head
+        width,
+        height
+    );
 }
