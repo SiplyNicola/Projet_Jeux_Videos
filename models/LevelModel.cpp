@@ -78,16 +78,16 @@ void LevelModel::loadLevel(int levelId) {
 
         // TUNNEL STYLE LAYOUT: A more enclosed, cave-like environment
         m_mapData = {
-            "vvvvvvvvvvvvvvvvvv",
-            "vvvvvvv54444444446",
-            "vvvvv54s         3",
-            "54444s           3", // Platforms
+            "2  3vvvvvvvvvvvvvv",
+            "2  3vvvv5444444446",
+            "2  3vv54s        3",
+            "2  q44s          3", // Platforms
             "2                3",
             "2                3",
             "2                3",
             "2      P         3",
-            "2    11111       3", // Player spawn point
-            "711111111111111118"
+            "711111111111111118", // Player spawn point
+            "vvvvvvvvvvvvvvvvvv"
         };
     }
 }
@@ -116,7 +116,10 @@ std::vector<sf::FloatRect> LevelModel::getNearbyWalls(float x, float y) const {
 
                 // SECURITY: Only numeric codes 1, 2, 3, and 4 are treated as SOLID WALLS.
                 // All other characters (S, L, P, G, F, R, and empty spaces) are traversable.
-                if (cell == '1' || cell == '2' || cell == '3' || cell == '4') {
+                if (cell == '1' || cell == '2' || cell == '3' || cell == '4' ||
+                    cell == '5' || cell == '6' || cell == '7' || cell == '8' ||
+                    cell == 'a' || cell == 'z' || cell == 'q' || cell == 's')
+                {
                     walls.push_back(sf::FloatRect(j * finalSize, i * finalSize, finalSize, finalSize));
                 }
             }

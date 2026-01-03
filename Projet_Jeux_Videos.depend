@@ -1239,12 +1239,14 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1767395092 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\game.cpp
+1767398167 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\game.cpp
 	"Game.h"
 	<iostream>
 	<cmath>
+	<ctime>
+	<cstdlib>
 
-1767388522 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\game.h
+1767397018 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\game.h
 	<SFML/Graphics.hpp>
 	<vector>
 	<memory>
@@ -1271,6 +1273,9 @@
 	"../models/WorldTransitionModel.h"
 	"../views/SoundManager.h"
 	"command/InputHandler.h"
+	"../models/Items.h"
+	"../models/HealthPotion.h"
+	"../views/HealthPotionView.h"
 
 1767392579 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\playermodel.h
 	<SFML/System/Vector2.hpp>
@@ -1305,18 +1310,18 @@
 	<map>
 	<string>
 
-1767380331 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\bossmodel.cpp
+1767398513 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\bossmodel.cpp
 	"BossModel.h"
 	<cmath>
 
-1767396642 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\levelmodel.cpp
+1767398998 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\levelmodel.cpp
 	"LevelModel.h"
 
 1767394823 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\playermodel.cpp
 	"PlayerModel.h"
 	<cmath>
 
-1767396403 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\levelview.cpp
+1767398910 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\levelview.cpp
 	"LevelView.h"
 	<iostream>
 
@@ -1324,7 +1329,7 @@
 	"PlayerView.h"
 	<iostream>
 
-1767380331 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\bossview.cpp
+1767398599 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\bossview.cpp
 	"BossView.h"
 	<iostream>
 
@@ -1973,7 +1978,7 @@
 1767367738 source:c:\projet_jeux_videosv2\models\character.cpp
 	"Character.h"
 
-1767380331 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\character.h
+1767397018 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\character.h
 	"Entity.h"
 	<SFML/Graphics/Rect.hpp>
 
@@ -1991,7 +1996,7 @@
 	"HudView.h"
 	<iostream>
 
-1767380331 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\character.cpp
+1767397018 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\character.cpp
 	"Character.h"
 
 1767394613 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\menucontroller.cpp
@@ -4238,5 +4243,33 @@
 	<iostream>
 
 1767396722 source:d:\github\projet_jeu_video\views\healthpotionview.cpp
+	"HealthPotionView.h"
+
+1767397018 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\items.h
+	<SFML/Graphics/Rect.hpp>
+	<SFML/System/Vector2.hpp>
+	<string>
+	"../../models/PlayerModel.h"
+
+1767397018 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\healthpotion.h
+	"Items.h"
+
+1767397019 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\healthpotionview.h
+	<SFML/Graphics.hpp>
+	<iostream>
+
+1767397018 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\healthpotion.cpp
+	"HealthPotion.h"
+
+1767397018 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\items.cpp
+	"Items.h"
+
+1767397018 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\sushiplatter.cpp
+	"SushiPlatter.h"
+
+1767397018 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\sushiplatter.h
+	<Items.h>
+
+1767397019 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\views\healthpotionview.cpp
 	"HealthPotionView.h"
 

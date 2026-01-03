@@ -139,7 +139,14 @@ BossState BossModel::getState() const { return m_state; }
  * The box is roughly 60 units wide and 100 units high, centered horizontally.
  */
 sf::FloatRect BossModel::getHitbox() const {
-    return sf::FloatRect(m_position.x - 30, m_position.y - 50, 60, 100);
+    // Largeur un peu réduite (40 au lieu de 60) pour éviter de coincer dans les murs
+    float width = 40.0f;
+    float height = 100.0f;
+
+    // CORRECTION ICI : "m_position.y - height"
+    // Cela signifie que le rectangle commence 100px au-dessus des pieds
+    // et finit exactement aux pieds.
+    return sf::FloatRect(m_position.x - width/2, m_position.y - height, width, height);
 }
 
 /**

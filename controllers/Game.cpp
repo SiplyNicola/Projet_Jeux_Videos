@@ -439,55 +439,65 @@ void Game::handleCollisions() {
     sf::Vector2f m_pVel = m_playerModel.getVelocity();
     sf::FloatRect m_pBounds = m_playerModel.getHitbox();
 
-    // Optimize by only fetching walls near the player's current position
     std::vector<sf::FloatRect> m_nearbyWalls = m_level.getNearbyWalls(m_pPos.x, m_pPos.y);
 
     for (const auto& m_wall : m_nearbyWalls) {
         sf::FloatRect m_overlap;
+
+        // Si collision détectée
         if (m_pBounds.intersects(m_wall, m_overlap)) {
 
-            // Detect if collision is mostly horizontal or vertical
-            bool m_isSideCollision = (m_overlap.width < m_overlap.height) || m_playerModel.isDashing;
+            // On détermine si c'est une collision horizontale (Côté) ou verticale (Sol/Plafond)
+            // On regarde quelle "tranche" de l'overlap est la plus petite
+            bool m_isSideCollision = (m_overlap.width < m_overlap.height);
 
-            if (m_isSideCollision && std::abs(m_pVel.x) > 0.01f) {
-                // --- SIDE RESOLUTION ---
-                if (m_pVel.x > 0) {
+            // Si on dash, on ignore souvent les petits obstacles au sol, donc on force le side collision
+            if (m_playerModel.isDashing) m_isSideCollision = true;
+
+            if (m_isSideCollision) {
+                // --- RÉSOLUTION HORIZONTALE ---
+
+                // Au lieu de regarder la vitesse (m_pVel.x), on regarde la POSITION DU MUR
+                // Si le centre du joueur est à GAUCHE du mur -> Le mur est à DROITE -> On pousse à GAUCHE
+                if (m_pPos.x < m_wall.left) {
                     m_playerModel.setPosition(m_wall.left - m_pBounds.width / 2.0f, m_pPos.y);
-                } else if (m_pVel.x < 0) {
+                }
+                // Sinon, le mur est à GAUCHE -> On pousse à DROITE
+                else {
                     m_playerModel.setPosition(m_wall.left + m_wall.width + m_pBounds.width / 2.0f, m_pPos.y);
                 }
 
                 m_playerModel.setVelocity(sf::Vector2f(0.0f, m_pVel.y));
 
-                // Cancel dash if player hits a wall
+                // Annuler le dash si on tape un mur
                 if (m_playerModel.isDashing) {
                     m_playerModel.isDashing = false;
                     m_playerModel.state = PlayerState::IDLE;
                 }
             }
             else {
-                // --- VERTICAL RESOLUTION ---
-                if (m_pVel.y >= 0) { // Landing on ground or falling
-                    // Allow small margin (15px) for landing detection accuracy
-                    if (m_pBounds.top + m_pBounds.height <= m_wall.top + 15.0f) {
+                // --- RÉSOLUTION VERTICALE (inchangée, elle était correcte) ---
+                if (m_pVel.y >= 0) { // Tombe ou atterrit
+                    // On vérifie qu'on est bien au-dessus du mur
+                    if (m_pBounds.top < m_wall.top) {
                         m_playerModel.setPosition(m_pPos.x, m_wall.top - 0.01f);
                         m_playerModel.setVelocity(sf::Vector2f(m_pVel.x, 0.0f));
                         m_playerModel.m_isGrounded = true;
 
-                        // Reset animation state upon landing
                         if (m_playerModel.state == PlayerState::JUMP || m_playerModel.state == PlayerState::FALL) {
                             m_playerModel.state = (std::abs(m_pVel.x) > 0.5f) ? PlayerState::RUN : PlayerState::IDLE;
                         }
                     }
                 }
-                else if (m_pVel.y < 0) { // Hitting a ceiling
-                    if (m_pBounds.top >= m_wall.top + m_wall.height - 15.0f) {
+                else if (m_pVel.y < 0) { // Saute et tape la tête
+                    // On vérifie qu'on est bien en dessous du mur
+                    if (m_pBounds.top > m_wall.top) {
                         m_playerModel.setPosition(m_pPos.x, m_wall.top + m_wall.height + m_pBounds.height + 0.01f);
                         m_playerModel.setVelocity(sf::Vector2f(m_pVel.x, 0.0f));
                     }
                 }
             }
-            // Update temporary bounds/position for next wall check
+            // Mise à jour pour la prochaine itération de boucle
             m_pBounds = m_playerModel.getHitbox();
             m_pPos = m_playerModel.getPosition();
         }
@@ -501,17 +511,52 @@ void Game::handleCollisions() {
 void Game::handleBossCollisions() {
     sf::Vector2f bPos = m_boss.getPosition();
     sf::Vector2f bVel = m_boss.getVelocity();
+    sf::FloatRect bBounds = m_boss.getHitbox();
+
     std::vector<sf::FloatRect> walls = m_level.getNearbyWalls(bPos.x, bPos.y);
-    sf::FloatRect bossBox = m_boss.getHitbox();
 
     for (const auto& wall : walls) {
-        if (bossBox.intersects(wall)) {
-            float overlapY = (bossBox.top + bossBox.height) - wall.top;
-            // Floor landing logic for Boss
-            if (bVel.y > 0 && overlapY < 70.0f) {
-                m_boss.setVelocity(sf::Vector2f(bVel.x, 0));
-                m_boss.setPosition(bPos.x, wall.top - 50.0f);
+        sf::FloatRect overlap;
+
+        if (bBounds.intersects(wall, overlap)) {
+            // On détermine le côté le moins enfoncé
+            bool isSideCollision = (overlap.width < overlap.height);
+
+            // Priorité au sol si on tombe (même si on touche un coin)
+            if (bVel.y > 0 && (bBounds.top + bBounds.height - wall.top) < 15.0f) {
+                isSideCollision = false;
             }
+
+            if (isSideCollision) {
+                // --- MUR ---
+                if (bPos.x < wall.left) { // Pousser à gauche
+                    m_boss.setPosition(wall.left - bBounds.width / 2.0f, bPos.y);
+                } else { // Pousser à droite
+                    m_boss.setPosition(wall.left + wall.width + bBounds.width / 2.0f, bPos.y);
+                }
+
+                // On annule juste la vitesse (Stop net) au lieu de rebondir
+                // Ça évite le ping-pong infini
+                m_boss.setVelocity(sf::Vector2f(0.0f, bVel.y));
+            }
+            else {
+                // --- SOL / PLAFOND ---
+                if (bVel.y >= 0) { // Sol
+                    if (bBounds.top < wall.top) {
+                        m_boss.setPosition(bPos.x, wall.top - 0.01f);
+                        m_boss.setVelocity(sf::Vector2f(bVel.x, 0.0f));
+                    }
+                }
+                else if (bVel.y < 0) { // Plafond
+                     if (bBounds.top > wall.top) {
+                        m_boss.setPosition(bPos.x, wall.top + wall.height + bBounds.height + 0.01f);
+                        m_boss.setVelocity(sf::Vector2f(bVel.x, 0.0f));
+                    }
+                }
+            }
+            // Mise à jour vitale
+            bBounds = m_boss.getHitbox();
+            bPos = m_boss.getPosition();
         }
     }
 }
@@ -638,7 +683,7 @@ void Game::loadCaveLevel() {
     m_background.addLayer("resources/cave_background.png");
 
     // Reset positions for Level 2
-    m_playerModel.setPosition(150.0f, 350.0f);
+    m_playerModel.setPosition(50.0f, 50.0f);
     m_playerModel.setVelocity(sf::Vector2f(0, 0));
-    m_boss.reset(1000.0f, 400.0f);
+    m_boss.reset(500.0f, 350.0f);
 }
