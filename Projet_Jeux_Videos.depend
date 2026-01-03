@@ -1239,7 +1239,7 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1767399096 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\game.cpp
+1767438568 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\controllers\game.cpp
 	"Game.h"
 	<iostream>
 	<cmath>
@@ -1277,7 +1277,7 @@
 	"../models/HealthPotion.h"
 	"../views/HealthPotionView.h"
 
-1767438069 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\playermodel.h
+1767439564 c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\playermodel.h
 	<SFML/System/Vector2.hpp>
 	<SFML/Graphics/Rect.hpp>
 	"Character.h"
@@ -1317,7 +1317,7 @@
 1767398998 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\levelmodel.cpp
 	"LevelModel.h"
 
-1767438069 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\playermodel.cpp
+1767439564 source:c:\users\jiaha\codeblocksprojects\projet_jeux_videos\models\playermodel.cpp
 	"PlayerModel.h"
 	<cmath>
 

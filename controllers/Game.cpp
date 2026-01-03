@@ -65,7 +65,7 @@ Game::Game(sf::RenderWindow& window)
     m_background.addLayer("resources/oak_woods_v1.0/background/background_layer_2.png");
     m_background.addLayer("resources/oak_woods_v1.0/background/background_layer_3.png");
 
-    m_nextLevelTrigger = sf::FloatRect(3000.0f, 0.0f, 100.0f, 1000.0f);
+    //m_nextLevelTrigger = sf::FloatRect(3000.0f, 0.0f, 100.0f, 1000.0f);
 }
 
 /**
@@ -698,7 +698,7 @@ void Game::loadCaveLevel() {
     m_background.addLayer("resources/cave_background.png");
 
     // Reset positions for Level 2
-    m_playerModel.setPosition(50.0f, 50.0f);
+    m_playerModel.setPosition(150.0f, 50.0f);
     m_playerModel.setVelocity(sf::Vector2f(0, 0));
-    m_boss.reset(500.0f, 350.0f);
+    m_boss.reset(800.0f, 450.0f);
 }
