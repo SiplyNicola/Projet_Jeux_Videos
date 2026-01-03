@@ -38,8 +38,8 @@ void HudView::init() {
     // --- DEBUG COORDINATES CONFIGURATION ---
 
     // 1. Loading the Font: Requires a valid .ttf file to render text.
-    if (!m_font.loadFromFile("resources/fonts/PTBLDDSK.ttf")) {
-        std::cerr << "ERROR: Font file missing (resources/fonts/PTBLDDSK.ttf)" << std::endl;
+    if (!m_font.loadFromFile("resources/fonts/PressStart2P-regular.ttf")) {
+        std::cerr << "ERROR: Font file missing (resources/fonts/PressStart2P-regular.ttf)" << std::endl;
         // Logic continues without return to prevent the game from crashing if only the font is missing.
     }
 
