@@ -33,6 +33,46 @@ void SoundManager::init() {
     m_atkSound.setVolume(200.0f);
 }
 
+void SoundManager::playMenuMusic() {
+    // Si la musique joue déjà, on l'arrête proprement
+    if (m_music.getStatus() == sf::Music::Playing) {
+        m_music.stop();
+    }
+
+    // CHARGEMENT ET LECTURE (Adapte le chemin du fichier !)
+    if (m_music.openFromFile("resources/sound/Musics/MenuMusic.wav")) {
+        m_music.setLoop(true);   // La musique tourne en boucle
+        m_music.setVolume(5.f); // Volume modéré pour la musique (0 à 100)
+        m_music.play();
+    }
+}
+
+void SoundManager::playLevel1Music() {
+    if (m_music.getStatus() == sf::Music::Playing) m_music.stop();
+
+    // Musique de la Forêt
+    if (m_music.openFromFile("resources/sound/Musics/ForestMusic.wav")) {
+        m_music.setLoop(true);
+        m_music.setVolume(10.f);
+        m_music.play();
+    }
+}
+
+void SoundManager::playCaveMusic() {
+    if (m_music.getStatus() == sf::Music::Playing) m_music.stop();
+
+    // Musique de la Grotte
+    if (m_music.openFromFile("resources/sound/Musics/BossMusic.wav")) {
+        m_music.setLoop(true);
+        m_music.setVolume(10.f);
+        m_music.play();
+    }
+}
+
+void SoundManager::stopMusic() {
+    m_music.stop();
+}
+
 void SoundManager::loadSound(sf::SoundBuffer& buffer, const std::string& path) {
     if (!buffer.loadFromFile(path)) {
         std::cerr << "ERREUR AUDIO : Impossible de charger " << path << std::endl;

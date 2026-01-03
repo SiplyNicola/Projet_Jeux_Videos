@@ -29,6 +29,9 @@
 #include "../models/WorldTransitionModel.h"
 #include "../views/SoundManager.h"
 #include "command/InputHandler.h"
+#include "../models/Items.h"
+#include "../models/HealthPotion.h"
+#include "../views/HealthPotionView.h"
 
 /**
  * @brief Main Game class managing the game loop and logic.
@@ -98,6 +101,7 @@ private:
 
     int m_currentLevelId;
     sf::FloatRect m_nextLevelTrigger;
+    float m_deathTimer;
 
     // --- INTROSPECTION ARCHITECTURE ---
     // Instead of separate vectors, we use a single polymorphic container.
@@ -115,6 +119,10 @@ private:
     PauseModel m_pauseModel;
     PauseView m_pauseView;
     PauseController m_pauseController;
+
+    //Items
+    std::vector<std::unique_ptr<Items>> m_items;
+    HealthPotionView m_healthPotionView;
 };
 
 #endif

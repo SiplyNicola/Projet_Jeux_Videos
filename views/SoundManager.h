@@ -15,6 +15,12 @@ public:
     void playDash();
     void playAttack();
 
+    // Musics
+    void playMenuMusic();
+    void playLevel1Music();
+    void playCaveMusic();
+    void stopMusic();
+
 private:
     // Les buffers (les fichiers chargés)
     sf::SoundBuffer m_jumpBuffer1;
@@ -37,6 +43,9 @@ private:
     sf::Sound m_dashSound;
     sf::Sound m_weaponSound;
     sf::Sound m_atkSound;
+
+    //Musics
+    sf::Music m_music;
 
     // Petite fonction utilitaire pour charger sans faire planter le jeu
     void loadSound(sf::SoundBuffer& buffer, const std::string& path);

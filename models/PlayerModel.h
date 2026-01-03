@@ -18,6 +18,7 @@ public:
     bool isDashing;
     float dashDurationTimer;
     bool m_isGrounded;
+    bool isEaten;
 
     PlayerModel();
 

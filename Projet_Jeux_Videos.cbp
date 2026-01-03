@@ -62,6 +62,7 @@
 			<Add library="sfml-graphics" />
 			<Add library="sfml-window" />
 			<Add library="sfml-system" />
+			<Add library="sfml-audio" />
 			<Add directory="SFML/lib" />
 		</Linker>
 		<Unit filename="cb.bmp" />
@@ -97,8 +98,14 @@
 		<Unit filename="models/BossModel.h" />
 		<Unit filename="models/Character.cpp" />
 		<Unit filename="models/Character.h" />
+		<Unit filename="models/EnemyModel.cpp" />
+		<Unit filename="models/EnemyModel.h" />
 		<Unit filename="models/Entity.cpp" />
 		<Unit filename="models/Entity.h" />
+		<Unit filename="models/HealthPotion.cpp" />
+		<Unit filename="models/HealthPotion.h" />
+		<Unit filename="models/Items.cpp" />
+		<Unit filename="models/Items.h" />
 		<Unit filename="models/LevelModel.cpp" />
 		<Unit filename="models/LevelModel.h" />
 		<Unit filename="models/MenuModel.cpp" />
@@ -113,6 +120,8 @@
 		<Unit filename="models/SnakeModel.h" />
 		<Unit filename="models/SpiderModel.cpp" />
 		<Unit filename="models/SpiderModel.h" />
+		<Unit filename="models/SushiPlatter.cpp" />
+		<Unit filename="models/SushiPlatter.h" />
 		<Unit filename="models/WorldTransitionModel.cpp" />
 		<Unit filename="models/WorldTransitionModel.h" />
 		<Unit filename="src/Loot.cpp" />
@@ -120,6 +129,8 @@
 		<Unit filename="views/Background.h" />
 		<Unit filename="views/BossView.cpp" />
 		<Unit filename="views/BossView.h" />
+		<Unit filename="views/HealthPotionView.cpp" />
+		<Unit filename="views/HealthPotionView.h" />
 		<Unit filename="views/HudView.cpp" />
 		<Unit filename="views/HudView.h" />
 		<Unit filename="views/LevelView.cpp" />
@@ -135,6 +146,8 @@
 		<Unit filename="views/PlayerView.cpp" />
 		<Unit filename="views/PlayerView.h" />
 		<Unit filename="views/SnakeView.cpp" />
+		<Unit filename="views/SoundManager.cpp" />
+		<Unit filename="views/SoundManager.h" />
 		<Unit filename="views/SpiderView.cpp" />
 		<Unit filename="views/SpiderView.h" />
 		<Unit filename="views/WorldTransitionView.cpp" />

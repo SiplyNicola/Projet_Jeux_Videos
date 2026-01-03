@@ -148,6 +148,11 @@ void LevelView::build(const LevelModel& model) {
                 else if (cell == '6') { tu = 4; tv = 0; } // Top-Right Corner
                 else if (cell == '7') { tu = 3; tv = 1; } // Bottom-Left Corner
                 else if (cell == '8') { tu = 4; tv = 1; } // Bottom-Right Corner
+                else if (cell == 'v') { tu = 1; tv = 1; } // nothing
+                else if (cell == 'a') { tu = 0; tv = 0; } // inner corner
+                else if (cell == 'z') { tu = 2; tv = 0; } // inner corner
+                else if (cell == 'q') { tu = 0; tv = 2; } // inner corner
+                else if (cell == 's') { tu = 2; tv = 2; } // inner corner
             }
 
             float u = tu * ts;

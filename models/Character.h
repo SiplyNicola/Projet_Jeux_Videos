@@ -24,6 +24,7 @@ public:
     virtual sf::FloatRect getHitbox() const = 0;
 
     int getHP() const { return m_hp; }
+    void setHP(int hp);
     bool isDead() const { return m_hp <= 0; }
     int getAttackDamage() const { return m_attackDamage; }
 

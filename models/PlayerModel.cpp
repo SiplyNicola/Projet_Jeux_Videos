@@ -28,6 +28,7 @@ PlayerModel::PlayerModel()
     m_hasDealtDamage = false; // Prevents dealing damage multiple times in one swing
     m_isGrounded = false;     // Tracks if the player is touching a floor tile
     m_attackCooldown = 0.0f;
+    isEaten = false;
 }
 
 /**
@@ -55,6 +56,7 @@ void PlayerModel::move(float dirX) {
  */
 void PlayerModel::revive() {
     m_hp = 5;                  // Restore initial health points
+    isEaten = false;
     state = PlayerState::IDLE; // Reset animation state from DEAD back to IDLE
     m_canRevive = false;       // Mark the one-time revive as used
     m_velocity = sf::Vector2f(0.0f, 0.0f); // Reset physics to prevent sliding on spawn
@@ -65,7 +67,7 @@ void PlayerModel::revive() {
  */
 bool PlayerModel::jump() { // <--- Changé void en bool
     // On vérifie si le saut est possible
-    if (m_isGrounded && state != PlayerState::DEAD && !isDashing) {
+    if (/*m_isGrounded && */state != PlayerState::DEAD && !isDashing) {
         m_velocity.y = JUMP_FORCE;
         state = PlayerState::JUMP;
         m_isGrounded = false;

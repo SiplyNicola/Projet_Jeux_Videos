@@ -35,7 +35,7 @@ void BossView::update(float dt, const BossModel& model) {
 
     // VISUAL ADJUSTMENT: Vertical offset (Y-axis).
     // An offset is used to ensure the feet of the sprite align correctly with the ground collision.
-    float yOffset = 15.0f;
+    float yOffset = -30.0f;
 
     // Apply position with the offset to the sprite
     m_sprite.setPosition(pos.x, pos.y + yOffset);

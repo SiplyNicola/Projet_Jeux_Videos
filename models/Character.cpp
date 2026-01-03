@@ -23,3 +23,9 @@ void Character::takeDamage(int amount) {
     // Safety check: Ensure health points do not drop below zero.
     if (m_hp < 0) m_hp = 0;
 }
+
+void Character::setHP(int hp) {
+    if(hp > 5) m_hp = 5;
+    else if (hp < 0) m_hp = 0;
+    else m_hp = hp;
+}
